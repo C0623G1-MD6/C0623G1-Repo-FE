@@ -1,5 +1,6 @@
 import * as authService from "../../service/AuthService";
 import {GET_USER_LOGIN} from "../constant";
+import axios from "axios";
 
 export const loginUser = (account) => async (dispatch) => {
     try {
@@ -10,6 +11,6 @@ export const loginUser = (account) => async (dispatch) => {
             payload: res,
         });
     } catch (error) {
-        console.error("Login error:", error);
+        throw error
     }
 };

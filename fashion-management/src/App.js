@@ -7,6 +7,7 @@ import {ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {Provider} from "react-redux";
 import store from "./redux/Store";
+import DashboardInformation from "./pages/DashboardInformation";
 
 function App() {
     return (
@@ -16,6 +17,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
+                        <Route path="/dashboard/information" element={<DashboardInformation/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>

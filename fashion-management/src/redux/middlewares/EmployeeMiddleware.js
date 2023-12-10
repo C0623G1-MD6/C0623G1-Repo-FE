@@ -2,7 +2,6 @@ import * as employeeService from "../../service/EmployeeService";
 import {GET_INFO_EMPLOYEE} from "../constant";
 
 export const getInfoByIdAccount = (id) => async (dispatch) => {
-    debugger;
     try {
         let res = await employeeService.getInfoEmployeeById(id);
         console.log(res.data);

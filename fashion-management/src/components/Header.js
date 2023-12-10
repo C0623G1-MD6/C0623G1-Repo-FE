@@ -1,5 +1,5 @@
 import React from 'react';
-import ModalLogin from "./ModalLogin";
+import ModalLogin from "./auth/modal/ModalLogin";
 
 function Header() {
     return (

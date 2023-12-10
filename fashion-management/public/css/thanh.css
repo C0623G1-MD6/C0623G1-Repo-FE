@@ -77,7 +77,7 @@
 }
 
 #logout .modal-content {
-    border-radius: 15px;
+    border-radius: 0;
     background: #FFF;
     box-shadow: unset;
     border: 0;
@@ -96,7 +96,7 @@
 }
 
 #logout .btn-confirm {
-    border-radius: 15px;
+    border-radius: 0;
     background: #151515;
     border: 0;
     color: #fff;
@@ -105,7 +105,7 @@
 }
 
 #logout .btn-secondary {
-    border-radius: 15px;
+    border-radius: 0;
     border: 1px solid #000;
     background: unset;
     color: #000;

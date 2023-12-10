@@ -1,14 +1,15 @@
 import React, {useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {loginUser} from "../redux/middlewares/AuthMiddleware";
+import {loginUser} from "../../../redux/middlewares/AuthMiddleware";
 import {useDispatch} from "react-redux";
 
 function ModalLogin() {
+    const user = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
@@ -35,12 +36,16 @@ function ModalLogin() {
             navigate("/dashboard")
             toast.success("Đăng nhập thành công !");
         } catch (e) {
-            setErrors(e.response.data);
+            setErrors(e.data);
         }
+    }
+    if (user !== null) {
+        return <><Link to="/dashboard" className="btn btn-primary">Dashboard</Link> </>
     }
 
     return (
         <>
+
             <Button onClick={handleShow}>
                 <svg xmlns="http://www.w3.org/2000/svg" width={35} height={35} fill="currentColor"
                      className="bi bi-person-circle" viewBox="0 0 16 16">
