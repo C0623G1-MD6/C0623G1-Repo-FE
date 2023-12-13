@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import Sidebar from "../components/Sidebar";
 import InformationUser from "../components/auth/InformationUser";
 import ChangePassword from "../components/auth/ChangePassword";
 import {useDispatch, useSelector} from "react-redux";
 import {getInfoByIdAccount} from "../redux/middlewares/EmployeeMiddleware";
+import HeaderAdmin from "../components/overview/HeaderAdmin";
+import SidebarStoreManage from "../components/overview/SidebarStoreManage";
+import Sidebar from "../components/Sidebar";
 
 function DashboardInformation() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -22,21 +24,22 @@ function DashboardInformation() {
     };
     return (
         <>
-            <section id="truong-sidebar">
-                <div className="container-fluid">
-                    <div className="row content">
-                        <div className="col-lg-2">
-                            <Sidebar/>
-                        </div>
-                        <div className="col-lg-10">
+            <div className="main-container d-flex">
+                <Sidebar/>
+                <div className="content">
+                    <HeaderAdmin/>
+
+                    <div className="dashboard-content px-3 py-3 pt-4">
+                        <div className="my-3 mx-3">
                             <InformationUser employee={employeeInfo} role={role}/>
                             <ChangePassword/>
                         </div>
                     </div>
                 </div>
-            </section>
+            </div>
         </>
     );
 }
+
 
 export default DashboardInformation;
