@@ -5,18 +5,23 @@ import {Link} from "react-router-dom";
 
 export function CustomerList() {
 
-    const [typeCustomer, setTypeCustomer] = useState([]);
+
     const [customer, setCustomer] = useState([]);
-    const [name, setName] = useState("");
+    const [typeCustomer, setTypeCustomer] = useState([]);
+
+
+    const [nameCustomer, setNameCustomer] = useState("");
     const [typeSearch, setTypeSearch] = useState("");
+
 
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
+    console.log(customer);
 
     useEffect(() => {
         displayCustomer()
         displayCustomerType()
-    }, [name, typeSearch, page])
+    }, [nameCustomer, typeSearch, page])
 
     const displayCustomerType = async () => {
         const res = await getAllCustomerType();
@@ -24,9 +29,11 @@ export function CustomerList() {
     }
 
     const displayCustomer = async () => {
-        const res = await getAllCustomer(name, typeSearch, page);
-        setCustomer(res.data);
+        const res = await getAllCustomer(nameCustomer, typeSearch, page);
+        console.log(res)
         setTotalPage(res.data.totalPages);
+        setCustomer(res.data.content);
+
     }
 
     const nextPage = () => {
@@ -60,6 +67,16 @@ export function CustomerList() {
                                         </div>
                                     </div>
                                     <div style={{display: "flex", gap: "0.5rem"}}>
+                                        <div className="button-search me-1">
+                                            <select className="form-control-sm rounded-0" name="typeSearch" id="typeSearch">
+                                                <option value="">Chọn</option>
+                                                {
+                                                    typeCustomer.map(type => (
+                                                        <option key={type.id} value={type.id}>{type.name}</option>
+                                                    ))
+                                                }
+                                            </select>
+                                        </div>
                                         <div className="input-search me-1">
                                             <input type="text" className="form-control-sm rounded-0" name="table-search"
                                                    placeholder="Tìm Kiếm"/>
@@ -74,16 +91,16 @@ export function CustomerList() {
                                 <table className="table table-hover border mt-3">
                                     <thead className="table-secondary">
                                     <tr>
-                                        <th>STT</th>
-                                        <th>Mã Khách Hàng</th>
-                                        <th>Tên Khách Hàng</th>
-                                        <th>Ngày Sinh</th>
-                                        <th>Giới Tính</th>
-                                        <th>Điện Thoại</th>
-                                        <th>Email</th>
-                                        <th>Điểm</th>
-                                        <th>Bậc</th>
-                                        <th>Địa Chỉ</th>
+                                        <th scope="col">STT</th>
+                                        <th scope="col">Mã Khách Hàng</th>
+                                        <th scope="col">Tên Khách Hàng</th>
+                                        <th scope="col">Ngày Sinh</th>
+                                        <th scope="col">Giới Tính</th>
+                                        <th scope="col">Điện Thoại</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Điểm</th>
+                                        <th scope="col">Bậc</th>
+                                        <th scope="col">Địa Chỉ</th>
                                         <th>Tính Năng</th>
                                     </tr>
                                     </thead>
@@ -93,7 +110,7 @@ export function CustomerList() {
                                             {
                                                 customer.map((cus, index) => (
                                                     <tr key={cus.id}>
-                                                        <td>{index+1}</td>
+                                                        <td>{index + 1}</td>
                                                         <td>{cus.customerCode}</td>
                                                         <td>{cus.name}</td>
                                                         <td>{cus.birthday}</td>
@@ -102,12 +119,13 @@ export function CustomerList() {
                                                         <td>{cus.email}</td>
                                                         <td>{cus.point}</td>
                                                         <td>
-                                                            <span className="badge rounded-pill text-bg-secondary">{cus.customerType.name}</span>
+                                                            <span
+                                                                className="badge rounded-pill text-bg-secondary">{cus.customerType.name}</span>
                                                         </td>
                                                         <td>{cus.address}</td>
-                                                        <td className="p-1">
-                                                            <a role="button" href="../thienlch/prototypeEdit.html"
-                                                               className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</a>
+                                                        <td className="p-1" >
+                                                            <Link role="button" to={`/customer/CustomerEdit/${cus.id}`}
+                                                               className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                             <button className="btn btn-outline-danger btn-sm rounded-0"
                                                                     data-bs-toggle="modal"
                                                                     data-bs-target="#exampleModal">Xóa
@@ -127,17 +145,23 @@ export function CustomerList() {
                                     }
                                 </table>
                                 <nav aria-label="Page navigation example">
-                                    <ul class="pagination justify-content-end">
-                                        <li class="page-item disabled">
-                                            <a class="page-link text-dark" href="#">&laquo;</a>
-                                        </li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link text-dark" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link text-dark" href="#">&raquo;</a>
-                                        </li>
-                                    </ul>
+                                    <div className="row" style={{alignItems: "center"}}>
+                                        <div className="col-md-6">
+                                            <button className="btn btn-outline-primary" style={{marginLeft: "15rem"}}
+                                                    onClick={() => prevPage()}>
+                                                <i className="fa-solid fa-forward fa-rotate-180"
+                                                   style={{color: "#b966e5"}}/>
+                                            </button>
+                                            <span className="btn btn-outline-primary">
+                                                {page + 1}/{totalPage}
+                                            </span>
+                                            <button className="btn btn-outline-primary" onClick={() => nextPage()}>
+                                                <span> <i className="fa-solid fa-forward"
+                                                          style={{color: "#b966e5"}}/>
+                                                </span>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </nav>
                             </div>
                         </div>
