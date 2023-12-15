@@ -124,11 +124,11 @@ function ProductList() {
                                 <td>{index + 1}</td>
                                 <td>{item.productCode}</td>
                                 <td className="product-img">
-                                    <div className="col-lg-auto">
-                                        <img
-                                            src="https://static.zara.net/photos///2024/V/0/1/p/3067/001/400/2/w/563/3067001400_6_1_1.jpg?ts=1701419215549"
-                                            alt=""/>
-                                    </div>
+                                    {/*<div className="col-lg-auto">*/}
+                                    {/*    <img*/}
+                                    {/*        src="https://static.zara.net/photos///2024/V/0/1/p/3067/001/400/2/w/563/3067001400_6_1_1.jpg?ts=1701419215549"*/}
+                                    {/*        alt=""/>*/}
+                                    {/*</div>*/}
                                     <div className="col-lg-auto">
                                         <span>{item.productName}</span>
                                     </div>
@@ -138,74 +138,6 @@ function ProductList() {
                                 <td>{item.productPrice} VNĐ</td>
                             </tr>
                             )}
-                            {/*<tr>*/}
-                            {/*    <td>1</td>*/}
-                            {/*    <td>BL-01</td>*/}
-                            {/*    <td className="product-img">*/}
-                            {/*        /!*<div className="col-lg-auto">*!/*/}
-                            {/*        /!*    <img*!/*/}
-                            {/*        /!*        src="https://static.zara.net/photos///2022/I/0/1/p/2753/232/505/2/w/563/2753232505_6_1_1.jpg?ts=1659633117619"*!/*/}
-                            {/*        /!*        alt=""/>*!/*/}
-                            {/*        /!*</div>*!/*/}
-                            {/*        <div className="col-lg-auto">*/}
-                            {/*            <span>Áo Blazer</span>*/}
-                            {/*        </div>*/}
-                            {/*    </td>*/}
-                            {/*    <td>10</td>*/}
-                            {/*    <td>M</td>*/}
-                            {/*    <td>1.699.000 VNĐ</td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <td>1</td>*/}
-                            {/*    <td>BL-01</td>*/}
-                            {/*    <td className="product-img">*/}
-                            {/*        /!*<div className="col-lg-auto">*!/*/}
-                            {/*        /!*    <img*!/*/}
-                            {/*        /!*        src="https://static.zara.net/photos///2022/I/0/1/p/2753/232/505/2/w/563/2753232505_6_1_1.jpg?ts=1659633117619"*!/*/}
-                            {/*        /!*        alt=""/>*!/*/}
-                            {/*        /!*</div>*!/*/}
-                            {/*        <div className="col-lg-auto">*/}
-                            {/*            <span>Áo Blazer dáng rộng</span>*/}
-                            {/*        </div>*/}
-                            {/*    </td>*/}
-                            {/*    <td>10</td>*/}
-                            {/*    <td>M</td>*/}
-                            {/*    <td>1.699.000 VNĐ</td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <td>1</td>*/}
-                            {/*    <td>BL-01</td>*/}
-                            {/*    <td className="product-img">*/}
-                            {/*        /!*<div className="col-lg-auto">*!/*/}
-                            {/*        /!*    <img*!/*/}
-                            {/*        /!*        src="https://static.zara.net/photos///2022/I/0/1/p/2753/232/505/2/w/563/2753232505_6_1_1.jpg?ts=1659633117619"*!/*/}
-                            {/*        /!*        alt=""/>*!/*/}
-                            {/*        /!*</div>*!/*/}
-                            {/*        <div className="col-lg-auto">*/}
-                            {/*            <span>Áo Blazer dáng rộng</span>*/}
-                            {/*        </div>*/}
-                            {/*    </td>*/}
-                            {/*    <td>10</td>*/}
-                            {/*    <td>M</td>*/}
-                            {/*    <td>1.699.000 VNĐ</td>*/}
-                            {/*</tr>*/}
-                            {/*<tr>*/}
-                            {/*    <td>1</td>*/}
-                            {/*    <td>BL-01</td>*/}
-                            {/*    <td className="product-img">*/}
-                            {/*        /!*<div className="col-lg-auto">*!/*/}
-                            {/*        /!*    <img*!/*/}
-                            {/*        /!*        src="https://static.zara.net/photos///2022/I/0/1/p/2753/232/505/2/w/563/2753232505_6_1_1.jpg?ts=1659633117619"*!/*/}
-                            {/*        /!*        alt=""/>*!/*/}
-                            {/*        /!*</div>*!/*/}
-                            {/*        <div className="col-lg-auto">*/}
-                            {/*            <span>Áo Blazer dáng rộng</span>*/}
-                            {/*        </div>*/}
-                            {/*    </td>*/}
-                            {/*    <td>10</td>*/}
-                            {/*    <td>M</td>*/}
-                            {/*    <td>1.699.000 VNĐ</td>*/}
-                            {/*</tr>*/}
                             </tbody>
                         </table>
                         <nav aria-label="Page navigation example">

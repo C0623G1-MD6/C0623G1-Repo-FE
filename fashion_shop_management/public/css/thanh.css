@@ -1,0 +1,145 @@
+
+/** {*/
+/*    font-family: 'Helvetica Neue', sans-serif;*/
+/*}*/
+
+#login .img-login img {
+    padding: 15px;
+    width: 100%;
+}
+
+#login h2 {
+    color: #000;
+    font-family: Montserrat, sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+#login button {
+    border-radius: 0;
+    background: #151515;
+    width: 100%;
+    border: 0;
+}
+
+#information .box-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /*border-radius: 15px;*/
+    /*border: 1px solid #F5F5F5;*/
+    /*background: #FFF;*/
+    /*box-shadow: 0px 24px 12px -4px rgba(145, 158, 171, 0.25);*/
+}
+
+#information .content {
+    /*border-radius: 15px;*/
+    border: 1px solid #F5F5F5;
+    background: #FFF;
+    box-shadow: 0px 24px 12px -4px rgba(145, 158, 171, 0.25);
+    padding: 20px;
+}
+
+.btn-upload {
+    border-radius: 0;
+    background: #151515;
+    color: #fff;
+    padding: 5px 20px;
+
+}
+
+#change-password .form-error {
+    /*border-radius: 15px;*/
+    border: 1px solid #B71D18;
+    color: #B71D18;
+}
+
+#change-password .btn-submit {
+    text-align: center;
+}
+
+#change-password .btn-submit .btn {
+    background: #151515;
+    color: #fff;
+    border: 0;
+    border-radius: 0;
+}
+
+#change-password .input-pass {
+    /*border-radius: 15px;*/
+    border: 1px solid #F5F5F5;
+    background: #FFF;
+    box-shadow: 0px 24px 12px -4px rgba(145, 158, 171, 0.25);
+    padding: 20px;
+}
+
+#logout .modal-content {
+    border-radius: 0;
+    background: #FFF;
+    box-shadow: unset;
+    border: 0;
+}
+
+#logout .modal-header, #logout .modal-footer {
+    border: 0 !important;
+}
+
+#logout .modal-body {
+    color: #717171;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+#logout .btn-confirm {
+    border-radius: 0;
+    background: #151515;
+    border: 0;
+    color: #fff;
+    font-family: 'Quicksand', sans-serif;
+    font-weight: 700;
+}
+
+#logout .btn-secondary {
+    border-radius: 0;
+    border: 1px solid #000;
+    background: unset;
+    color: #000;
+}
+
+section#login input {
+    border-radius: 0;
+}
+
+section#login p.recover-pass {
+    font-size: 14px;
+}
+
+
+section#login .form-check-input {
+    width: 0.7em;
+    height: 0.7em;
+}
+
+#modalLogin .modal-header.modal-login {
+    border-bottom: 0px;
+}
+
+#modalLogin .modal-content {
+    border: 0;
+    border-radius: 0;
+}
+
+.content .form-control {
+    border-radius: 0;
+}
+
+@media only screen and (max-width: 768px) {
+    .img-login {
+        display: none;
+    }
+}
