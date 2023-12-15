@@ -1,6 +1,17 @@
 import React from 'react';
+import {Field, Form, Formik} from "formik";
 
 function RecoverPassword(props) {
+    const initValue =  {
+        emailRecover: ""
+    }
+    const handleSubmitFormRecover = (values) => {
+        try {
+
+        } catch (e) {
+            console.log(e)
+        }
+    };
     return (
         <section id="recover-password">
             <div className="container">
@@ -13,14 +24,18 @@ function RecoverPassword(props) {
                                 đăng nhập</a>
                             <h3 className="mt-5">Bạn quên mật khẩu ?</h3>
                             <p>Vui lòng nhập email liên kết với tài khoản để lấy lại mật khẩu</p>
-                            <div className="mb-3">
-                                <label htmlFor="username" className="form-label">Email đăng kí tài khoản</label>
-                                <input type="text" className="form-control" name="emailRecover"
-                                       placeholder="username@gmail.com"/>
-                            </div>
-                            <button type="submit"
-                                    className="btn btn-primary">Lấy lại mật khẩu
-                            </button>
+                            <Formik initialValues={initValue} onSubmit={(values) => handleSubmitFormRecover(values)}>
+                                <Form>
+                                    <div className="mb-3">
+                                        <label htmlFor="username" className="form-label">Email đăng kí tài khoản</label>
+                                        <Field type="email" className="form-control" name="emailRecover"
+                                               placeholder="username@gmail.com"/>
+                                    </div>
+                                    <button type="submit"
+                                            className="btn btn-primary">Lấy lại mật khẩu
+                                    </button>
+                                </Form>
+                            </Formik>
                         </div>
                     </div>
                     <div className="col-lg-6 img-login">

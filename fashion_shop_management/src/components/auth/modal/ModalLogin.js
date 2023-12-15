@@ -22,9 +22,6 @@ function ModalLogin() {
     const [show, setShow] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(false);
     const [contentModal, setContentModal] = useState("login");
-    useEffect(() => {
-        console.log(contentModal);
-    }, [contentModal]);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const initValues = {
