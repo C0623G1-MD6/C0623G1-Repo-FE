@@ -1,6 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
+  const navigate = useNavigate();
+  const [seachName, setSeachName] = useState("");
+  const handleSearch = (value) => {
+    setSeachName(value.target.value);
+  };
+
+  const onSearch = () => {
+    navigate(`/search?keyword=${seachName}`);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
@@ -43,12 +54,18 @@ const HomeHeader = () => {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item font-custome" href="#">
+                    <a
+                      className="dropdown-item font-custome"
+                      href="/search?gender=1"
+                    >
                       Nữ
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item font-custome" href="#">
+                    <a
+                      className="dropdown-item font-custome"
+                      href="/search?gender=0"
+                    >
                       Nam
                     </a>
                   </li>
@@ -61,8 +78,13 @@ const HomeHeader = () => {
                 type="search"
                 placeholder="Nhập tên sản phẩm"
                 aria-label="Search"
+                onChange={(value) => handleSearch(value)}
               />
-              <button className="btn btn-outline-dark" type="submit">
+              <button
+                onClick={onSearch}
+                className="btn btn-outline-dark"
+                type="submit"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}

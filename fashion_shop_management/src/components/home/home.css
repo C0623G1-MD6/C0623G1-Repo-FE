@@ -187,3 +187,11 @@
 .ly-news-container:last-child {
   margin-bottom: 0;
 }
+.card-img-top {
+  height: 300px;
+  object-fit: cover;
+}
+.search-card {
+  height: 500px !important;
+  overflow-y: hidden;
+}
