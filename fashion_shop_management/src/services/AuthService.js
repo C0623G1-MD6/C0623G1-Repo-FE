@@ -21,7 +21,7 @@ export const login = async (account) => {
 }
 export const changePassword = async (account) => {
     try {
-        let res = await axios.post("http://localhost:8080/api/changePassword", account, { headers: authHeader() });
+        let res = await axios.patch("http://localhost:8080/api/changePassword", account, { headers: authHeader() });
         return res.data;
     } catch (e) {
         throw e.response;
