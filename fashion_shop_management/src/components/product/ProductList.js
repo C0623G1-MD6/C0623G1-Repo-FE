@@ -1,6 +1,7 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getAllProducts, getAllSizes, getSizeById} from "../../services/product/ProductService";
+import Pagination from "antd/es/pagination";
 
 
 function ProductList() {
@@ -8,36 +9,46 @@ function ProductList() {
     // const [productName, setProductName] = useState();
     // const [minPrice, setMinPrice] = useState();
     // const [maxPrice, setMaxPrice] = useState();
-    // const [sizes, setSizes] = useState([]);
+    const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
         currentPage: 1,
-        totalPages: ""
+        totalPages: "",
+        productName:"",
+        sizeName:"",
+        minPrice: 100000,
+        maxPrice: 100000000,
+        sortDirection: "asc"
     });
 
-    const getAll = () => {
-        getAllProducts().then(res => {
+    const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
+        getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection).then(res => {
             setProducts(res.content);
             setPageable({...pageable,
-            totalPages: res.totalPages})
+            totalPages: res.totalElements, currentPage: currentPage})
         });
     };
 
     useEffect( () => {
-        getAll();
+        getAll(pageable.currentPage, pageable.productName,  pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
     }, []);
 
-    //show item size dropdown
-    // const getAllSize = () => {
-    //     getAllSizes().then(r => setSizes(r));
-    // };
-    //
-    // useEffect(() => {
-    //     getAllSize();
-    // }, []);
+    const handleChange = (page) => {
 
-    // const changeSize = async (e) => {
-    //     getAllProducts(e.target.value).then(res => setProducts(res))
-    // };
+        getAll(page, pageable.productName,  pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+    };
+
+    // show item size dropdown
+    const getAllSize = () => {
+        getAllSizes().then(r => setSizes(r));
+    };
+
+    useEffect(() => {
+        getAllSize();
+    }, []);
+
+    const changeSize = async (e) => {
+        getAllProducts(e.target.value).then(res => setProducts(res))
+    };
 
     //pagination
     const hasPrevious = () => {
@@ -56,12 +67,20 @@ function ProductList() {
         getAllProducts(newCurrentPage).then(r => setProducts(r.content))
     };
 
-
-    if (!products) return null
+    const itemRender = (_, type, originalElement) => {
+        if (type === 'prev') {
+            return <a className='btn btn-outline-primary' type='button'>Previous</a>
+        }
+        if (type === 'next') {
+            return <a className='btn btn-outline-primary' type='button'>Next</a>
+        }
+        return originalElement;
+    };
+    if (!products) return <div>Loading...</div>;
     // if (!sizes) return null
     return (
         <>
-            <div className="col-lg-10 container">
+            <div className="col-lg-12 container">
                 <div id="loan-products">
                     <div className="product-list shadow-lg border border-light p-3">
                         <div className="text-center text-primary my-3">
@@ -74,12 +93,12 @@ function ProductList() {
                             </div>
                             <div className="col-lg-9 search d-flex justify-content-between">
                                 <div className="col-lg-auto">
-                                    {/*<select onChange={changeSize} className="form-select rounded-0" aria-label="Default select example">*/}
-                                    <select className="form-select rounded-0" aria-label="Default select example">
+                                    <select onChange={changeSize} className="form-select rounded-0" aria-label="Default select example">
+                                    {/*<select className="form-select rounded-0" aria-label="Default select example">*/}
                                         <option selected>Kích thước</option>
-                                        {/*{sizes.map((item) =>*/}
-                                        {/*    <option value={item.name} key={item.id}>{item.name}</option>*/}
-                                        {/*)}*/}
+                                        {sizes.map((item) =>
+                                            <option value={item.name} key={item.id}>{item.name}</option>
+                                        )}
                                     </select>
                                 </div>
                                 <div className="col-lg-auto">
@@ -140,19 +159,25 @@ function ProductList() {
                             )}
                             </tbody>
                         </table>
-                        <nav aria-label="Page navigation example">
-                            <ul className="pagination justify-content-end">
-                                <li className="page-item disabled">
-                                    <button className="page-link" type="button" disabled={pageable.currentPage === 1} onClick={hasPrevious}>&laquo;</button>
-                                </li>
-                                <li className="page-item"><span className="page-link text-dark" >{pageable.currentPage}</span></li>
-                                {/*<li className="page-item"><a className="page-link text-dark" href="#">2</a></li>*/}
-                                {/*<li className="page-item"><a className="page-link text-dark" href="#">3</a></li>*/}
-                                <li className="page-item">
-                                    <button className="page-link text-dark" type="button" disabled={pageable.currentPage === pageable.totalPages} onClick={hasNext}>&raquo;</button>
-                                </li>
-                            </ul>
-                        </nav>
+
+                        <div style={{textAlign: 'center'}}>
+                            <Pagination current={pageable.currentPage} hideOnSinglePage={true}
+                                        total={pageable.totalPages} pageSize={5} onChange={handleChange}
+                                        itemRender={itemRender}/>
+                        </div>
+                        {/*<nav aria-label="Page navigation example">*/}
+                        {/*    <ul className="pagination justify-content-end">*/}
+                        {/*        <li className="page-item disabled">*/}
+                        {/*            <button className="page-link" type="button" disabled={pageable.currentPage === 1} onClick={hasPrevious}>&laquo;</button>*/}
+                        {/*        </li>*/}
+                        {/*        <li className="page-item"><span className="page-link text-dark" >{pageable.currentPage}</span></li>*/}
+                        {/*        /!*<li className="page-item"><a className="page-link text-dark" href="#">2</a></li>*!/*/}
+                        {/*        /!*<li className="page-item"><a className="page-link text-dark" href="#">3</a></li>*!/*/}
+                        {/*        <li className="page-item">*/}
+                        {/*            <button className="page-link text-dark" type="button" disabled={pageable.currentPage === pageable.totalPages} onClick={hasNext}>&raquo;</button>*/}
+                        {/*        </li>*/}
+                        {/*    </ul>*/}
+                        {/*</nav>*/}
 
 
                     </div>

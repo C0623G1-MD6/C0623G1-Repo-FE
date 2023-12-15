@@ -138,7 +138,8 @@ function Overview() {
                         </div>
                     </div>
                 </div>
-                {topFiveSeller.length!=0? <div className="my-4">
+                {topFiveSeller.length!=0?
+                    <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
@@ -172,7 +173,8 @@ function Overview() {
                         </div>
                     </div>
 
-                </div>: <div className="my-4">
+                </div>:
+                    <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">

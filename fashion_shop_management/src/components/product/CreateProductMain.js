@@ -1,9 +1,10 @@
 import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
-import ProductList from "./ProductList";
+import CreateProduct from "./CreateProduct";
 
-function ProductListMain() {
+function CreateProductMain() {
+
     let item="item4";
     return(
         <>
@@ -14,12 +15,13 @@ function ProductListMain() {
                     <div className="dashboard-content">
                         <div className="py-5 px-5">
                             {/*Đặt component của mọi người ở đây nhé*/}
-                            <ProductList/>
+                            <CreateProduct/>
                         </div>
                     </div>
                 </div>
             </div>
         </>
     )
+
 }
-export default ProductListMain;
+export default CreateProductMain;

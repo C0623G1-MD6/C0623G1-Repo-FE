@@ -1,7 +1,7 @@
 function CreateProduct() {
     return (
         <>
-            <div className="col-lg-10 container">
+            <div className="col-lg-12 container">
                 <div id="loan-products">
                     <div className="product-list shadow-lg border border-light mx-3">
                         <div className="text-center text-primary mt-4">

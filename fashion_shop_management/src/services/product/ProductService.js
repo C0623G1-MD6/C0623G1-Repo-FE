@@ -3,7 +3,7 @@ import authHeader from "../AuthService";
 
 export const getAllProducts = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
     try {
-        let response = await axios.get(`http://localhost:8080/api/product/list?page=1`,{ headers: authHeader() });
+        let response = await axios.get(`http://localhost:8080/api/product/list?page=${currentPage - 1}&productName=${productName}&sizeName=${sizeName}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortDirection=${sortDirection}`,{ headers: authHeader() });
         return response.data;
     } catch (e) {
         return undefined;
@@ -19,11 +19,3 @@ export const getAllSizes = async () => {
     }
 };
 
-export const getSizeById = async (sizeId) => {
-    try {
-        let response = await axios.get(`http://localhost:8080/api/product/size/${sizeId}`);
-        return response.data;
-    } catch (e) {
-        return undefined;
-    }
-};

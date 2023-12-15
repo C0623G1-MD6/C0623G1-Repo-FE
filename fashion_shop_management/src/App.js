@@ -18,6 +18,7 @@ import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
 import ProductListMain from "./components/product/ProductListMain";
+import CreateProductMain from "./components/product/CreateProductMain";
 
 function App() {
     return (
@@ -30,7 +31,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
-                        <Route path="/product/create" element={<CreateProduct/>}></Route>
+                        <Route path="/product/create" element={<CreateProductMain/>}></Route>
                         <Route path="/dashboard/information" element={<DashboardInformation/>}></Route>
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
