@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {getAllProducts, getAllSizes, getSizeById} from "../../services/product/ProductService";
+import {getAllProducts, getAllSizes} from "../../services/product/ProductService";
 import Pagination from "antd/es/pagination";
 
 

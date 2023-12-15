@@ -11,8 +11,7 @@ import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 import {NotFound} from "./components/NotFound";
 import {Payment} from "./components/payment/Payment";
-import ProductList from "./components/product/ProductList";
-import CreateProduct from "./components/product/CreateProduct";
+import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
@@ -28,6 +27,7 @@ function App() {
                     <Routes>
                         <Route path="/" element={<Home/>}></Route>
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
+                        <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
