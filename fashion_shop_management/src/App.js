@@ -10,6 +10,9 @@ import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 import {NotFound} from "./components/NotFound";
 import {Payment} from "./components/payment/Payment";
+import Overview from "./components/overview/Overview";
+import DashboardManager from "./components/DashboardManager";
+import Post from "./components/example/Post";
 
 function App() {
     return (
@@ -20,7 +23,10 @@ function App() {
                         <Route path="/" element={<Home/>}></Route>
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
-                        <Route path="/dashboard/information" element={<DashboardInformation/>}></Route>
+                        {/*Mọi người làm theo dòng phía dưới nhé*/}
+                        <Route path="/dashboard/information" element={<DashboardInformation/>} ></Route>
+
+                        <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
