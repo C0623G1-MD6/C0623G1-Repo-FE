@@ -1,0 +1,5 @@
+// AUTH
+export const GET_USER_LOGIN = "GET_USER_LOGIN";
+
+//EMPLOYEE
+export const GET_INFO_EMPLOYEE = "GET_INFO_EMPLOYEE";
