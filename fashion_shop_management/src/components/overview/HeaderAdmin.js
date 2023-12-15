@@ -32,7 +32,7 @@ function HeaderAdmin() {
     };
     return (
         <>
-            <div className="nav">
+            <div id="header-dashboard" className="nav">
                 <nav className="navbar navbar-expand-md">
                     <div className="container-fluid">
                         <div className="d-flex">

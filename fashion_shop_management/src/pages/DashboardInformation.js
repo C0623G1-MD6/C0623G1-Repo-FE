@@ -20,7 +20,6 @@ function DashboardInformation() {
                 <Sidebar item={item}/>
                 <div className="content">
                     <HeaderAdmin/>
-
                     <div className="dashboard-content px-3 py-3 pt-4">
                         <div className="my-3 mx-3">
                             <InformationUser/>
