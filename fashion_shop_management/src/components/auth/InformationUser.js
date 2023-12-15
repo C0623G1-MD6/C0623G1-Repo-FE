@@ -43,7 +43,7 @@ function InformationUser() {
     return (
         <>
             <section id="information">
-                <div className="row my-5">
+                <div className="row my-2">
                     <div className="col-lg-12">
                         <div className="content">
                             <div className="row">
