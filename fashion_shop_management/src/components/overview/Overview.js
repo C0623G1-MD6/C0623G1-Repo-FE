@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import * as overViewService from "../../services/overview/OverviewService"
+import {ListNotification} from "../notification/ListNotification";
 
 function Overview() {
     const [totalCustomer, setTotalCustomer] = useState(0);
@@ -137,6 +138,9 @@ function Overview() {
                             </div>
                         </div>
                     </div>
+                </div>
+                <div className="my-4">
+                    <ListNotification/>
                 </div>
                 {topFiveSeller.length!=0? <div className="my-4">
                     <div className="row">

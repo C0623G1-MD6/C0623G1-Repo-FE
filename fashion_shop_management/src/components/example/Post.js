@@ -5,6 +5,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {getInfoByIdAccount} from "../../redux/middlewares/EmployeeMiddleware";
 import AccessDenied from "../auth/AccessDenied";
 import DashboardManager from "../DashboardManager";
+import {ListNotification} from "../notification/ListNotification";
+import {CreateNotification} from "../notification/CreateNotification";
 function Post() {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
@@ -34,7 +36,7 @@ function Post() {
                             <div className="dashboard-content">
                                 <div className="py-5 px-5">
                                     {/*Đặt component của mọi người ở đây nhé*/}
-                                    <h1>Đây là trang đăng thông báo</h1>
+                                    <CreateNotification/>
                                 </div>
                             </div>
                         </div>
