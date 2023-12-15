@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import Home from "./pages/Home";
+import HomePage from "./components/home/HomePage";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import {ToastContainer} from "react-toastify";
