@@ -13,6 +13,7 @@ import {Payment} from "./components/payment/Payment";
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
+import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
 
 function App() {
     return (
@@ -24,9 +25,9 @@ function App() {
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
-                        <Route path="/dashboard/information" element={<DashboardInformation/>} ></Route>
-
+                        <Route path="/dashboard/information" element={<DashboardInformation/>}></Route>
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
+                        <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>

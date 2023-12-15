@@ -1,13 +1,45 @@
 import React, {useEffect, useState} from 'react';
+import {NotFound} from "../NotFound";
+import {getInfoByIdAccount} from "../../redux/middlewares/EmployeeMiddleware";
+import {useDispatch, useSelector} from "react-redux";
 
-function InformationUser({employee,role}) {
+function InformationUser() {
     const [roleUser, setRoleUser] = useState("");
-
+    const user = JSON.parse(localStorage.getItem('user'));
     useEffect(() => {
-        if (role[0] === "ROLE_MANAGER") {
-            setRoleUser("Manager");
+        if (user) {
+            getInfoEmployee();
+        } else {
+            return <NotFound/>
         }
+    }, []);
+
+    const getInfoEmployee = async () => {
+        await dispatch(getInfoByIdAccount(user.id));
+    };
+
+    const role = [...user.roles];
+    const employee = useSelector((store) => store.employee);
+    const dispatch = useDispatch();
+    useEffect(() => {
+        setRole();
     }, [role]);
+    const setRole = () => {
+        switch (role[0]) {
+            case "ROLE_MANAGER":
+                setRoleUser("Quản lý cửa hàng");
+                break;
+            case "ROLE_WAREHOUSE":
+                setRoleUser("Quản lý kho hàng");
+                break;
+            case "ROLE_SALES":
+                setRoleUser("Nhân viên bán hàng");
+                break;
+            default:
+                setRoleUser("Nhân viên");
+                break;
+        }
+    }
     return (
         <>
             <section id="information">
@@ -29,35 +61,35 @@ function InformationUser({employee,role}) {
                                             <div className="mb-3">
                                                 <label htmlFor="name" className="form-label">Tên nhân
                                                     viên</label>
-                                                <input type="text" className="form-control" id="name"
+                                                <input readOnly={true} type="text" className="form-control" id="name"
                                                        value={employee.name}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="codeEmployee" className="form-label">Mã nhân
                                                     viên</label>
-                                                <input type="text" className="form-control" id="codeEmployee"
+                                                <input readOnly={true} type="text" className="form-control" id="codeEmployee"
                                                        value={employee.employeeCode}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="birthday" className="form-label">Ngày
                                                     sinh</label>
-                                                <input type="text" className="form-control" id="birthday"
+                                                <input readOnly={true} type="text" className="form-control" id="birthday"
                                                        value={employee.birthday}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="address" className="form-label">Địa chỉ</label>
-                                                <input type="text" className="form-control" id="address"
+                                                <input readOnly={true} type="text" className="form-control" id="address"
                                                        value={employee.address}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="phone" className="form-label">Số điện
                                                     thoại</label>
-                                                <input type="text" className="form-control" id="phone"
+                                                <input readOnly={true} type="text" className="form-control" id="phone"
                                                        value={employee.phone}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="phone" className="form-label">Địa chỉ email</label>
-                                                <input type="email" className="form-control" id="email"
+                                                <input readOnly={true} type="email" className="form-control" id="email"
                                                        value={employee.email}/>
                                             </div>
                                         </div>
