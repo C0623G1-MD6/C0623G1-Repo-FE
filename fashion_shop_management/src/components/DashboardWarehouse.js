@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from "./Sidebar";
+import { WarehouseCreate } from './warehouse/WarehouseCreate';
 
 function DashboardWarehouse() {
     return (
@@ -10,6 +11,7 @@ function DashboardWarehouse() {
             <div className="col-lg-10">
                 <div className="row my-5">
                     <p>Day la trang quan ly kho hang</p>
+                    <WarehouseCreate/>
                 </div>
             </div>
         </div>
