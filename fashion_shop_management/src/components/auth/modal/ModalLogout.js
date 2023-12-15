@@ -5,7 +5,7 @@ import {toast} from "react-toastify";
 function ModalLogout() {
     const logOutUser = async () => {
         await localStorage.removeItem('user');
-        toast.success("Đăng xuaats thanh công !")
+        toast.success("Đăng xuất thanh công !")
         window.location.href = '/';
     };
 

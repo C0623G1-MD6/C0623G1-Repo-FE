@@ -25,9 +25,9 @@ export const getTotalRevenue=async (time)=>{
         return 0;
     }
 }
-export const getTopFiveSeller=async ()=>{
+export const getTopFiveSeller=async (time)=>{
     try {
-        let res=await axios.get("http://localhost:8080/api/overview/top_seller",{ headers: authHeader() });
+        let res=await axios.get(`http://localhost:8080/api/overview/top_seller/${time}`,{ headers: authHeader() });
         return res.data;
     } catch (e){
         return undefined;
