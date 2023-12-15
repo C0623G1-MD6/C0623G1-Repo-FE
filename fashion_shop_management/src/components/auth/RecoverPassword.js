@@ -1,13 +1,15 @@
 import React from 'react';
 import {Field, Form, Formik} from "formik";
+import {recoverPassword} from "../../services/AuthService";
 
 function RecoverPassword(props) {
     const initValue =  {
         emailRecover: ""
     }
-    const handleSubmitFormRecover = (values) => {
+    const handleSubmitFormRecover = async (values) => {
         try {
-
+            let res = await recoverPassword(values);
+            console.log(res);
         } catch (e) {
             console.log(e)
         }

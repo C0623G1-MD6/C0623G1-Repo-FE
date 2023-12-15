@@ -27,3 +27,12 @@ export const changePassword = async (account) => {
         throw e.response;
     }
 };
+
+export const recoverPassword = async (email) => {
+    try {
+        let res = await axios.post("http://localhost:8080/api/recoverPassword", {...email}, { headers: authHeader() });
+        return res.data;
+    } catch (e) {
+        throw e.response;
+    }
+};
