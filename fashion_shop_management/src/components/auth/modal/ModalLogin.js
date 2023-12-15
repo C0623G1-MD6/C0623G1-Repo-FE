@@ -12,6 +12,8 @@ function ModalLogin() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [disableSubmit, setDisableSubmit] = useState(false);
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const initValues = {
@@ -30,11 +32,13 @@ function ModalLogin() {
 
     const handleSubmitFormLogin = async (values, {setErrors}) => {
         try {
+            setDisableSubmit(true);
             await dispatch(loginUser(values));
             handleClose();
             navigate("/dashboard")
             toast.success("Đăng nhập thành công !");
         } catch (e) {
+            setDisableSubmit(false);
             setErrors(e.data);
         }
     }
@@ -65,7 +69,7 @@ function ModalLogin() {
                     <section id="login">
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-6 d-flex align-items-center justify-content-center">
+                                <div className="col-lg-6 col-sm-12 d-flex align-items-center justify-content-center mb-md-4">
                                     <div className="content w-75">
                                         <h2>Xin chào,</h2>
                                         <Formik initialValues={initValues}
@@ -99,7 +103,7 @@ function ModalLogin() {
                                                     </div>
                                                 </div>
                                                 <div>
-                                                    <button type="submit" className="btn btn-primary">Đăng nhập
+                                                    <button type="submit" disabled={disableSubmit} className="btn btn-primary">Đăng nhập
                                                     </button>
                                                 </div>
                                             </Form>

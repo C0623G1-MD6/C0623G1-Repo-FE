@@ -1,6 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 
 function InformationUser({employee,role}) {
+    const [roleUser, setRoleUser] = useState("");
+
+    useEffect(() => {
+        if (role[0] === "ROLE_MANAGER") {
+            setRoleUser("Manager");
+        }
+    }, [role]);
     return (
         <>
             <section id="information">
@@ -13,7 +20,7 @@ function InformationUser({employee,role}) {
                                         <img src="/images/avatar-mockup.png" alt="Avatar User" width={100}/>
                                         <h4>Thông tin nhân viên</h4>
                                         <p>Thông tin cá nhân của {employee.name}</p>
-                                        <h3>Chức vụ: {role}</h3>
+                                        <h3>Chức vụ: {roleUser}</h3>
                                     </div>
                                 </div>
                                 <div className="col-7">
