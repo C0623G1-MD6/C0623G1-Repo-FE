@@ -56,13 +56,19 @@ function SidebarStoreManage(props){
                                 <span className="text">Quản lí khách hàng</span>
                             </NavLink>
                         </li>
+                        <li className={`sidebar-item ${selectedItem === 'item8' ? 'active' : ''}`}>
+                            <NavLink href="#">
+                                <i className="bi bi-house"></i>
+                                <span className="text">Hàng trong kho</span>
+                            </NavLink>
+                        </li>
                         <li className={`sidebar-item ${selectedItem === 'item7' ? 'active' : ''}`}>
                             <NavLink to="/dashboard/changePassword">
                                 <i className="bi bi-key"></i>
                                 <span className="text">Đổi mật khẩu</span>
                             </NavLink>
                         </li>
-                        <li className={`sidebar-item ${selectedItem === 'item8' ? 'active' : ''}`}>
+                        <li className={`sidebar-item ${selectedItem === 'item9' ? 'active' : ''}`}>
                             <NavLink role="button" data-bs-toggle="modal" data-bs-target="#logout">
                                 <i className="bi bi-box-arrow-right"></i>
                                 <span className="text">Đăng xuất</span>

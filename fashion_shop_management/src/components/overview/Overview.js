@@ -48,7 +48,7 @@ function Overview() {
         setTotalRevenue(data);
     }
     const getTopFiveSeller = async () => {
-        let data = await overViewService.getTopFiveSeller();
+        let data = await overViewService.getTopFiveSeller(time);
         setTopFiveSeller(data);
     }
     const getFiveNewOrder = async () => {
@@ -60,17 +60,15 @@ function Overview() {
         setTime(selectedValue);
     };
     useEffect(() => {
-        getTopFiveSeller();
+
         getFiveNewOrder();
     }, [])
     useEffect(() => {
+        getTopFiveSeller();
         getTotalCustomer();
         getTotalOrder();
         getTotalRevenue();
     }, [time])
-    if (!topFiveNewOrder) {
-        return undefined;
-    }
     return (
         <>
             <div>
@@ -140,7 +138,7 @@ function Overview() {
                         </div>
                     </div>
                 </div>
-                <div className="my-4">
+                {topFiveSeller.length!=0? <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
@@ -174,8 +172,17 @@ function Overview() {
                         </div>
                     </div>
 
-                </div>
-                <div className="my-4">
+                </div>: <div className="my-4">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="top-employee px-3 py-3">
+                                <p>Danh sách chưa có</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>}
+                {topFiveNewOrder.length!=0? <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
@@ -207,8 +214,15 @@ function Overview() {
                             </div>
                         </div>
                     </div>
-                </div>
-
+                </div>: <div className="my-4">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="top-employee px-3 py-3">
+                                <p>Danh sách chưa có</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
             </div>
         </>
     )
