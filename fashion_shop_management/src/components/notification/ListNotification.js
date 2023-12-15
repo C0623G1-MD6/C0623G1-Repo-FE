@@ -71,13 +71,13 @@ export function ListNotification() {
                                     <div className="col-md-6 d-flex justify-content-between  mb-3">
                                         <button className="btn btn-outline-secondary "
                                                 onClick={() => prevPage()}>
-                                            <i className="fa-solid fa-forward fa-rotate-180"></i>
+                                            <i className="bi bi-skip-backward"></i>
                                         </button>
                                         <span className="btn btn-outline-secondary ">
                                      {page + 1}/{totalPage}
                                  </span>
                                         <button className="btn btn-outline-secondary " onClick={() => nextPage()}>
-                                            <span> <i className="fa-solid fa-forward"></i></span>
+                                            <span> <i className="bi bi-skip-forward"></i></span>
                                         </button>
                                     </div>
                                 ) : null}

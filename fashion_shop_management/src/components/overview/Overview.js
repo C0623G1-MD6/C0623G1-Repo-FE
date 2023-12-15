@@ -139,6 +139,9 @@ function Overview() {
                         </div>
                     </div>
                 </div>
+                <div className="my-4">
+                    <ListNotification/>
+                </div>
                 {topFiveSeller.length!=0? <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
