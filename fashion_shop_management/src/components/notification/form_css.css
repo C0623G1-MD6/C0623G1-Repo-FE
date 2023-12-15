@@ -86,6 +86,7 @@
 .trivn-body {
     background-color: lightgray;
     font-size: 20px;
+    margin-top:20px;
 }
 
 #collapse1 {
@@ -95,10 +96,5 @@
     text-align: center;
 }
 
-.read {
-    background-color: #ff5900; /* Màu sắc cho thông báo đã đọc */
-}
 
-.unread {
-    background-color: #ffffff; /* Màu sắc cho thông báo chưa đọc */
-}
+
