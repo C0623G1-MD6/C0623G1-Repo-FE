@@ -57,7 +57,7 @@ function SidebarStoreManage(props){
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item7' ? 'active' : ''}`}>
-                            <NavLink to="">
+                            <NavLink to="/dashboard/changePassword">
                                 <i className="bi bi-key"></i>
                                 <span className="text">Đổi mật khẩu</span>
                             </NavLink>

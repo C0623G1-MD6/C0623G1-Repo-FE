@@ -69,7 +69,7 @@ function Overview() {
         getTotalRevenue();
     }, [time])
     if (!topFiveNewOrder) {
-        return null;
+        return undefined;
     }
     return (
         <>

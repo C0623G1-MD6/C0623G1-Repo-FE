@@ -35,7 +35,9 @@ function Dashboard() {
     };
 
     return <>
-        {renderDashboardContent()}
+        <div id="truong">
+            {renderDashboardContent()}
+        </div>
     </>;
 }
 
