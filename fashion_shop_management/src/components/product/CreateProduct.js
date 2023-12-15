@@ -253,60 +253,63 @@ function CreateProduct() {
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <label htmlFor="gender">Giới tính</label>
-                                <div className="d-flex">
-                                    <div className="form-check form-check-inline" id="gender">
-                                        <input className="form-check-input " id="male" type="radio" name="gender"
-                                               data-sb-validations="required"/>
+                            <div className="row">
+                                <div className="col-lg-auto me-5">
+                                    <label htmlFor="gender">Giới tính</label>
+                                    <div className="d-flex">
+                                        <div className="form-check form-check-inline" id="gender">
+                                            <input className="form-check-input " id="male" type="radio" name="gender"
+                                                   data-sb-validations="required"/>
                                             <label className="form-check-label" htmlFor="male">Nam</label>
-                                    </div>
-                                    <div className="form-check form-check-inline ms-3">
-                                        <input className="form-check-input " id="female" type="radio" name="gender"
-                                               data-sb-validations="required"/>
+                                        </div>
+                                        <div className="form-check form-check-inline ms-3">
+                                            <input className="form-check-input " id="female" type="radio" name="gender"
+                                                   data-sb-validations="required"/>
                                             <label className="form-check-label" htmlFor="female">Nữ</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="col-lg-auto">
-                                <label htmlFor="sizes">Kích thước</label>
-                                <div className="d-flex" id="sizes">
-                                    <div className="form-check me-4">
-                                        <input className="form-check-input" type="checkbox" value="XS" id="xs"/>
+                                <div className="col-lg-auto">
+                                    <label htmlFor="sizes">Kích thước</label>
+                                    <div className="d-flex" id="sizes">
+                                        <div className="form-check me-4">
+                                            <input className="form-check-input" type="checkbox" value="XS" id="xs"/>
                                             <label className="form-check-label" htmlFor="xs">
                                                 XS
                                             </label>
-                                    </div>
-                                    <div className="form-check me-4">
-                                        <input className="form-check-input" type="checkbox" value="S" id="s"/>
+                                        </div>
+                                        <div className="form-check me-4">
+                                            <input className="form-check-input" type="checkbox" value="S" id="s"/>
                                             <label className="form-check-label" htmlFor="s">
                                                 S
                                             </label>
-                                    </div>
-                                    <div className="form-check me-4">
-                                        <input className="form-check-input" type="checkbox" value="M" id="m"/>
+                                        </div>
+                                        <div className="form-check me-4">
+                                            <input className="form-check-input" type="checkbox" value="M" id="m"/>
                                             <label className="form-check-label" htmlFor="m">
                                                 M
                                             </label>
-                                    </div>
-                                    <div className="form-check me-4">
-                                        <input className="form-check-input" type="checkbox" value="L" id="l"/>
+                                        </div>
+                                        <div className="form-check me-4">
+                                            <input className="form-check-input" type="checkbox" value="L" id="l"/>
                                             <label className="form-check-label" htmlFor="l">
                                                 L
                                             </label>
-                                    </div>
-                                    <div className="form-check me-4">
-                                        <input className="form-check-input" type="checkbox" value="XL" id="xl"/>
+                                        </div>
+                                        <div className="form-check me-4">
+                                            <input className="form-check-input" type="checkbox" value="XL" id="xl"/>
                                             <label className="form-check-label" htmlFor="xl">
                                                 XL
                                             </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                             <div className="row ">
 
 
-                                <div className="col-lg-6">
+                                <div className="col-lg-4">
                                     <div className="cate-size">
                                         <select className="form-select" id="category"
                                                 aria-label="Default select example">
@@ -319,12 +322,25 @@ function CreateProduct() {
                                     </div>
                                 </div>
 
-                                <div className="col-lg-6">
+                                <div className="col-lg-4">
                                     <div className="cate-size">
                                         <div className="form-field">
                                             <input type="number" className="form-input" id="price" placeholder=" "/>
                                                 <label className="form-label" htmlFor="price">Đơn giá</label>
                                         </div>
+                                    </div>
+                                </div>
+
+                                <div className="col-lg-4">
+                                    <div className="cate-size">
+                                        <select className="form-select" id="promotion"
+                                                aria-label="Default select example">
+                                            <option selected>Mã giảm giá</option>
+                                            <option value="1">Áo khoác</option>
+                                            <option value="1">Áp sơ mi</option>
+                                            <option value="2">Quần tây</option>
+                                            <option value="3">Váy</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
