@@ -12,7 +12,7 @@ body{
     height: 75px;
 }
 #side_nav{
-    background: #ffffff;
+    background: #e2e3e5;
     min-width: 250px;
     max-width: 250px;
     transition: all 0.3s;
@@ -27,6 +27,7 @@ body{
     z-index: 1;
 }
 .menu{
+    margin-left: 26px;
     position: fixed;
 }
 .dashboard-content{
@@ -114,7 +115,6 @@ hr.h-color{
 }
 
 
-
 .menu ul{
     padding: 0;
 }
@@ -128,7 +128,7 @@ hr.h-color{
     align-items: center;
     gap: 10px;
     font-weight: 500;
-    color: #757575;
+    color: #212121;
     text-decoration: none;
     padding: 12px 8px;
     border-radius: 8px;

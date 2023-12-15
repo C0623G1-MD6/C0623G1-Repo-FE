@@ -12,7 +12,7 @@ function DashboardInformation() {
     const role = [...user.roles]
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
-
+    let item="item2";
     useEffect(() => {
         if (user) {
             getInfoEmployee();
@@ -25,7 +25,7 @@ function DashboardInformation() {
     return (
         <>
             <div className="main-container d-flex">
-                <Sidebar/>
+                <Sidebar item={item}/>
                 <div className="content">
                     <HeaderAdmin/>
 

@@ -9,6 +9,7 @@ function Post() {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
+    let item="item3"
 
     useEffect(() => {
         if (user) {
@@ -27,7 +28,7 @@ function Post() {
             return (
                 <>
                     <div className="main-container d-flex">
-                        <Sidebar/>
+                        <Sidebar item={item}/>
                         <div className="content">
                             <HeaderAdmin/>
                             <div className="dashboard-content">

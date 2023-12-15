@@ -10,6 +10,31 @@ function Overview() {
 
     const [time, setTime] = useState("week");
 
+    function convertDateFormat(inputDateString) {
+        // Parse the input date string
+        var inputDate = new Date(inputDateString);
+
+        // Check if the date is valid
+        if (isNaN(inputDate.getTime())) {
+            return "Invalid Date";
+        }
+
+        // Extract the components of the date
+        var day = inputDate.getDate();
+        var month = inputDate.getMonth() + 1; // Month is zero-based
+        var year = inputDate.getFullYear();
+
+        // Format the components as dd-MM-yyyy
+        var formattedDate = padZero(day) + "-" + padZero(month) + "-" + year;
+
+        return formattedDate;
+    }
+
+    function padZero(value) {
+        return value < 10 ? "0" + value : value;
+    }
+
+
     const getTotalCustomer = async () => {
         let data = await overViewService.getTotalCustomer(time);
         setTotalCustomer(data);
@@ -61,10 +86,10 @@ function Overview() {
                                         <h4>Lượt khách</h4>
                                     </div>
                                     <div className="d-flex justify-content-center">
-                                        <h2>{totalCustomer}</h2>
+                                        <h2>{new Intl.NumberFormat().format(totalCustomer)}</h2>
                                     </div>
                                     <div className="d-flex justify-content-center">
-                                        <h5>Tăng 20%</h5>
+                                        {/*<h5>Tăng 20%</h5>*/}
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +104,7 @@ function Overview() {
                                         <h4>Đơn hàng</h4>
                                     </div>
                                     <div className="d-flex justify-content-center">
-                                        <h2>{totalOrder}</h2>
+                                        <h2>{new Intl.NumberFormat().format(totalOrder)}</h2>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                     </div>
@@ -103,7 +128,10 @@ function Overview() {
                                         </div>
                                     </div>
                                     <div className="d-flex justify-content-center mt-4">
-                                        <h2>{totalRevenue}</h2>
+                                        <h2>{totalRevenue.toLocaleString('vi', {
+                                            style: 'currency',
+                                            currency: 'VND'
+                                        })}</h2>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                     </div>
@@ -123,14 +151,20 @@ function Overview() {
                                         <tr className="table-secondary">
                                             <th scope="col">STT</th>
                                             <th scope="col">Nhân viên</th>
-                                            <th scope="col">Giá</th>
                                             <th scope="col">Số lượng</th>
+                                            <th scope="col">Doanh thu</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {topFiveSeller.map((item, index) => (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td scope="row">{index + 1}</td>
+                                                <td>{item.name}</td>
+                                                <td className="table-one">{new Intl.NumberFormat().format(item.quantity)}</td>
+                                                <td>{item.revenue.toLocaleString('vi', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })}</td>
                                             </tr>
                                         ))}
                                         </tbody>
@@ -152,14 +186,17 @@ function Overview() {
                                         <tr className="table-secondary">
                                             <th scope="col">STT</th>
                                             <th scope="col">Khách hàng</th>
+                                            <th scope="col">Số lượng</th>
                                             <th scope="col">Ngày mua</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {topFiveNewOrder.map((item, index) => (
-                                            <tr>
+                                            <tr key={index}>
                                                 <td scope="row">{index + 1}</td>
-
+                                                <td>{item.name}</td>
+                                                <td>{new Intl.NumberFormat().format(item.total)}</td>
+                                                <td>{convertDateFormat(item.date + "")}</td>
                                             </tr>
                                         ))}
 

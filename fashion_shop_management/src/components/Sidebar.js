@@ -11,10 +11,12 @@ import SidebarStoreManage from "./overview/SidebarStoreManage";
 import SidebarWarehouseManage from "./overview/SidebarWarehouseManage";
 import SidebarSeller from "./overview/SidebarSeller";
 
-function Sidebar() {
+function Sidebar(props) {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
+    let item=props.item;
+    console.log(item);
 
     useEffect(() => {
         if (user) {
@@ -30,11 +32,11 @@ function Sidebar() {
         if (!user) {
             return <AccessDenied/>;
         } else if (user.roles.includes("ROLE_MANAGER")) {
-            return <SidebarStoreManage/>;
+            return <SidebarStoreManage item={item}/>;
         } else if (user.roles.includes("ROLE_WAREHOUSE")) {
-            return <SidebarWarehouseManage/>;
+            return <SidebarWarehouseManage item={item}/>;
         } else if (user.roles.includes("ROLE_SALES")) {
-            return <SidebarSeller/>;
+            return <SidebarSeller item={item}/>;
         }
     };
 
