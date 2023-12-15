@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {NavLink, useNavigate} from "react-router-dom";
-import {CreateCustomerService} from "../../services/customerService/CustomerService";
+import {createCustomerService} from "../../services/customer/customerService";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import {toast} from "react-toastify";
 import * as Yup from "yup";
@@ -8,14 +8,16 @@ import * as Yup from "yup";
 function CreateCustomer() {
     const navigate = useNavigate();
 
-    const createCustomer = async (values) => {
+    const createCustomer = async (values, setErrors) => {
         try {
-            const res = await CreateCustomerService(values)
+            const res = await createCustomerService(values)
             if (res.status === 200) {
                 navigate("/customer")
                 toast(" Create Successfully")
-            } else
+            } else if (res.status === 201)
                 toast(" Create failed")
+                setErrors(res.data)
+
         } catch (e) {
             alert("Error")
         }
@@ -34,6 +36,10 @@ function CreateCustomer() {
         "customerTypeId": 1,
     }
 
+    const dd = new Date();
+    const date10 = `${dd.getFullYear() - 10}-${dd.getMonth() + 1}-${dd.getDate()}`;
+    const date100 = `${dd.getFullYear() - 100}-${dd.getMonth() + 1}-${dd.getDate()}`;
+
     const customerValidate = {
         customerCode: Yup.string()
             .required()
@@ -49,15 +55,16 @@ function CreateCustomer() {
             .matches(/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
         address: Yup.string()
             .required(),
-        birthday: Yup.string()
+        birthday: Yup.date()
             .required()
-
+            .max(date10, "Vui lòng nhập lớn hơn 10 tuổi")
+            .min(date100, "Vui lòng nhập bé hơn 100 tuổi")
     }
     return (
         <>
-            <Formik initialValues={initialValue} onSubmit={values => {
-                createCustomer(values)
-            }}>
+            <Formik initialValues={initialValue} onSubmit={(values, {setErrors}) => {
+                createCustomer(values, setErrors)
+            }} validationSchema={Yup.object(customerValidate)}>
                 <div className="col-lg-10">
                     <div
                         className="d-flex justify-content-center bg-light pb-3 p-5"
@@ -171,7 +178,7 @@ function CreateCustomer() {
                                     </div>
                                     <div className="thienlch-group d-flex me-5 justify-content-center">
                                         <NavLink
-                                            to={"/customer"}>
+                                            to={"/customer/list"}>
                                             <button className="btn btn-outline-secondary rounded-0 btn-sm me-3">Hủy
                                             </button>
                                         </NavLink>

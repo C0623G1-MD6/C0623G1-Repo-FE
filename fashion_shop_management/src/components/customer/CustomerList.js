@@ -62,7 +62,7 @@ export function CustomerList() {
                                      style={{display: "flex", justifyContent: "spaceBetween", alignItems: "center"}}>
                                     <div className="col-8" style={{alignItems: "center", gap: "42%", width: "70%"}}>
                                         <div>
-                                            <Link role="button" to="../thienlch/prototypeCreate.html"
+                                            <Link role="button" to="/customer/create"
                                                   className="btn btn-outline-primary btn-sm rounded-0">Thêm Mới</Link>
                                         </div>
                                     </div>
@@ -124,7 +124,7 @@ export function CustomerList() {
                                                         </td>
                                                         <td>{cus.address}</td>
                                                         <td className="p-1" >
-                                                            <Link role="button" to={`/customer/CustomerEdit/${cus.id}`}
+                                                            <Link role="button" to={`/customer/edit/${cus.id}`}
                                                                className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                             <button className="btn btn-outline-danger btn-sm rounded-0"
                                                                     data-bs-toggle="modal"
