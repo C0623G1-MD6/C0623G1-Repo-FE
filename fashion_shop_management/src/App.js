@@ -11,6 +11,8 @@ import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 import {NotFound} from "./components/NotFound";
 import {Payment} from "./components/payment/Payment";
+import {CustomerList} from "./components/customer/CustomerList";
+import React from "react";
 import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
@@ -22,6 +24,7 @@ import CreateProductMain from "./components/product/CreateProductMain";
 function App() {
     return (
         <>
+
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
@@ -35,10 +38,11 @@ function App() {
                         <Route path="/dashboard/information" element={<DashboardInformation/>}></Route>
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
+                        <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
-                <ToastContainer/>
+                <ToastContainer><ToastContainer/>
             </Provider>
         </>
     );
