@@ -16,7 +16,7 @@ const HomeHeader = () => {
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/home">
             <img id="logoimg" src="../../../images/logo-city6-black.png" />
           </a>
           <button
@@ -33,7 +33,7 @@ const HomeHeader = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item font-custome">
-                <a className="nav-link active" aria-current="page" href="#">
+                <a className="nav-link active" aria-current="page" href="/home">
                   Trang chủ
                 </a>
               </li>
@@ -72,6 +72,7 @@ const HomeHeader = () => {
                 </ul>
               </li>
             </ul>
+
             <form className="d-flex mx-5" role="search">
               <input
                 className="form-control me-2"

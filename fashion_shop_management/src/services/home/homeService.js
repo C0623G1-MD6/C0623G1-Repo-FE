@@ -30,6 +30,17 @@ export const searchProduct = async (name) => {
     console.log(error);
   }
 };
+export const searchProductByCategory = async (categoryName) => {
+  try {
+    const res = await axios.get(
+      `http://localhost:8080/api/home/category?categoryName=${categoryName}`
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const searchProductForMen = async () => {
   try {
     const res = await axios.get(`http://localhost:8080/api/home/men`);
