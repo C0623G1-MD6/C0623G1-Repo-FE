@@ -20,6 +20,7 @@ import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
+import Home from "./pages/Home";
 
 function App() {
     return (
@@ -28,7 +29,7 @@ function App() {
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
-                        <Route path="/" element={<Home/>}></Route>
+                        <Route path="/" element={<HomePage/>}></Route>
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
                         <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
@@ -42,7 +43,7 @@ function App() {
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
-                <ToastContainer><ToastContainer/>
+                <ToastContainer/>
             </Provider>
         </>
     );
