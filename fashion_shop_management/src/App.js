@@ -34,6 +34,7 @@ import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
+import NewsDetail from "./components/news/NewsDetail";
 
 function App() {
     return (
@@ -54,6 +55,8 @@ function App() {
                         <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
+                        <Route path="/create" element={<NewsCreate/>}></Route>
+                        <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                         <Route path="/customer/create" element={<CreateCustomer/>}></Route>
                         <Route path="/customer/edit/:id" element={<EditCustomer/>}></Route>
