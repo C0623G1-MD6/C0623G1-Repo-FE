@@ -50,7 +50,7 @@
     background-size: cover;
     border-radius: 5px;
     border: none;
-    box-shadow: 10px 10px 20px gray;
+    box-shadow: 10px 10px 20px rgb(128, 128, 128);
     transition-duration: 0.2s;
 }
 
@@ -85,7 +85,7 @@
 
 .hlpnews-img {
     grid-area: img;
-    background-color: gray;
+    background-color: rgb(128, 128, 128);
     background-position: center;
     background-size: cover;
 
@@ -170,7 +170,7 @@
 
 .hlpdetail-img {
     grid-area: img;
-    background-color: gray;
+    background-color: rgb(128, 128, 128);
     background-position: center;
     background-size: cover;
 
