@@ -235,11 +235,24 @@
     margin: 75px 120px;
 }
 
-.card-text{
-    display: -webkit-box;
-    -webkit-line-clamp: 7;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-align: justify;
-}
+/*.card-text{*/
+/*    display: -webkit-box;*/
+/*    -webkit-line-clamp: 7;*/
+/*    -webkit-box-orient: vertical;*/
+/*    overflow: hidden;*/
+/*    text-align: justify;*/
+/*}*/
 
+span.price-sale {
+    color: #979797;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-decoration-line: line-through;
+}
+span.percent {
+    background: #D9D9D9;
+    padding: 0px 10px;
+    margin-left: 10px;
+}

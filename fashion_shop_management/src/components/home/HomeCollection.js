@@ -1,110 +1,109 @@
 import React from "react";
 
 const HomeCollection = () => {
-  return (
-    <>
-      {/* <!-- today pick up --> */}
-      <div>
-        <div className="mx-auto" style={{ width: "90%" }}>
-          <h2
-            className="mt-5 mb-3 w-10"
-            style={{ textShadow: "0 10px 25px 5px", textAlign: "center" }}
-          >
-            BỘ SƯU TẬP THU ĐÔNG
-          </h2>
-        </div>
-        <div className="mx-auto" style={{ width: "90%" }}>
-          <div
-            className="collectionAll"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "3fr 2fr",
-            }}
-          >
-            <div
-              className="collectionLeft"
-              style={{
-                width: "calc(100% - 10px)",
-                height: "100%",
-                marginRight: "10px",
-                backgroundColor: "orange",
-                backgroundImage:
-                  'url("https://www.uniqlo.com/jp/ja/news/topics/2023111701/img/mimg_1_m.jpg")',
-              }}
-            />
+    return (
+        <>
+            {/* <!-- today pick up --> */}
+            <div className="container">
+                <div>
+                    <h2
+                        className="mt-5 mb-3 w-10"
+                        style={{textShadow: "0 10px 25px 5px", textAlign: "center"}}
+                    >
+                        BỘ SƯU TẬP THU ĐÔNG
+                    </h2>
 
-            <div className="overflow-handling">
-              <div className="ly-news-container">
-                <div
-                  className="ly-news-image"
-                  style={{
-                    backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/news/topics/2023112001/img/thumb.jpg"})`,
-                  }}
-                ></div>
-                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
-                <div className="ly-news-content">
-                  Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
-                  phẩm làm từ vải nỉ chất lượng cao
-                </div>
-              </div>
-              <div className="ly-news-container">
-                <div
-                  className="ly-news-image"
-                  style={{
-                    backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/contents/feature/masterpiece/common_23fw/img/product/item_15_kv.jpg?230731"})`,
-                  }}
-                ></div>
-                <div className="ly-news-title">TINH TẾ.</div>
-                <div className="ly-news-content">
-                  Bộ sưu tập giới thiệu các thiết kế mang phong cách học đường
-                  cổ điển pha chút hiện đại.
-                </div>
-              </div>
-              <div className="ly-news-container">
-                <div
-                  className="ly-news-image"
-                  style={{
-                    backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/contents/feature/masterpiece/common_23fw/img/product/item_13_kv.jpg?230731"})`,
-                  }}
-                ></div>
-                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
-                <div className="ly-news-content">
-                  Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
-                  phẩm làm từ vải nỉ chất lượng cao, với những thiết kế liên tục
-                  được cải tiến, phom dáng tinh tế, mang lại cảm giác dễ chịu
-                  khi mặc.
-                </div>
-              </div>
-              <div className="ly-news-container">
-                <div
-                  className="ly-news-image"
-                  style={{
-                    backgroundImage: `url(${"https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/449753/item/goods_14_449753.jpg?width=300"})`,
-                  }}
-                ></div>
-                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
-                <div className="ly-news-content">
-                  Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
-                  phẩm làm từ vải nỉ chất lượng cao, với những thiết kế liên tục
-                  được cải tiến, phom dáng tinh tế, mang lại cảm giác dễ chịu
-                  khi mặc.
-                </div>
-              </div>
-              <div className="ly-news-container">
-                <div
-                  className="ly-news-image"
-                  style={{
-                    backgroundImage: `url(${"https://im.uniqlo.com/global-cms/spa/res97322c88ae3341e45dd65aa3ab4e373bfr.jpg"})`,
-                  }}
-                ></div>
-                <div className="ly-news-title">TINH TẾ</div>
-                <div className="ly-news-content">
-                  Bộ sưu tập giới thiệu các thiết kế mang phong cách học đường
-                  cổ điển pha chút hiện đại.
-                </div>
-              </div>
+                    <div
+                        className="collectionAll"
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "3fr 2fr",
+                        }}
+                    >
+                        <div
+                            className="collectionLeft"
+                            style={{
+                                width: "calc(100% - 10px)",
+                                height: "100%",
+                                marginRight: "10px",
+                                backgroundColor: "orange",
+                                backgroundImage:
+                                    'url("https://www.uniqlo.com/jp/ja/news/topics/2023111701/img/mimg_1_m.jpg")',
+                            }}
+                        />
 
-              {/* <div className="collection overflow-item">
+                        <div className="overflow-handling">
+                            <div className="ly-news-container">
+                                <div
+                                    className="ly-news-image"
+                                    style={{
+                                        backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/news/topics/2023112001/img/thumb.jpg"})`,
+                                    }}
+                                ></div>
+                                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
+                                <div className="ly-news-content">
+                                    Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
+                                    phẩm làm từ vải nỉ chất lượng cao
+                                </div>
+                            </div>
+                            <div className="ly-news-container">
+                                <div
+                                    className="ly-news-image"
+                                    style={{
+                                        backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/contents/feature/masterpiece/common_23fw/img/product/item_15_kv.jpg?230731"})`,
+                                    }}
+                                ></div>
+                                <div className="ly-news-title">TINH TẾ.</div>
+                                <div className="ly-news-content">
+                                    Bộ sưu tập giới thiệu các thiết kế mang phong cách học đường
+                                    cổ điển pha chút hiện đại.
+                                </div>
+                            </div>
+                            <div className="ly-news-container">
+                                <div
+                                    className="ly-news-image"
+                                    style={{
+                                        backgroundImage: `url(${"https://www.uniqlo.com/jp/ja/contents/feature/masterpiece/common_23fw/img/product/item_13_kv.jpg?230731"})`,
+                                    }}
+                                ></div>
+                                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
+                                <div className="ly-news-content">
+                                    Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
+                                    phẩm làm từ vải nỉ chất lượng cao, với những thiết kế liên tục
+                                    được cải tiến, phom dáng tinh tế, mang lại cảm giác dễ chịu
+                                    khi mặc.
+                                </div>
+                            </div>
+                            <div className="ly-news-container">
+                                <div
+                                    className="ly-news-image"
+                                    style={{
+                                        backgroundImage: `url(${"https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/449753/item/goods_14_449753.jpg?width=300"})`,
+                                    }}
+                                ></div>
+                                <div className="ly-news-title">LÀ CHÍNH MÌNH.</div>
+                                <div className="ly-news-content">
+                                    Thoải mái thể hiện cá tính thời trang đa dạng cùng dòng sản
+                                    phẩm làm từ vải nỉ chất lượng cao, với những thiết kế liên tục
+                                    được cải tiến, phom dáng tinh tế, mang lại cảm giác dễ chịu
+                                    khi mặc.
+                                </div>
+                            </div>
+                            <div className="ly-news-container">
+                                <div
+                                    className="ly-news-image"
+                                    style={{
+                                        backgroundImage: `url(${"https://im.uniqlo.com/global-cms/spa/res97322c88ae3341e45dd65aa3ab4e373bfr.jpg"})`,
+                                    }}
+                                ></div>
+                                <div className="ly-news-title">TINH TẾ</div>
+                                <div className="ly-news-content">
+                                    Bộ sưu tập giới thiệu các thiết kế mang phong cách học đường
+                                    cổ điển pha chút hiện đại.
+                                </div>
+                            </div>
+
+                            {/* <div className="collection overflow-item">
                 <div className="img-container">
                   <img
                     className="collection-img"
@@ -123,7 +122,7 @@ const HomeCollection = () => {
                 </div>
               </div> */}
 
-              {/* <div className="collection overflow-item">
+                            {/* <div className="collection overflow-item">
                 <div className="img-container">
                   <img
                     className="collection-img"
@@ -187,12 +186,12 @@ const HomeCollection = () => {
                   </p>
                 </div>
               </div> */}
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </>
-  );
+        </>
+    );
 };
 
 export default HomeCollection;
