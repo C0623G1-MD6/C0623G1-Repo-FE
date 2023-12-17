@@ -6,15 +6,12 @@ import Pagination from "antd/es/pagination";
 
 function ProductList() {
     const [products, setProducts] = useState([]);
-    // const [productName, setProductName] = useState();
-    // const [minPrice, setMinPrice] = useState();
-    // const [maxPrice, setMaxPrice] = useState();
     const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
         currentPage: 1,
         totalPages: "",
-        productName:"",
-        sizeName:"",
+        productName: "",
+        sizeName: "",
         minPrice: 100000,
         maxPrice: 100000000,
         sortDirection: "asc"
@@ -23,19 +20,18 @@ function ProductList() {
     const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
         getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection).then(res => {
             setProducts(res.content);
-            setPageable({...pageable,
-            totalPages: res.totalElements, currentPage: currentPage})
+            setPageable({
+                ...pageable,
+                totalPages: res.totalElements,
+                currentPage: currentPage
+            })
         });
     };
 
-    useEffect( () => {
-        getAll(pageable.currentPage, pageable.productName,  pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
-    }, []);
+    useEffect(() => {
+        getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+    }, [pageable.sortDirection]);
 
-    const handleChange = (page) => {
-
-        getAll(page, pageable.productName,  pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
-    };
 
     // show item size dropdown
     const getAllSize = () => {
@@ -47,36 +43,80 @@ function ProductList() {
     }, []);
 
     const changeSize = async (e) => {
-        getAllProducts(e.target.value).then(res => setProducts(res))
+        setPageable({
+            ...pageable,
+            sizeName: e.target.value
+        })
     };
+
+    const changePrice = async (e) => {
+        const price = [
+            {
+                minPrice: 0,
+                maxPrice: 100000000
+            },
+            {
+                minPrice: 500000,
+                maxPrice: 1000000
+            },
+            {
+                minPrice: 1000001,
+                maxPrice: 2000000
+            },
+            {
+                minPrice: 2000001,
+                maxPrice: 100000000
+            }
+        ];
+        const index = +e.target.value;
+        setPageable({
+            ...pageable,
+            minPrice: price.at(index).minPrice,
+            maxPrice: price.at(index).maxPrice
+        });
+    };
+
+    const changeProductName = async (e) => {
+        setPageable({
+            ...pageable,
+            productName: e.target.value
+        })
+    };
+
+    const searching = () => {
+        getAll(1, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+    };
+
+    const sortByQuantity = async () => {
+        const newSortDirection = pageable.sortDirection === "asc" ? "desc" : "asc";
+        setPageable({
+            ...pageable,
+            sortDirection: newSortDirection
+        });
+        console.log(pageable.sortDirection);
+        // getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+    };
+
 
     //pagination
-    const hasPrevious = () => {
-        const newCurrentPage = pageable.currentPage - 1;
-        setPageable({
-            ...pageable,
-            currentPage: newCurrentPage});
-        getAllProducts(newCurrentPage).then(r => setProducts(r.content))
-    };
-
-    const hasNext = () => {
-        const newCurrentPage = pageable.currentPage + 1;
-        setPageable({
-            ...pageable,
-            currentPage: newCurrentPage});
-        getAllProducts(newCurrentPage).then(r => setProducts(r.content))
+    const handleChange = (page) => {
+        getAll(page, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
     };
 
     const itemRender = (_, type, originalElement) => {
         if (type === 'prev') {
-            return <a className='btn btn-outline-primary' type='button'>Previous</a>
+            return <a className='btn btn-outline-primary' type='button'>&laquo;</a>
         }
         if (type === 'next') {
-            return <a className='btn btn-outline-primary' type='button'>Next</a>
+            return <a className='btn btn-outline-primary' type='button'>&raquo;</a>
         }
         return originalElement;
     };
+
+
     if (!products) return <div>Loading...</div>;
+
+
     // if (!sizes) return null
     return (
         <>
@@ -93,32 +133,32 @@ function ProductList() {
                             </div>
                             <div className="col-lg-9 search d-flex justify-content-between">
                                 <div className="col-lg-auto">
-                                    <select onChange={changeSize} className="form-select rounded-0" aria-label="Default select example">
-                                    {/*<select className="form-select rounded-0" aria-label="Default select example">*/}
-                                        <option selected>Kích thước</option>
+                                    <select defaultValue="" onChange={changeSize} className="form-select rounded-0"
+                                            aria-label="Default select example">
+                                        <option value="" selected>Kích thước</option>
                                         {sizes.map((item) =>
                                             <option value={item.name} key={item.id}>{item.name}</option>
                                         )}
                                     </select>
                                 </div>
                                 <div className="col-lg-auto">
-                                    <select className="form-select rounded-0" aria-label="Default select example">
-                                        <option selected>Giá</option>
-                                        <option value="1">0 - 500.000 VNĐ</option>
-                                        <option value="1">500.000 - 1.000.000 VNĐ</option>
-                                        <option value="2">1.000.000 - 2.000.000 VNĐ</option>
-                                        <option value="3">Trên 2.000.000 VNĐ</option>
+                                    <select defaultValue="0" onChange={changePrice} className="form-select rounded-0"
+                                            aria-label="Default select example">
+                                        <option value="0" selected>Giá</option>
+                                        <option value="1">100.000 - 500.000 VNĐ</option>
+                                        <option value="2">500.000 - 1.000.000 VNĐ</option>
+                                        <option value="3">1.000.000 - 2.000.000 VNĐ</option>
+                                        <option value="4">Trên 2.000.000 VNĐ</option>
                                     </select>
                                 </div>
                                 <div className="col-lg-auto">
-                                    {/*<input onChange={(e) => setProductName(e.target.value)} value={productName}*/}
-                                    {/*       type="text" className="form-control rounded-0" id="searchByName" name="productName"*/}
-                                    {/*       placeholder="Tìm kiếm tên sản phẩm..." />*/}
-                                    <input type="text" className="form-control rounded-0" id="searchByName" name="productName"
-                                           placeholder="Tìm kiếm tên sản phẩm..." />
+                                    <input onChange={changeProductName} type="text" className="form-control rounded-0"
+                                           id="searchByName" name="productName"
+                                           placeholder="Tìm kiếm tên sản phẩm..."/>
                                 </div>
                                 <div className="col-lg-1">
-                                    <button className="btn btn-outline-dark rounded-0"><i className="bi bi-search"/>
+                                    <button onClick={searching} className="btn btn-outline-dark rounded-0"><i
+                                        className="bi bi-search"/>
                                     </button>
                                 </div>
                             </div>
@@ -131,7 +171,8 @@ function ProductList() {
                                 <th scope="col">Mã sản phẩm</th>
                                 <th scope="col">Tên sản phẩm</th>
                                 <th scope="col">Số lượng
-                                    <button className="btn btn-border-none"><i className="bi bi-sort-down"/></button>
+                                    <button onClick={sortByQuantity} className="btn btn-border-none"><i
+                                        className="bi bi-sort-down"/></button>
                                 </th>
                                 <th scope="col">Kích thước</th>
                                 <th scope="col">Đơn giá</th>
@@ -139,47 +180,33 @@ function ProductList() {
                             </thead>
                             <tbody className="table-group-divider">
                             {products.map((item, index) =>
-                            <tr key={item.id}>
-                                <td>{index + 1}</td>
-                                <td>{item.productCode}</td>
-                                <td className="product-img">
-                                    {/*<div className="col-lg-auto">*/}
-                                    {/*    <img*/}
-                                    {/*        src="https://static.zara.net/photos///2024/V/0/1/p/3067/001/400/2/w/563/3067001400_6_1_1.jpg?ts=1701419215549"*/}
-                                    {/*        alt=""/>*/}
-                                    {/*</div>*/}
-                                    <div className="col-lg-auto">
-                                        <span>{item.productName}</span>
-                                    </div>
-                                </td>
-                                <td>{item.productQuantity}</td>
-                                <td>{item.sizeName}</td>
-                                <td>{item.productPrice} VNĐ</td>
-                            </tr>
+                                <tr key={item.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{item.productCode}</td>
+                                    <td className="text-lg-start">
+                                    {/*<td className="product-img">*/}
+                                        {/*<div className="col-lg-auto">*/}
+                                        {/*    <img*/}
+                                        {/*        src={item.productImage.split(",")[0]}*/}
+                                        {/*        alt="product image"/>*/}
+                                        {/*</div>*/}
+                                        {/*<div className="col-lg-auto">*/}
+                                            <span>{item.productName}</span>
+                                        {/*</div>*/}
+                                    </td>
+                                    <td className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
+                                    <td>{item.sizeName}</td>
+                                    <td>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
+                                </tr>
                             )}
                             </tbody>
                         </table>
 
-                        <div style={{textAlign: 'center'}}>
+                        <div style={{textAlign: 'right',marginTop: '15px', marginBottom: '15px'}}>
                             <Pagination current={pageable.currentPage} hideOnSinglePage={true}
                                         total={pageable.totalPages} pageSize={5} onChange={handleChange}
                                         itemRender={itemRender}/>
                         </div>
-                        {/*<nav aria-label="Page navigation example">*/}
-                        {/*    <ul className="pagination justify-content-end">*/}
-                        {/*        <li className="page-item disabled">*/}
-                        {/*            <button className="page-link" type="button" disabled={pageable.currentPage === 1} onClick={hasPrevious}>&laquo;</button>*/}
-                        {/*        </li>*/}
-                        {/*        <li className="page-item"><span className="page-link text-dark" >{pageable.currentPage}</span></li>*/}
-                        {/*        /!*<li className="page-item"><a className="page-link text-dark" href="#">2</a></li>*!/*/}
-                        {/*        /!*<li className="page-item"><a className="page-link text-dark" href="#">3</a></li>*!/*/}
-                        {/*        <li className="page-item">*/}
-                        {/*            <button className="page-link text-dark" type="button" disabled={pageable.currentPage === pageable.totalPages} onClick={hasNext}>&raquo;</button>*/}
-                        {/*        </li>*/}
-                        {/*    </ul>*/}
-                        {/*</nav>*/}
-
-
                     </div>
                 </div>
             </div>
