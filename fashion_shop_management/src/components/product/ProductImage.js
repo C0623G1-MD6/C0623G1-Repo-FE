@@ -104,7 +104,7 @@ function ProductImage(props) {
                                 className="col-3"
                             >
                                 <Card.Body>
-                                    <Button style={{float: 'right'}} variant="none"
+                                    <Button style={{textAlign: 'right'}} variant="none"
                                         onClick={() => handleDeleteFile(file.name)}
                                     ><i className="bi bi-x-circle"/>
                                     </Button>
