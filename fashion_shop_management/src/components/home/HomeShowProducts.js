@@ -9,7 +9,10 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 // import required modules
 import { Navigation, Autoplay } from "swiper/modules";
-import { getProductsHasPromotion } from "../../services/home/homeService";
+import {
+  getProductsHasPromotion,
+  getNewestProducts,
+} from "../../services/home/homeService";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -17,10 +20,20 @@ const HomeShowProducts = () => {
   const [products, setProducts] = useState([]);
   const [option, setOption] = useState("");
   const [sort, setSort] = useState("ASC");
-  //   const [newestProducts, setNewestProducts] = useState([]);
+  const [newestProducts, setNewestProducts] = useState([]);
+
   useEffect(() => {
     getProductPromotion();
   }, [sort]);
+
+  useEffect(() => {
+    getNewProducts();
+  }, []);
+
+  const getNewProducts = async () => {
+    let res = await getNewestProducts();
+    setNewestProducts(res.content);
+  };
 
   const getProductPromotion = async () => {
     let res = await getProductsHasPromotion(option, sort);
@@ -30,6 +43,18 @@ const HomeShowProducts = () => {
 
   const changeSortList = async (value) => {
     setSort(value.target.value);
+  };
+  const sortNewProduct = (value) => {
+    console.log("Sort", value.target.value);
+    let sortList = [...newestProducts];
+    if (value.target.value === "DESC") {
+      sortList = sortList.sort((a, b) => b.price - a.price);
+      console.log(sortList);
+    } else {
+      sortList = sortList.sort((a, b) => a.price - b.price);
+      console.log(sortList);
+    }
+    setNewestProducts([...sortList]);
   };
 
   if (!products) {
@@ -111,7 +136,12 @@ const HomeShowProducts = () => {
                   <p className="card-text" id="product-name">
                     {item.productName}
                   </p>
-                  <p className="card-text product-size">Size: {item.size}</p>
+                  <p
+                    className="card-text product-size"
+                    style={{ opacity: 0.7, fontSize: "14px" }}
+                  >
+                    XS - S - M - L - XL - XXL
+                  </p>
                   <p className="card-text">
                     <del>
                       {item.price.toLocaleString("vi", {
@@ -154,12 +184,12 @@ const HomeShowProducts = () => {
             <select
               style={{ width: 200, marginBottom: 10 }}
               className="form-select"
+              onChange={(value) => sortNewProduct(value)}
               aria-label="Default select example"
             >
               <option selected>Sắp xếp theo</option>
-              <option value={1}>Giá tăng dần</option>
-              <option value={2}>Giá giảm dần</option>
-              <option value={3}>Sản phẩm mới</option>
+              <option value="ASC">Giá tăng dần</option>
+              <option value="DESC">Giá giảm dần</option>
             </select>
           </div>
           <Swiper
@@ -191,126 +221,55 @@ const HomeShowProducts = () => {
             loop={true}
             className="mySwiper"
           >
-            <SwiperSlide>
-              {/* <div className="card"> */}
-              <div
-                style={{
-                  width: "100%",
-                  height: 300,
-                  backgroundImage:
-                    'url("https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/453482/item/goods_09_453482.jpg?width=320&v=20231128")',
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  transition: "background-image 0.5s ease-in-out",
-                }}
-                id="testId"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-text" id="product-name">
-                  Áo khoác ngắn tay nữ adafdsfadsfasdf
-                </p>
-                <p className="card-text product-size">Size: SX, S, M, L, XL</p>
-                <p className="card-text">
-                  <del>600.000 VND</del>
-                </p>
-                <p className="card-text sale-price">
-                  <span>400.000 VND</span>
-                </p>
-              </div>
-              {/* </div> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <div className="card"> */}
-              <div
-                style={{
-                  width: "100%",
-                  height: 300,
-                  backgroundImage:
-                    'url("https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/453482/item/goods_09_453482.jpg?width=320&v=20231128")',
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  transition: "background-image 0.5s ease-in-out",
-                }}
-                id="testId"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-text" id="product-name">
-                  Đầm Ngắn Vải Rũ Bóng Họa Tiết Da Động Vật
-                </p>
-                <p className="card-text product-size">Size: SX, S, M, L, XL</p>
-                <p className="card-text">
-                  <del>600.000 VND</del>
-                </p>
-                <p className="card-text sale-price">
-                  <span>400.000 VND</span>
-                </p>
-              </div>
-              {/* </div> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <div className="card"> */}
-              <div
-                style={{
-                  width: "100%",
-                  height: 300,
-                  backgroundImage:
-                    'url("https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/453482/item/goods_09_453482.jpg?width=320&v=20231128")',
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  transition: "background-image 0.5s ease-in-out",
-                }}
-                id="testId"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-text" id="product-name">
-                  Áo khoác ngắn tay nữ
-                </p>
-                <p className="card-text product-size">Size: SX, S, M, L, XL</p>
-                <p className="card-text">
-                  <del>600.000 VND</del>
-                </p>
-                <p className="card-text sale-price">
-                  <span>400.000 VND</span>
-                </p>
-              </div>
-              {/* </div> */}
-            </SwiperSlide>
-            <SwiperSlide>
-              {/* <div className="card"> */}
-              <div
-                style={{
-                  width: "100%",
-                  height: 300,
-                  backgroundImage:
-                    'url("https://image.uniqlo.com/UQ/ST3/AsianCommon/imagesgoods/453482/item/goods_09_453482.jpg?width=320&v=20231128")',
-                  backgroundPosition: "center",
-                  backgroundSize: "cover",
-                  transition: "background-image 0.5s ease-in-out",
-                }}
-                id="testId"
-                className="card-img-top"
-                alt="..."
-              />
-              <div className="card-body">
-                <p className="card-text" id="product-name">
-                  Áo khoác ngắn tay nữ
-                </p>
-                <p className="card-text product-size">Size: SX, S, M, L, XL</p>
-                <p className="card-text">
-                  <del>600.000 VND</del>
-                </p>
-                <p className="card-text sale-price">
-                  <span>400.000 VND</span>
-                </p>
-              </div>
-              {/* </div> */}
-            </SwiperSlide>
+            {newestProducts.map((item) => (
+              <SwiperSlide>
+                {/* <div className="card"> */}
+                <div
+                  style={{
+                    width: "100%",
+                    height: 300,
+                    backgroundImage: `url("${item.productImage}")`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    transition: "background-image 0.5s ease-in-out",
+                  }}
+                  id="testId"
+                  className="card-img-top"
+                  alt="..."
+                />
+                <div className="card-body">
+                  <p className="card-text" id="product-name">
+                    {item.productName}
+                  </p>
+                  <p
+                    className="card-text product-size"
+                    style={{ opacity: 0.7, fontSize: "14px" }}
+                  >
+                    XS - S - M - L - XL
+                  </p>
+                  <p className="card-text">
+                    <del>
+                      {item.price.toLocaleString("vi", {
+                        style: "currency",
+                        currency: "VND",
+                      })}
+                    </del>
+                  </p>
+                  <p className="card-text sale-price">
+                    <span>
+                      {(item.price - item.price * item.percent).toLocaleString(
+                        "vi",
+                        {
+                          style: "currency",
+                          currency: "VND",
+                        }
+                      )}
+                    </span>
+                  </p>
+                </div>
+                {/* </div> */}
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>

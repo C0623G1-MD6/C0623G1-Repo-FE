@@ -1,12 +1,23 @@
-import React from "react";
 import ModalLogin from "../auth/modal/ModalLogin";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const HomeHeader = () => {
+  const navigate = useNavigate();
+  const [seachName, setSeachName] = useState("");
+  const handleSearch = (value) => {
+    setSeachName(value.target.value);
+  };
+
+  const onSearch = () => {
+    navigate(`/search?keyword=${seachName}`);
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/home">
             <img id="logoimg" src="../../../images/logo-city6-black.png" />
           </a>
           <button
@@ -23,7 +34,7 @@ const HomeHeader = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item font-custome">
-                <a className="nav-link active" aria-current="page" href="#">
+                <a className="nav-link active" aria-current="page" href="/home">
                   Trang chủ
                 </a>
               </li>
@@ -44,26 +55,38 @@ const HomeHeader = () => {
                 </a>
                 <ul className="dropdown-menu">
                   <li>
-                    <a className="dropdown-item font-custome" href="#">
+                    <a
+                      className="dropdown-item font-custome"
+                      href="/search?gender=1"
+                    >
                       Nữ
                     </a>
                   </li>
                   <li>
-                    <a className="dropdown-item font-custome" href="#">
+                    <a
+                      className="dropdown-item font-custome"
+                      href="/search?gender=0"
+                    >
                       Nam
                     </a>
                   </li>
                 </ul>
               </li>
             </ul>
+
             <form className="d-flex mx-3" role="search">
               <input
                 className="form-control me-2 rounded-0"
                 type="search"
                 placeholder="Nhập tên sản phẩm"
                 aria-label="Search"
+                onChange={(value) => handleSearch(value)}
               />
-              <button className="btn btn-outline-dark rounded-0" type="submit">
+              <button
+                onClick={onSearch}
+                className="btn btn-outline-dark rounded-0"
+                type="submit"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width={16}
