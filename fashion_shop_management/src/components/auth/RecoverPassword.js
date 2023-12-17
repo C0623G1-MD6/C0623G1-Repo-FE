@@ -61,7 +61,7 @@ function RecoverPassword(props) {
                                         <label htmlFor="emailRecover" className="form-label">Email liên kết tài
                                             khoản</label>
                                         <Field type="email" className="form-control" name="emailRecover"
-                                               placeholder="username@gmail.com" id="emailRecover"/>
+                                               placeholder="example@gmail.com" id="emailRecover"/>
                                         <ErrorMessage name="emailRecover" className="text-danger"
                                                       component="p"/>
                                     </div>
