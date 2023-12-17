@@ -1,0 +1,245 @@
+::-webkit-scrollbar {
+    height: 0;
+    width: 0;
+
+}
+
+.hlptitle {
+    text-align: center;
+    margin: 30px 0;
+}
+
+.hlpimg {
+    width: 30%;
+    margin: 10px 20px;
+    height: 500px;
+
+
+}
+
+.hlpcctn {
+    width: 100%;
+    height: 500px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+}
+
+.hlpcctn div {
+    width: calc(100% - 10px);
+    height: 98%;
+    margin: 1% 5px;
+
+    background-size: cover;
+    background-position: center;
+}
+
+.hlpbutton {
+    text-align: center;
+    margin: 50px 20px;
+
+}
+
+.hlpbutton1 {
+    margin: 0 50px;
+    width: 200px;
+    color: white;
+    height: 80px;
+    font-weight: 900;
+    background-position: center;
+    background-size: cover;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 10px 10px 20px rgb(128, 128, 128);
+    transition-duration: 0.2s;
+}
+
+.hlpbutton1:hover {
+    scale: 1.05;
+    transition-duration: 0.2s;
+}
+
+.hlpnewsleft {
+    background-position: center;
+    background-size: cover;
+
+}
+
+.hlpnews {
+    width: calc(97% - 0px);
+    aspect-ratio: 16/9;
+    margin: 3% 5px 3% 3%;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 3fr 1fr;
+    grid-template-areas: "img content content" "img logo date";
+}
+
+.hlpnews:first-child {
+    margin-top: 0;
+}
+
+.hlpnews:last-child {
+    margin-bottom: 0;
+}
+
+.hlpnews-img {
+    grid-area: img;
+    background-color: rgb(128, 128, 128);
+    background-position: center;
+    background-size: cover;
+
+}
+
+.hlpnews-content {
+
+    grid-area: content;
+    background-color: antiquewhite;
+}
+
+.hlpnews-content h4 {
+
+    padding: 10px;
+
+}
+
+.hlpnews-content p {
+    padding: 10px;
+
+}
+
+.hlpnews-logo {
+    grid-area: logo;
+    background-color: antiquewhite;
+
+}
+
+.hlpnews-date {
+    grid-area: date;
+    background-color: antiquewhite;
+
+
+}
+
+.hlpnewsall {
+    height: 500px;
+    margin-bottom: 50px;
+    padding: 0;
+    border-radius: 20px;
+}
+
+.hlpnewlast .card img {
+    height: 200px;
+    width: 310px;
+    background-position: center;
+    background-size: cover;
+}
+
+.hlpnewlast {
+    margin-bottom: 50px;
+}
+
+
+/*detail new*/
+
+
+.hlpdetailleft {
+    background-position: center;
+    background-size: cover;
+    margin-bottom: 200px;
+
+}
+
+.hlpdetail {
+    width: calc(97% - 0px);
+    aspect-ratio: 16/9;
+    margin: 3% 5px 3% 3%;
+    display: grid;
+    grid-template-columns: 3fr 2fr 1fr;
+    grid-template-rows: 1fr 5fr;
+    grid-template-areas: "img content content" "img logo date";
+}
+
+.hlpdetail:first-child {
+    margin-top: 0;
+}
+
+.hlpdetail:last-child {
+    margin-bottom: 0;
+}
+
+.hlpdetail-img {
+    grid-area: img;
+    background-color: rgb(128, 128, 128);
+    background-position: center;
+    background-size: cover;
+
+}
+
+.hlpdetail-content {
+
+    grid-area: content;
+    background-color: antiquewhite;
+}
+
+.hlpdetail-content h4 {
+
+    padding: 10px;
+
+}
+
+.hlpdetail-content p {
+    padding: 10px;
+
+}
+
+.hlpdetail-logo {
+    grid-area: logo;
+    background-color: antiquewhite;
+
+}
+
+.hlpdetail-date {
+    grid-area: date;
+    background-color: antiquewhite;
+
+
+}
+
+.hlpdetailall {
+    height: 300px;
+    margin-bottom: 100px;
+    padding: 0;
+    border-radius: 20px;
+}
+
+.hlpdetaillast .card img {
+    height: 200px;
+    width: 310px;
+    background-position: center;
+    background-size: cover;
+}
+
+.hlpdetaillast {
+    margin-bottom: 50px;
+}
+
+.hlpdetailtitle {
+    text-align: -moz-right;
+}
+
+.hlpdetailcontent {
+    font-size: 18px;
+}
+.detailctn{
+    margin: 75px 120px;
+}
+
+.card-text{
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-align: justify;
+}
+

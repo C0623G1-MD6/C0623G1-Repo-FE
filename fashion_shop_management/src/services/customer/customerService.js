@@ -1,21 +1,5 @@
 import axios from "axios";
 
-export const getAllCustomer = async (nameCustomer, typeCustomer, page) => {
-    if (typeCustomer === "") {
-        try {
-            return await axios.get(`http://localhost:8080/api/customer/list?nameCustomer=${nameCustomer}&page=${page}`);
-        } catch (e) {
-            return e;
-        }
-    } else {
-        try {
-            return await axios.get(`http://localhost:8080/api/customer/list?nameCustomer=${nameCustomer}&typeCustomer=${typeCustomer}&page=${page}`);
-        } catch (e) {
-            return e;
-        }
-    }
-
-}
 const URL_CUSTOMER = "http://localhost:8080/api/customer";
 
 export const getCustomerByIdService = async (id) => {
@@ -50,5 +34,6 @@ export const getCustomerTypeListService = async () => {
         return res.data
     } catch (e) {
         alert("error Service get List")
+
     }
 }
