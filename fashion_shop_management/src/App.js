@@ -21,6 +21,11 @@ import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
+import CreateCustomer from "./components/customer/CreateCustomer";
+import EditCustomer from "./components/customer/EditCustomer";
+import Create from "./components/customer/Create";
+import Edit from "./components/customer/Edit";
+
 
 import SearchProducts from "./components/home/SearchProducts";
 
@@ -28,11 +33,13 @@ import SearchProducts from "./components/home/SearchProducts";
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
 import Home from "./pages/Home";
+import {NewsCreate} from "./components/news/NewsCreate";
+import {NewsList} from "./components/news/NewsList";
+import NewsDetail from "./components/news/NewsDetail";
 
 function App() {
     return (
         <>
-
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
@@ -48,14 +55,19 @@ function App() {
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
+                        <Route path="/news" element={<NewsList/>}></Route>
+                        <Route path="/create" element={<NewsCreate/>}></Route>
+                        <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
+                        <Route path="/customer/create" element={<CreateCustomer/>}></Route>
+                        <Route path="/customer/edit/:id" element={<EditCustomer/>}></Route>
+                        <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
         </>
     );
-
 }
 
 export default App;

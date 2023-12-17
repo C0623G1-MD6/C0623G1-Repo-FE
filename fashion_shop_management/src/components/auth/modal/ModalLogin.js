@@ -22,9 +22,6 @@ function ModalLogin() {
     const [show, setShow] = useState(false);
     const [disableSubmit, setDisableSubmit] = useState(false);
     const [contentModal, setContentModal] = useState("login");
-    useEffect(() => {
-        console.log(contentModal);
-    }, [contentModal]);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const initValues = {
@@ -129,12 +126,13 @@ function ModalLogin() {
         }
     }
     if (user !== null) {
-        return <><Link to="/dashboard" className="btn btn-primary">Dashboard</Link> </>
+        return <><Link to="/dashboard" className="btn-dashboard btn-primary">{user.username}</Link> </>
     }
     return (
         <>
 
-            <Button onClick={handleShow} className="btn btn-sm bg-white rounded-0 border-0 me-3">
+
+            <Button className="btn-login" onClick={handleShow}>
                 <svg xmlns="http://www.w3.org/2000/svg" width={35} height={35} fill="currentColor"
                      className="bi bi-person-circle text-primary" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
