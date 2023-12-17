@@ -31,7 +31,6 @@ import CreateProductMain from "./components/product/CreateProductMain";
 function App() {
     return (
         <>
-
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
@@ -50,7 +49,7 @@ function App() {
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
-                <ToastContainer><ToastContainer/>
+                <ToastContainer/>
             </Provider>
         </>
     );
