@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import ModalLogin from "../auth/modal/ModalLogin";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
 const HomeHeader = () => {
   const navigate = useNavigate();
   const [seachName, setSeachName] = useState("");
@@ -16,7 +18,7 @@ const HomeHeader = () => {
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
         <div className="container-fluid">
-          <a className="navbar-brand" href="/home">
+          <a className="navbar-brand" href="/">
             <img id="logoimg" src="../../../images/logo-city6-black.png" />
           </a>
           <button
@@ -33,47 +35,21 @@ const HomeHeader = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item font-custome">
-                <a className="nav-link active" aria-current="page" href="/home">
+                <a className="nav-link active" aria-current="page" href="/">
                   Trang chủ
                 </a>
               </li>
               <li className="nav-item font-custome">
-                <a className="nav-link" href="watch_new.html">
+                <a className="nav-link" href="/news">
                   Tin tức
                 </a>
               </li>
-              <li className="nav-item dropdown font-custome">
-                <a
-                  className="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Thời trang
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a
-                      className="dropdown-item font-custome"
-                      href="/search?gender=1"
-                    >
-                      Nữ
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="dropdown-item font-custome"
-                      href="/search?gender=0"
-                    >
-                      Nam
-                    </a>
-                  </li>
-                </ul>
-              </li>
+              <DropdownButton className="nav-menu" id="nav-dropdown" title="Thời trang">
+                <Dropdown.Item href="/search?gender=1">Nữ</Dropdown.Item>
+                <Dropdown.Item href="/search?gender=0">Nam</Dropdown.Item>
+              </DropdownButton>
             </ul>
-
-            <form className="d-flex mx-5" role="search">
+            <form className="form-search-header d-flex mx-5" role="search">
               <input
                 className="form-control me-2"
                 type="search"
@@ -98,22 +74,7 @@ const HomeHeader = () => {
                 </svg>
               </button>
             </form>
-            <a style={{ color: "black" }} href="/ThanhPV_Login.html">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={35}
-                height={35}
-                fill="currentColor"
-                className="bi bi-person-circle"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
-                <path
-                  fillRule="evenodd"
-                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
-                />
-              </svg>
-            </a>
+            <ModalLogin/>
           </div>
         </div>
       </nav>

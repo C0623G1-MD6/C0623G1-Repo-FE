@@ -27,11 +27,12 @@ import SearchProducts from "./components/home/SearchProducts";
 
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
+import {NewsCreate} from "./components/news/NewsCreate";
+import {NewsList} from "./components/news/NewsList";
 
 function App() {
     return (
         <>
-
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
@@ -47,14 +48,14 @@ function App() {
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
+                        <Route path="/news" element={<NewsList/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
-                <ToastContainer><ToastContainer/>
+                <ToastContainer/>
             </Provider>
         </>
     );
-
 }
 
 export default App;

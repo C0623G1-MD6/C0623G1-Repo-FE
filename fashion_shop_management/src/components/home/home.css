@@ -1,10 +1,10 @@
-* {
-  font-family: "Quicksand", sans-serif;
-  font-size: 18px;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/** {*/
+/*  font-family: "Quicksand", sans-serif;*/
+/*  font-size: 18px;*/
+/*  box-sizing: border-box;*/
+/*  margin: 0;*/
+/*  padding: 0;*/
+/*}*/
 
 .collectionLeft {
   background-position: center;
@@ -194,4 +194,36 @@
 .search-card {
   height: 500px !important;
   overflow-y: hidden;
+}
+
+button.btn-login {
+  background: #737373;
+  border: 0;
+}
+
+.nav-menu button {
+  background: unset;
+  color: #737373;
+  border: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+a.btn-dashboard.btn-primary {
+  border-radius: 0;
+  background: #151515;
+  border: 0;
+  color: #fff;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 700;
+  padding: 7px 20px;
+  text-decoration: unset;
+}
+
+.form-search-header input {
+  border-radius: 0;
+}
+
+.form-search-header button {
+  border-radius: 0;
 }
