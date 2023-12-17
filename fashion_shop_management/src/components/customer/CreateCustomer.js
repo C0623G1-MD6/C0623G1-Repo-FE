@@ -12,11 +12,11 @@ function CreateCustomer() {
         try {
             const res = await createCustomerService(values)
             if (res.status === 200) {
-                navigate("/customer")
+                navigate("/customer/list")
                 toast(" Create Successfully")
             } else if (res.status === 201)
                 toast(" Create failed")
-                setErrors(res.data)
+            setErrors(res.data)
 
         } catch (e) {
             alert("Error")
@@ -26,7 +26,7 @@ function CreateCustomer() {
     const initialValue = {
         "customerCode": "",
         "name": "",
-        "gender": true,
+        "gender": "",
         "birthday": "",
         "phone": "",
         "point": 0,
@@ -42,23 +42,25 @@ function CreateCustomer() {
 
     const customerValidate = {
         customerCode: Yup.string()
-            .required()
-            .matches(/^KH-\d{3}$/, "Không đúng định dạng, ex: KH-001"),
+            .required("vui lòng nhập")
+            .matches(/^KH-\d{4}$/, "Không đúng định dạng, ex: KH-0001"),
         name: Yup.string()
-            .required()
+            .required("vui lòng nhập")
             .matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
         phone: Yup.string()
-            .required()
+            .required("vui lòng nhập")
             .matches(/^0[0-9]{9}$/, "SĐT bào gồm 10 số ex:012312312"),
         email: Yup.string()
-            .required()
+            .required("vui lòng nhập")
             .matches(/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
         address: Yup.string()
-            .required(),
+            .required("vui lòng nhập"),
         birthday: Yup.date()
-            .required()
+            .required("vui lòng nhập")
             .max(date10, "Vui lòng nhập lớn hơn 10 tuổi")
-            .min(date100, "Vui lòng nhập bé hơn 100 tuổi")
+            .min(date100, "Vui lòng nhập bé hơn 100 tuổi"),
+        gender: Yup.string()
+            .required("vui lòng chọn giới tính ")
     }
     return (
         <>
@@ -74,7 +76,6 @@ function CreateCustomer() {
                             <div className="form-control rounded-0 p-3 shadow">
                                 <h2
                                     className="text-primary fw-bold text-center pt-3"
-                                    style={{fontFamily: "Helvetica Neue,sans-serif"}}
                                 >
                                     Thêm mới khách hàng
                                 </h2>
@@ -110,7 +111,7 @@ function CreateCustomer() {
                                                 className="form-check-input "
                                                 id="nam"
                                                 type="radio"
-                                                value="false"
+                                                value= "false"
                                                 name="gender"
                                                 data-sb-validations="required"
                                             />
@@ -132,6 +133,8 @@ function CreateCustomer() {
                                             </label>
                                         </div>
                                     </div>
+                                    <ErrorMessage className="text text-danger" name="gender"
+                                                  component="div"></ErrorMessage>
                                     <div className="thienlch-group">
                                         <Field
                                             type="date"

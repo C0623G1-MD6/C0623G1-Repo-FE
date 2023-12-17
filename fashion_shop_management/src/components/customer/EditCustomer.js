@@ -7,6 +7,7 @@ import {NavLink, useNavigate, useParams} from "react-router-dom";
 import {toast} from "react-toastify";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
+import "./thienLCHFrom.css"
 
 function EditCustomer() {
     const [typeList, setTypeList] = useState([])
@@ -40,7 +41,7 @@ function EditCustomer() {
             const res = await editCustomerService(data)
             console.log(res)
             if (res.status === 200) {
-                navigate("/customer");
+                navigate("/customer/list");
                 toast("Edit Successfully")
             } else if (res.status === 201) {
                 toast(" Edit failed")
@@ -61,9 +62,9 @@ function EditCustomer() {
 
     const initialValue = {
         "id": customer.id,
-        "customerCode":  customer.customerCode,
+        "customerCode": customer.customerCode,
         "name": customer && customer.name,
-        "gender": customer && customer.gender,
+        "gender": !!(customer && customer.gender === "true"),
         "birthday": customer && customer.birthday,
         "phone": customer && customer.phone,
         "point": customer && customer.point,
@@ -79,7 +80,7 @@ function EditCustomer() {
     const customerValidate = {
         customerCode: Yup.string()
             .required()
-            .matches(/^KH-\d{3}$/, "Không đúng định dạng, ex: KH-001"),
+            .matches(/^KH-\d{4}$/, "Không đúng định dạng, ex: KH-0001"),
         name: Yup.string()
             .required()
             .matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
@@ -94,7 +95,9 @@ function EditCustomer() {
         birthday: Yup.date()
             .required()
             .max(date10, "Vui lòng nhập lớn hơn 10 tuổi")
-            .min(date100, "Vui lòng nhập bé hơn 100 tuổi")
+            .min(date100, "Vui lòng nhập bé hơn 100 tuổi"),
+        gender: Yup.string()
+            .required("vui lòng chọn giới tính ")
     }
 
     return (
@@ -111,7 +114,6 @@ function EditCustomer() {
                             <div className="form-control shadow rounded-0 p-3">
                                 <h2
                                     className="text-primary fw-bold text-center"
-                                    style={{fontFamily: "Helvetica Neue,sans-serif"}}
                                 >
                                     Chỉnh sửa khách hàng
                                 </h2>
@@ -144,8 +146,9 @@ function EditCustomer() {
                                                 id="nam"
                                                 type="radio"
                                                 name="gender"
-                                                value="false"
+                                                value={false}
                                                 data-sb-validations="required"
+                                                checked={customer.gender === false}
                                             />
                                             <label className="form-check-label" htmlFor="nam">
                                                 Nam
@@ -156,18 +159,20 @@ function EditCustomer() {
                                                 className="form-check-input"
                                                 id="nữ"
                                                 type="radio"
-                                                value="true"
+                                                value={true}
                                                 name="gender"
                                                 data-sb-validations="required"
-                                                checked
+                                                checked={customer.gender === true}
                                             />
                                             <label className="form-check-label" htmlFor="nữ">
                                                 Nữ
                                             </label>
                                         </div>
                                     </div>
+                                    <ErrorMessage className="text text-danger" name="gender"
+                                                  component="div"></ErrorMessage>
                                     <div className="thienlch-group">
-                                        <Field as="date" type="date" id="birthday" name="birthday" required=""/>
+                                        <Field type="date" id="birthday" name="birthday" required=""/>
                                         <label htmlFor="birthday">Ngày sinh</label>
                                         <ErrorMessage className="text text-danger" name="birthday"
                                                       component="div"></ErrorMessage>
@@ -182,53 +187,25 @@ function EditCustomer() {
                                         <ErrorMessage className="text text-danger" name="address"
                                                       component="div"></ErrorMessage>
                                     </div>
-                                    <div className="row d-flex">
-                                        <div className="thienlch-group col-6">
-                                            <Field name="email"
-                                                   type="email"
-                                                   id="email"
-                                                   required=""
-                                            />
-                                            <label htmlFor="email">Email<span style={{color: "red"}}>*</span></label>
-                                            <ErrorMessage className="text text-danger" name="email"
-                                                          component="div"></ErrorMessage>
-                                        </div>
-                                        <div className="thienlch-group col-6">
-                                            <Field name="phone"
-                                                   id="phone"
-                                                   required=""
-                                            />
-                                            <label htmlFor="phone">Số điện thoại<span
-                                                style={{color: "red"}}>*</span></label>
-                                            <ErrorMessage className="text text-danger" name="phone"
-                                                          component="div"></ErrorMessage>
-                                        </div>
+                                    <div className="thienlch-group">
+                                        <Field name="email"
+                                               type="email"
+                                               id="email"
+                                               required=""
+                                        />
+                                        <label htmlFor="email">Email<span style={{color: "red"}}>*</span></label>
+                                        <ErrorMessage className="text text-danger" name="email"
+                                                      component="div"></ErrorMessage>
                                     </div>
-                                    <div className="row d-flex">
-                                        <div className="thienlch-group col-6">
-                                            <Field name="point"
-                                                   type="number"
-                                                   id="score"
-                                            />
-                                            <label htmlFor="score">Điểm</label>
-                                            <ErrorMessage className="text text-danger" name="point"
-                                                          component="div"></ErrorMessage>
-                                        </div>
-                                        <div className="thienlch-group col-6">
-                                            <Field as="select" name="customerTypeId"
-                                                   id="level"
-                                                   className="form-control"
-                                                   style={{height: 46}}>
-                                                <option value="">---Chọn---</option>
-                                                {typeList.map(types => (
-                                                    <option key={types.id} value={types.id}
-                                                            selected={types.id}>{types.name}</option>
-                                                ))}
-                                            </Field>
-                                            <label htmlFor="level">Cấp Bậc</label>
-                                            <ErrorMessage className="text text-danger" name="level"
-                                                          component="div"></ErrorMessage>
-                                        </div>
+                                    <div className="thienlch-group">
+                                        <Field name="phone"
+                                               id="phone"
+                                               required=""
+                                        />
+                                        <label htmlFor="phone">Số điện thoại<span
+                                            style={{color: "red"}}>*</span></label>
+                                        <ErrorMessage className="text text-danger" name="phone"
+                                                      component="div"></ErrorMessage>
                                     </div>
                                     <div className="thienlch-group d-flex me-5 justify-content-center">
                                         <NavLink to={"/customer/list"}>
