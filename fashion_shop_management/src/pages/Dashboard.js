@@ -35,29 +35,9 @@ function Dashboard() {
     };
 
     return <>
-        <section id="truong-sidebar">
-            <div className="container-fluid">
-                <div className="truong-nav position-fixed">
-                    <nav className="navbar navbar-expand-lg">
-                        <div className="container-fluid">
-                            <a className="navbar-brand" href="#">C0623G1</a>
-                            <div className="collapse navbar-collapse" id="navbarSupportedContent">
-                                <form className="d-flex" role="search">
-                                    <input className="form-control me-2" type="search" placeholder="Search"
-                                           aria-label="Search"/>
-                                    <button className="btn btn-outline-success"><i className="bi bi-search"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <div className="me-4">
-                                <i className="bi bi-bell"></i>
-                            </div>
-                        </div>
-                    </nav>
-                </div>
-                {renderDashboardContent()}
-            </div>
-        </section>
+        <div id="truong">
+            {renderDashboardContent()}
+        </div>
     </>;
 }
 

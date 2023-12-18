@@ -152,7 +152,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <h6>Top 5 nhân viên bán hàng tốt nhất</h6>
+                                <p>Top 5 nhân viên bán hàng tốt nhất</p>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -186,7 +186,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <h6>Danh sách top 5 nhân viên bán hàng tốt nhất chưa có</h6>
+                                <p>Danh sách chưa có</p>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <h6>Top 5 đơn hàng mới nhất</h6>
+                                <p>Top 5 đơn hàng mới nhất</p>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -212,9 +212,7 @@ function Overview() {
                                             <tr key={index}>
                                                 <td scope="row">{index + 1}</td>
                                                 <td>{item.name}</td>
-                                                <td>{item.total.toLocaleString('vi', {
-                                                    style: 'currency',
-                                                    currency: 'VND'})}</td>
+                                                <td>{new Intl.NumberFormat().format(item.total)}</td>
                                                 <td>{convertDateFormat(item.date + "")}</td>
                                             </tr>
                                         ))}
@@ -230,7 +228,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <h6>Danh sách chưa có</h6>
+                                <p>Danh sách chưa có</p>
                             </div>
                         </div>
                     </div>

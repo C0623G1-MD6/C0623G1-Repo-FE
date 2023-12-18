@@ -6,22 +6,10 @@ import {NotFound} from "../NotFound";
 
 function ChangePasswordPage() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
     if (!user) {
         return <NotFound/>;
     }
-    let item;
-    switch (user.roles[0]){
-        case "ROLE_WAREHOUSE":
-            item="item5";
-            break
-        case "ROLE_MANAGER":
-            item="item8";
-            break;
-        case "ROLE_SALES":
-            item="item5";
-            break;
-    }
+    let item="item7"
     return (
         <>
             <div className="main-container d-flex">
