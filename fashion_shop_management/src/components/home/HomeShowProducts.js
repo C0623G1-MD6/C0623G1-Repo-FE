@@ -89,7 +89,7 @@ const HomeShowProducts = () => {
           </div>
           <Swiper
             breakpoints={{
-              640: {
+              592: {
                 slidesPerView: 2,
                 spaceBetween: 20,
               },
