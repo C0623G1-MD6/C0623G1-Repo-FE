@@ -121,6 +121,12 @@ function CreateProduct() {
     };
 
     const onCallBack = (urls) => {
+        if (urls) {
+            setBeError((prevState) => ({
+                ...prevState,
+                productImage: ""
+            }));
+        }
         setUrlImages(prevState => [...prevState, ...urls])
     };
 

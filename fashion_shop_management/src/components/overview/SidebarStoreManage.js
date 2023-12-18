@@ -51,7 +51,7 @@ function SidebarStoreManage(props){
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item6' ? 'active' : ''}`}>
-                            <NavLink to="">
+                            <NavLink to="/customer/list">
                                 <i className="bi bi-people"></i>
                                 <span className="text">Quản lí khách hàng</span>
                             </NavLink>
