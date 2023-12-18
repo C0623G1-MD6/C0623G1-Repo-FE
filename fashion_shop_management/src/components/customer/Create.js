@@ -7,6 +7,7 @@ import AccessDenied from "../auth/AccessDenied";
 import DashboardManager from "../DashboardManager";
 import {ListNotification} from "../notification/ListNotification";
 import {CreateNotification} from "../notification/CreateNotification";
+import CreateCustomer from "./CreateCustomer";
 function Post() {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
@@ -35,7 +36,7 @@ function Post() {
                             <HeaderAdmin/>
                             <div className="dashboard-content">
                                 <div className="py-5 px-5">
-                                    {/*Đặt component của mọi người ở đây nhé*/}
+                                    <CreateCustomer/>
                                     <CreateNotification/>
                                 </div>
                             </div>
