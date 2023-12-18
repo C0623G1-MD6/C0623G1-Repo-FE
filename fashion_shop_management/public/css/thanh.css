@@ -152,9 +152,7 @@ section#login .form-check-input {
     width: 100%;
     border: 0;
 }
-section#information .content {
-    min-height: unset;
-}
+
 @media only screen and (max-width: 768px) {
     .img-login {
         display: none;
