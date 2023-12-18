@@ -14,9 +14,8 @@ import { NotFound } from "./components/NotFound";
 import { Payment } from "./components/payment/Payment";
 import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
-
-import {CustomerList} from "./components/customer/CustomerList";
-import React from "react";
+// import {CustomerList} from "./components/customer/CustomerList";
+// import React from "react";
 import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 
 import Overview from "./components/overview/Overview";
@@ -31,6 +30,7 @@ import Edit from "./components/customer/Edit";
 
 
 import SearchProducts from "./components/home/SearchProducts";
+
 
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
@@ -71,7 +71,7 @@ function App() {
                 <ToastContainer/>
             </Provider>
         </>
-    )
+    );
 }
 
 export default App;
