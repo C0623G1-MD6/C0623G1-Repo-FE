@@ -1,0 +1,176 @@
+* {
+    /*font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;*/
+    /*font-family: , Arial, sans-serif;*/
+    padding: 0;
+    text-decoration: none;
+    margin: 0;
+}
+
+#loan-products {
+    width: 100%;
+}
+
+#loan-products .product-list {
+    margin-top: 30px;
+}
+
+#loan-products .title {
+    /*padding: 20px 15px;*/
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#loan-products .title a {
+    text-decoration: none;
+    border: solid 1px #0d6efd;
+    background-color: transparent;
+    color: #0d6efd;
+    padding: 6px;
+    margin-right: 0;
+    align-items: center;
+    /*border-radius: 8px;*/
+    display: inline-flex;
+    justify-content: center;
+}
+
+#loan-products .title a span {
+    font-size: 15px;
+    font-weight: bold;
+    margin-left: 4px;;
+}
+
+
+#loan-products table thead {
+    background-color: #e7e8ea;
+}
+
+#loan-products .product-list .search {
+    margin-top: 21px;
+    margin-bottom: 21px;
+}
+
+#loan-products .product-list .search div {
+    padding: 0;
+    margin-right: 0;
+}
+
+#loan-products .product-list .search div select {
+    background-color: transparent;
+    width: 100%;
+    /*height: 38px;*/
+}
+
+
+#loan-products .product-list .search div button {
+    width: 100%;
+    /*height: 38px;*/
+}
+
+#loan-products .product-list .search div input {
+    width: 100%;
+    /*height: 38px;*/
+}
+
+#loan-products .product-list .search div input::placeholder {
+    /*padding: 10px 10px;*/
+}
+
+#loan-products nav {
+    /*margin-right: 10px;*/
+}
+
+/*Create*/
+
+#loan-products #img svg {
+    width: 30%;
+    /*height: 210px;*/
+    margin-bottom: 15px;
+}
+
+#loan-products #img {
+    padding: 25px;
+    background-color: #f6f7f8;
+    text-align: center;
+    border-radius: 5px;
+    /*height: 300px;*/
+}
+
+#loan-products #qr-code {
+    width: 32%;
+    /*padding: 25px;*/
+    background-color: #dfe0e2;
+    border-radius: 5px;
+}
+
+#loan-products .create-product div {
+    /*margin-bottom: 15px;*/
+}
+
+/*.create-product div {*/
+/*    margin-top: 10px;*/
+/*}*/
+
+#loan-products .create-product div label {
+    margin-bottom: 5px;
+}
+
+/*#loan-products .quantity-cate {*/
+/*    width: 100%;*/
+/*}*/
+
+#loan-products table tbody td img {
+    width: 50px;
+    height: 60px;
+    margin-right: 10px;
+}
+
+#loan-products .product-img {
+    display: flex;
+    /*justify-content: space-between;*/
+}
+
+#loan-products .form-input {
+    border: 1px solid #e7e7e7;
+    padding: 20px;
+    border-radius: 4px;
+    width: 100%;
+    height: 50px;
+    transition: 0.25s ease;
+}
+
+#loan-products .form-input:focus {
+    /*border: 1px solid rgba(149, 149, 149, 0.93);*/
+}
+
+#loan-products .form-field {
+    position: relative;
+    display: flex;
+}
+
+#loan-products .form-label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    color: #343434;
+    transition: 0.25s ease;
+}
+
+#loan-products .form-input:not(:placeholder-shown) + .form-label,
+
+#loan-products .form-input:focus + .form-label {
+    top: 0;
+    left: 10px;
+    padding: 0 5px;
+    display: inline-block;
+    background-color: white;
+    color: #575757;
+}
+
+#loan-products .cate-size select {
+    height: 50px;
+}
+
+/*#loan-products .validation {*/
+/*    height: 20px;*/
+/*}*/
