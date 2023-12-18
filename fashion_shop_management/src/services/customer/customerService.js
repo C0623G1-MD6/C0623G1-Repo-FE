@@ -48,7 +48,7 @@ export const createCustomerService = async (value) => {
 }
 export const getCustomerTypeListService = async () => {
     try {
-        const res = await axios.get("http://localhost:8080/api/customerType")
+        const res = await axios.get("http://localhost:8080/api/customerType",{ headers: authHeader() })
         return res.data
     } catch (e) {
         alert("error Service get List")
