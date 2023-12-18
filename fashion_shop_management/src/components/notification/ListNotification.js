@@ -52,8 +52,6 @@ export function ListNotification() {
     return (
 
         <>
-            <div className="row">
-                <div className="box shadow-sm rounded bg-white mb-3 p-3">
                     <div className="box-title  p-3">
                         <h6 className="m-0">Thông báo</h6>
                     </div>
@@ -106,9 +104,9 @@ export function ListNotification() {
                             </div>
                         </div>
                     </div>
-                </div>
 
-            </div>
+
+
 
         </>
     )
