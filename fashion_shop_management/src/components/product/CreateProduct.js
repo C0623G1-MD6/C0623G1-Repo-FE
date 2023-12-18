@@ -1,4 +1,136 @@
+import {useNavigate} from "react-router-dom";
+import React, {useEffect, useRef, useState} from "react";
+import {createProduct, getAllCategories, getAllPromotions, getAllSizes} from "../../services/product/ProductService";
+import {useForm} from "react-hook-form";
+import {Button, QRCode} from 'antd';
+import ProductImage from "./ProductImage";
+import {toast} from "react-toastify";
+
 function CreateProduct() {
+    const navigate = useNavigate();
+    const [sizes, setSizes] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [promotions, setPromotions] = useState([]);
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const [productCode, setProductCode] = useState();
+    const qrCode = useRef();
+    const [urlImages, setUrlImages] = useState([]);
+    const [beError, setBeError] = useState();
+
+    const validation = {
+        name: {
+            required: "Vui lòng nhập tên sản phẩm",
+            pattern: {
+                value: /^[^\d!@#$%^&*()_+={}\[\]:;,<.>?\\\/'"]*$/,
+                message: "Tên sản phẩm chỉ được chứa chữ cái"
+            }
+        },
+        productCode: {
+            required: "Vui lòng nhập mã sản phẩm",
+            pattern: {
+                value: /^[A-Z]-[0-9]{4}$/,
+                message: "Mã sản phẩm không đúng định dạng A-XXXX (A là các chữ cái in hoa từ A-Z, X là các chữ số từ 0-9"
+            }
+        },
+        productImage: {
+            required: "Vui lòng không để trống hình ảnh sản phẩm"
+        },
+        qrCode: {
+            required: "Vui lòng không để trống mã qr sản phẩm"
+        },
+        gender: {
+            required: "Vui lòng chọn giới tính"
+        },
+        price: {
+            required: "Vui lòng nhập giá sản phẩm",
+            min: {
+                value: 100000,
+                message: "Giá sản phẩm không được thấp hơn 100.000 VND"
+            },
+            max: {
+                value: 100000000,
+                message: "Giá sản phẩm không được cao hơn 100.000.000 VND"
+            }
+        },
+        categoryId: {
+            required: "Vui lòng chọn loại sản phẩm"
+        },
+        sizeId: {
+            required: "Vui lòng chọn kích thước sản phẩm"
+        },
+        promotionId: {
+            required: "Vui lòng chọn mã giảm giá"
+        }
+    };
+    const getAllSize = () => {
+        getAllSizes().then(r => setSizes(r));
+    };
+
+    const getAllCategory = () => {
+        getAllCategories().then(r => setCategories(r));
+    };
+
+    const getAllPromotion = () => {
+        getAllPromotions().then(r => setPromotions(r));
+    };
+
+    useEffect(() => {
+        getAllSize();
+        getAllCategory();
+        getAllPromotion();
+    }, []);
+
+    const downloadQRCode = () => {
+        const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
+        if (canvas) {
+            const url = canvas.toDataURL();
+            const a = document.createElement('a');
+            a.download = 'QRCode.png';
+            a.href = url;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        }
+    };
+
+    const saveProduct = (data) => {
+        data.gender = +data.gender === 1;
+        data = {
+            ...data,
+            qrCode: qrCode.current.querySelector('canvas').toDataURL(),
+            productImage: urlImages.toString()
+        };
+        createProduct(data).then(res => {
+            if (res.status === 400) {
+                console.log(res.data);
+                setBeError(res.data);
+            } else {
+                downloadQRCode();
+                navigate("/dashboard/product/list");
+                toast.success("Thêm mới thành công!");
+            }
+        });
+    };
+
+    const changeQRCode = (e) => {
+        setBeError((prevState) => ({
+            ...prevState,
+            productCode: ""
+        }));
+        setProductCode(e.target.value);
+    };
+
+    const onCallBack = (urls) => {
+        setUrlImages(prevState => [...prevState, ...urls])
+    };
+
+    const changeValue = (e) => {
+        setBeError((prevState) => ({
+            ...prevState,
+            [e.target.name]: ""
+        }));
+    };
+
     return (
         <>
             <div className="col-lg-12 container">
@@ -7,21 +139,56 @@ function CreateProduct() {
                         <div className="text-center text-primary mt-4">
                             <h2>Thêm sản phẩm mới</h2>
                         </div>
-                        <form className="create-product p-4">
-                            <div className="form-field mb-4">
-                                <input type="text" className="form-input" id="name" placeholder=" "/>
-                                    <label htmlFor="name" className="form-label">Tên sản phẩm</label>
-                            </div>
-                            <div className="form-field mb-4">
-                                <input type="text" className="form-input" id="productCode" placeholder=" "/>
-                                    <label htmlFor="name" className="form-label">Mã sản phẩm</label>
-                            </div>
-                            <div className="row col-lg-12 justify-content-between ms-0">
-                                <div id="qr-code" className="col-lg-4">
+                        <form onSubmit={handleSubmit(saveProduct)} className="create-product p-4">
+                            {/*<div className="d-flex justify-content-between">*/}
+                                {/*<div className="col-lg-8">*/}
+                                    <div  className="form-field">
+                                        <input onInput={changeValue} name="name" {...register("name", validation.name)}
+                                               type="text" className="form-input" id="name" placeholder=" "/>
+                                        <label htmlFor="name" className="form-label">Tên sản phẩm</label>
+                                    </div>
+                                    <div className="validation">
+                                        <p><small className='text-danger'>{errors?.name?.message}</small></p>
+                                        <p><small className='text-danger'>{beError?.name}</small></p>
+                                    </div>
 
-                                </div>
+                                    <div className="form-field">
+                                        <input onInput={changeQRCode}
+                                               name="productCode" {...register("productCode", validation.productCode)}
+                                               type="text" className="form-input" id="productCode" placeholder=" "/>
+                                        <label htmlFor="name" className="form-label">Mã sản phẩm</label>
+                                    </div>
+                                    <div className="validation">
+                                        <p><small className='text-danger'>{errors?.productCode?.message}</small></p>
+                                        <p><small className='text-danger mt-0'>{beError?.productCode}</small></p>
+                                    </div>
 
-                                <div id="img" className="col-lg-8">
+                                {/*</div>*/}
+                                {/*<div className="col-lg-1">*/}
+                                {/*</div>*/}
+                                {/*<div className="col-lg-3">*/}
+                                    <div id="myqrcode" ref={qrCode}>
+                                        <QRCode
+                                            value={productCode}
+                                            bgColor="#fff"
+                                            style={{
+                                                marginBottom: 16,
+                                            }}
+                                        />
+                                    </div>
+                                {/*</div>*/}
+                                {/*<div className="form-field" style={{width: '48%'}}>*/}
+                                {/*   */}
+                                {/*</div>*/}
+                                {/*<div style={{width: '4%'}}>*/}
+                                {/*</div>*/}
+                                {/*<div className="form-field " style={{width: '48%'}}>*/}
+                                {/*   */}
+                                {/*</div>*/}
+                            {/*</div>*/}
+
+
+                            <div className="row col-lg-12 justify-content-between my-3 ms-0" id="img">
                                     <div>
                                         <svg className="MuiBox-root css-olkjfu" viewBox="0 0 480 360"
                                              xmlns="http://www.w3.org/2000/svg">
@@ -249,101 +416,95 @@ function CreateProduct() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <button className="btn btn-outline-dark">Chọn ảnh tại đây</button>
+                                        <ProductImage callBack={onCallBack}/>
                                     </div>
-                                </div>
                             </div>
+                            <p><small className='text-danger'>{beError?.productImage}</small></p>
                             <div className="row">
                                 <div className="col-lg-auto me-5">
                                     <label htmlFor="gender">Giới tính</label>
                                     <div className="d-flex">
                                         <div className="form-check form-check-inline" id="gender">
-                                            <input className="form-check-input " id="male" type="radio" name="gender"
+                                            <input onInput={changeValue} className="form-check-input" id="male" type="radio" value="0"
+                                                   name="gender" {...register("gender", validation.gender)}
                                                    data-sb-validations="required"/>
                                             <label className="form-check-label" htmlFor="male">Nam</label>
                                         </div>
                                         <div className="form-check form-check-inline ms-3">
-                                            <input className="form-check-input " id="female" type="radio" name="gender"
+                                            <input onInput={changeValue} className="form-check-input " id="female" type="radio" value="1"
+                                                   name="gender" {...register("gender", validation.gender)}
                                                    data-sb-validations="required"/>
                                             <label className="form-check-label" htmlFor="female">Nữ</label>
                                         </div>
                                     </div>
+                                    <p><small className='text-danger'>{errors?.gender?.message}</small></p>
+                                    <p><small className='text-danger'>{beError?.gender}</small></p>
                                 </div>
                                 <div className="col-lg-auto">
                                     <label htmlFor="sizes">Kích thước</label>
                                     <div className="d-flex" id="sizes">
-                                        <div className="form-check me-4">
-                                            <input className="form-check-input" type="checkbox" value="XS" id="xs"/>
-                                            <label className="form-check-label" htmlFor="xs">
-                                                XS
-                                            </label>
-                                        </div>
-                                        <div className="form-check me-4">
-                                            <input className="form-check-input" type="checkbox" value="S" id="s"/>
-                                            <label className="form-check-label" htmlFor="s">
-                                                S
-                                            </label>
-                                        </div>
-                                        <div className="form-check me-4">
-                                            <input className="form-check-input" type="checkbox" value="M" id="m"/>
-                                            <label className="form-check-label" htmlFor="m">
-                                                M
-                                            </label>
-                                        </div>
-                                        <div className="form-check me-4">
-                                            <input className="form-check-input" type="checkbox" value="L" id="l"/>
-                                            <label className="form-check-label" htmlFor="l">
-                                                L
-                                            </label>
-                                        </div>
-                                        <div className="form-check me-4">
-                                            <input className="form-check-input" type="checkbox" value="XL" id="xl"/>
-                                            <label className="form-check-label" htmlFor="xl">
-                                                XL
-                                            </label>
-                                        </div>
+                                        {sizes.map((item) =>
+                                            <div className="form-check me-4" key={item.id}>
+                                                <input onInput={changeValue} name="sizeId" {...register("sizeId", validation.sizeId)}
+                                                       className="form-check-input" type="checkbox" value={item.id}
+                                                       id={item.id}/>
+                                                <label className="form-check-label" htmlFor={item.id}>
+                                                    {item.name}
+                                                </label>
+                                            </div>
+                                        )}
                                     </div>
+                                    <p><small className='text-danger'>{errors?.sizeId?.message}</small></p>
+                                    <p><small className='text-danger'>{beError?.sizeId}</small></p>
                                 </div>
                             </div>
 
                             <div className="row ">
-
-
                                 <div className="col-lg-4">
                                     <div className="cate-size">
-                                        <select className="form-select" id="category"
+                                        <select defaultValue=""
+                                                name="categoryId" {...register("categoryId", validation.categoryId)}
+                                                className="form-select" id="category"
                                                 aria-label="Default select example">
-                                            <option selected>Phân loại</option>
-                                            <option value="1">Áo khoác</option>
-                                            <option value="1">Áp sơ mi</option>
-                                            <option value="2">Quần tây</option>
-                                            <option value="3">Váy</option>
+                                            <option value="">Phân loại</option>
+                                            {categories.map((item) =>
+                                                <option key={item.id} value={item.id}>{item.name}</option>
+                                            )}
                                         </select>
                                     </div>
+                                    <p><small className='text-danger'>{errors?.categoryId?.message}</small></p>
+                                    <p><small className='text-danger'>{beError?.categoryId}</small></p>
                                 </div>
 
                                 <div className="col-lg-4">
                                     <div className="cate-size">
                                         <div className="form-field">
-                                            <input type="number" className="form-input" id="price" placeholder=" "/>
-                                                <label className="form-label" htmlFor="price">Đơn giá</label>
+                                            <input onInput={changeValue} name="price" {...register("price", validation.price)} type="number"
+                                                   className="form-input" id="price" placeholder=" "/>
+                                            <label className="form-label" htmlFor="price">Đơn giá</label>
                                         </div>
                                     </div>
+                                    <p><small className='text-danger'>{errors?.price?.message}</small></p>
+                                    <p><small className='text-danger'>{beError?.price}</small></p>
                                 </div>
 
                                 <div className="col-lg-4">
                                     <div className="cate-size">
-                                        <select className="form-select" id="promotion"
+                                        <select onInput={changeValue} defaultValue=""
+                                                name="promotionId" {...register("promotionId", validation.promotionId)}
+                                                className="form-select" id="promotion"
                                                 aria-label="Default select example">
-                                            <option selected>Mã giảm giá</option>
-                                            <option value="1">Áo khoác</option>
-                                            <option value="1">Áp sơ mi</option>
-                                            <option value="2">Quần tây</option>
-                                            <option value="3">Váy</option>
+                                            <option value="">Mã giảm giá</option>
+                                            {promotions.map((item) =>
+                                                <option key={item.id} value={item.id}>{item.percent}</option>
+                                            )}
                                         </select>
                                     </div>
+                                    <p><small className='text-danger'>{errors?.promotionId?.message}</small></p>
+                                    <p><small className='text-danger'>{beError?.promotionId}</small></p>
                                 </div>
                             </div>
+
 
                             <div className="btn-create text-center mt-4">
                                 <button className="btn btn-outline-primary rounded-0">Thêm mới</button>
@@ -354,4 +515,5 @@ function CreateProduct() {
             </div>
         </>);
 }
+
 export default CreateProduct;

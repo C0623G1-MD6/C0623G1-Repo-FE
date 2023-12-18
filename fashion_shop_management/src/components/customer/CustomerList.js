@@ -165,7 +165,8 @@ export function CustomerList() {
                                                                       to={`/customer/CustomerEdit/${cus.id}`}
                                                                       className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                                 <button
-                                                                    className="btn btn-outline-danger btn-sm rounded-0" onClick={() => handleModal(cus)}>Xóa
+                                                                    className="btn btn-outline-danger btn-sm rounded-0"
+                                                                    onClick={() => handleModal(cus)}>Xóa
                                                                 </button>
                                                             </td>
                                                         </tr>
