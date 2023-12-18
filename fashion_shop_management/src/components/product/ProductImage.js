@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 
 import {ref, uploadBytesResumable, getDownloadURL} from "firebase/storage";
-import storage from "../../firebaseConfig";
+import storage from "../../services/product/firebaseConfig"
 import {Button, Card} from "react-bootstrap";
 
 function ProductImage(props) {

@@ -5,6 +5,8 @@ import Pagination from "antd/es/pagination";
 
 
 function ProductList() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user)
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
@@ -127,10 +129,11 @@ function ProductList() {
                             <h2>Danh sách hàng hóa</h2>
                         </div>
                         <div className="row">
-                            <div className="col-lg-3 title">
+                            {user.roles.includes("ROLE_WAREHOUSE")?<div className="col-lg-3 title">
                                 <Link to={"/product/create"}>
                                     <i className="bi bi-plus-lg"/><span> Thêm sản phẩm mới</span></Link>
-                            </div>
+                            </div>:<div className="col-lg-3 title">
+                            </div>}
                             <div className="col-lg-9 search d-flex justify-content-between">
                                 <div className="col-lg-auto">
                                     <select defaultValue="" onChange={changeSize} className="form-select rounded-0"
