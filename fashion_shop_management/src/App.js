@@ -31,6 +31,8 @@ import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
+import PaymentOverview from "./components/payment/PaymentOverview";
+import LookUpCustomerOverview from "./components/payment/LookUpCustomerOverview";
 
 function App() {
     return (
@@ -40,8 +42,8 @@ function App() {
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<HomePage/>}></Route>
-                        <Route path="/sale-staff/payment" element={<Payment/>}></Route>
-                        <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
+                        <Route path="/payment" element={<PaymentOverview/>}></Route>
+                        <Route path="/look-up-customer" element={<LookUpCustomerOverview/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
