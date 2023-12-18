@@ -56,31 +56,36 @@ const SearchProducts = () => {
                                 <h3 className="title-product">
                                     Bộ sưu tập sản phẩm dành cho {gender == 0 ? 'Nam' : 'Nữ'}
                                 </h3>
-                                <p>Những thiết kế thời trang mang phong cách đậm chất retro đi cùng những màu sắc và kiểu dáng sang trọng vô cùng thích hợp cho mùa Thu Đông 2023 đang đến gần</p>
+                                <p>Những thiết kế thời trang mang phong cách đậm chất retro đi cùng những màu sắc và
+                                    kiểu dáng sang trọng vô cùng thích hợp cho mùa Thu Đông 2023 đang đến gần</p>
                             </div>
                         </div>
                         {searchList.map((item) => (
-                            <div className="col col-3 mb-4 ">
+                            <div key={item.productId} className="col col-3 mb-4 ">
                                 <div className="card" onClick={() => handleSelectProductView(item)}>
-                                    <img src={item.productImage} height="333px" className="card-img-top" alt="..."/>
+                                    <img src={item.productImage.split(",")[0]} height="333px" className="card-img-top" alt="..."/>
                                     <div className="card-body px-0">
                                         <h5 className="card-title">{item.productName}</h5>
                                         <p class="card-text">Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải gân.</p>
                                         <hr/>
                                         <p className="size-product">XS - S - M - L - XL - XXL</p>
-                                        <div className="row price-product justify-content-between">
-                                            <div className="col-auto">
+                                        {item.percent > 0 && (
+                                            <div className="row price-product justify-content-between">
+                                                <div className="col-auto">
                                                             <span className="price-sale">
-                                                                {item.price.toLocaleString("vi", {
-                                                                    style: "currency",
-                                                                    currency: "VND",
-                                                                })}
+                                                                <del>
+                                                                      {item.price.toLocaleString("vi", {
+                                                                          style: "currency",
+                                                                          currency: "VND",
+                                                                      })}
+                                                                </del>
+
                                                             </span>
-                                                <span className="percent">
+                                                    <span className="percent">
                                                                 {item.percent * 100}%
                                                             </span>
-                                            </div>
-                                            <div className="col-lg-auto">
+                                                </div>
+                                                <div className="col-lg-auto">
                                                             <span className="price">
                                                                 {(item.price - item.price * item.percent).toLocaleString(
                                                                     "vi",
@@ -90,8 +95,22 @@ const SearchProducts = () => {
                                                                     }
                                                                 )}
                                                             </span>
+                                                </div>
                                             </div>
-                                        </div>
+                                        )}
+                                        {(item.percent < 0 || item.percent === 0) && (
+                                            <div className="row price-product justify-content-between">
+                                                <div className="col-auto">
+                                                            <span className="price-normal">
+
+                                                                      {item.price.toLocaleString("vi", {
+                                                                          style: "currency",
+                                                                          currency: "VND",
+                                                                      })}
+                                                            </span>
+                                                </div>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
