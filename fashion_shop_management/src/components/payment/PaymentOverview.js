@@ -4,7 +4,7 @@ import React from "react";
 import {Payment} from "./Payment";
 
 function PaymentOverview() {
-    let item="item4";
+    let item="item3";
     return(
         <>
             <div className="main-container d-flex">

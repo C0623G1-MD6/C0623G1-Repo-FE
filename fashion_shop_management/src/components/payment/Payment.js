@@ -2,6 +2,7 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import {NavLink, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
+import data from "bootstrap/js/src/dom/data";
 
 export function Payment() {
     const initProduct = {
@@ -27,6 +28,7 @@ export function Payment() {
     const location = useLocation();
     const {cus} = location.state || {cus: null};
 
+    console.log(detailList);
     useEffect(() => {
         getAllProduct();
     }, [keyword])
@@ -110,6 +112,16 @@ export function Payment() {
         total: 0
     }
 
+    const enter = (values) => {
+        values.name = product.name;
+        values.price = product.price;
+        values.promotion = product.percent;
+        values.total = total;
+        setDetailList(prevState => {
+            return [...prevState, values]
+        })
+    }
+
     return (
         <>
             <div className="">
@@ -156,7 +168,7 @@ export function Payment() {
                                 <Formik
                                     initialValues={initValue}
                                     onSubmit={values => {
-                                        console.log(values);
+                                        enter(values);
                                     }}>
                                     {
                                         ({setFieldValue})=>(
@@ -191,7 +203,8 @@ export function Payment() {
                                                             <td className="p-1 col-4">
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                                    defaultValue={product.name}
+                                                                    value={product.name}
+                                                                    onChange={event=> setFieldValue("name",event.target.value)}
                                                                     name="name"
                                                                     readOnly/>
                                                             </td>
@@ -227,6 +240,7 @@ export function Payment() {
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
                                                                     value={!product.price ? product.price : parseFloat(product.price).toLocaleString('vi-VN')}
+                                                                    onChange={event=> setFieldValue("price",event.target.value)}
                                                                     name="price"
                                                                     readOnly/>
                                                             </td>
@@ -234,6 +248,7 @@ export function Payment() {
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
                                                                     defaultValue={product.percent}
+                                                                    onChange={event=> setFieldValue("promotion",event.target.value)}
                                                                     name="promotion"
                                                                     readOnly/>
                                                             </td>
@@ -241,6 +256,7 @@ export function Payment() {
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
                                                                     value={total !== 0 ? total.toLocaleString("vi-VN") : ""}
+                                                                    onChange={event=> setFieldValue("total",event.target.value)}
                                                                     name="total"
                                                                     readOnly/>
                                                             </td>
@@ -267,36 +283,39 @@ export function Payment() {
                                         </tr>
                                         </thead>
                                         <tbody className="table-group-divider">
-                                        <tr role="button" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                            <td className="text-center">01</td>
-                                            <td className="text-center">H001</td>
-                                            <td>Quần bò</td>
-                                            <td className="text-center">L</td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value="01"/></td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value="200.000"/></td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value=""/></td>
-                                            <td className="text-end">200.000</td>
-                                        </tr>
+                                        {
+                                            detailList.map((detail,index)=>(
+                                                <tr key={detail.productCode}>
+                                                    <td role="button" data-bs-toggle="modal"
+                                                        data-bs-target="#staticBackdrop" className="text-center">{index+1}</td>
+                                                    <td role="button" data-bs-toggle="modal"
+                                                        data-bs-target="#staticBackdrop" className="text-center">{detail.productCode}</td>
+                                                    <td role="button" data-bs-toggle="modal"
+                                                        data-bs-target="#staticBackdrop">{detail.name}</td>
+                                                    <td className="text-center">{detail.size}</td>
+                                                    <td className="p-1"><input type="number"
+                                                        className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
+                                                        value={detail.amount}/></td>
+                                                    <td className="text-end">{detail.price}</td>
+                                                    <td className="text-end">{detail.promotion}</td>
+                                                    <td className="text-end">{detail.total}</td>
 
-                                        <tr className="fst-italic">
-                                            <th colSpan="7" className="">Tổng</th>
-                                            <th className="text-end">400.000</th>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan="7" className="fst-italic">Chiết khấu 10%</td>
-                                            <td className="text-end fst-italic">10%</td>
-                                        </tr>
-                                        <tr className="text-danger fst-italic">
-                                            <th colSpan="7" className="">Thành tiền</th>
-                                            <th className="text-end">360.000</th>
-                                        </tr>
+                                                </tr>
+                                            ))
+                                        }
+
+                                        {/*<tr className="fst-italic">*/}
+                                        {/*    <th colSpan="7" className="">Tổng</th>*/}
+                                        {/*    <th className="text-end">400.000</th>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr>*/}
+                                        {/*    <td colSpan="7" className="fst-italic">Chiết khấu 10%</td>*/}
+                                        {/*    <td className="text-end fst-italic">10%</td>*/}
+                                        {/*</tr>*/}
+                                        {/*<tr className="text-danger fst-italic">*/}
+                                        {/*    <th colSpan="7" className="">Thành tiền</th>*/}
+                                        {/*    <th className="text-end">360.000</th>*/}
+                                        {/*</tr>*/}
                                         </tbody>
                                     </table>
                                 </div>
@@ -308,6 +327,26 @@ export function Payment() {
                                     </button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="modal fade" id="staticBackdrop" tabIndex="-1" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div className="modal-dialog">
+                    <div className="modal-content text-center">
+                        <div className="modal-body">
+                            <i className="bi bi-exclamation-triangle text-danger" style={{fontSize:"60px"}} id="icon-warning"></i>
+                            <h5>Bạn chắn chắn muốn xóa sản phẩm <span className="text-danger">......</span> này khỏi đơn hàng?</h5>
+                            Hành động này không thể hoàn tác!
+                        </div>
+                        <div className="modal-footer justify-content-center">
+                            <button type="button" className="btn btn-sm btn-outline-secondary rounded-0"
+                                    data-bs-dismiss="modal">Hủy
+                            </button>
+                            <button type="button" className="btn btn-sm btn-outline-danger rounded-0 ms-3"
+                                    data-bs-dismiss="modal">Xác nhận
+                            </button>
                         </div>
                     </div>
                 </div>
