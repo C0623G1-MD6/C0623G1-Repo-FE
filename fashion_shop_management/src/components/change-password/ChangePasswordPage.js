@@ -9,7 +9,18 @@ function ChangePasswordPage() {
     if (!user) {
         return <NotFound/>;
     }
-    let item="item7"
+    let item;
+    switch (user.roles[0]){
+        case "ROLE_WAREHOUSE":
+            item="item5";
+            break
+        case "ROLE_MANAGER":
+            item="item7";
+            break;
+        case "ROLE_SALES":
+            item="item5";
+            break;
+    }
     return (
         <>
             <div className="main-container d-flex">
@@ -17,7 +28,7 @@ function ChangePasswordPage() {
                 <div className="content">
                     <HeaderAdmin/>
                     <div className="dashboard-content">
-                        <div className="py-5 px-5">
+                        <div className="py-2 px-5">
                             <ChangePassword/>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
-import {getDownloadURL, refImage, storage, uploadBytes} from "../../services/news/firebase";
+import {refImage, storage} from "../../services/news/firebase";
+import {getDownloadURL, uploadBytes} from "firebase/storage";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import * as service from "../../services/news/service";
@@ -40,10 +41,10 @@ export function NewsCreate() {
             //     // const data = {...news, category: JSON.parse(news.category)}
             const status = await service.createNews(news)
             if (status === 201) {
-                toast.success("Create Successfully");
-                navigate("/")
+                toast.success("Đăng tin mới thành công");
+                navigate("/news")
             } else {
-                toast.error("Create Fail")
+                toast.error("Đăng tin thất bại")
 
             }
         }
@@ -108,8 +109,15 @@ export function NewsCreate() {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label>Nội dung</label>
-                                                    <Field type='textarea' name="content" id='content'
-                                                           className="form-control"/>
+                                                    <Field
+                                                        className="form-control"
+                                                        as="textarea"
+                                                        placeholder=""
+                                                        id="content"
+                                                        name="content"
+                                                        rows="5"
+                                                        required=""
+                                                    />
                                                     <ErrorMessage name="content" component="span"
                                                                   style={{color: "red"}}></ErrorMessage>
                                                 </div>

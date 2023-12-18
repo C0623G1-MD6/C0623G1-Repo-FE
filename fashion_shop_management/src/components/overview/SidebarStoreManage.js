@@ -39,29 +39,29 @@ function SidebarStoreManage(props){
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item4' ? 'active' : ''}`}>
-                            <NavLink to="">
+                            <NavLink to="/dashboard/news/create">
                                 <i className="bi bi-newspaper"></i>
                                 <span className="text">Đăng tin tức</span>
                             </NavLink>
                         </li>
                         <li  className={`sidebar-item ${selectedItem === 'item5' ? 'active' : ''}`}>
-                            <NavLink to="">
+                            <NavLink to="/dashboard/sales">
                                 <i className="bi bi-file-earmark"></i>
                                 <span className="text">Xem thống kê</span>
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item6' ? 'active' : ''}`}>
-                            <NavLink to="">
+                            <NavLink to="/customer/list">
                                 <i className="bi bi-people"></i>
                                 <span className="text">Quản lí khách hàng</span>
                             </NavLink>
                         </li>
-                        {/*<li className={`sidebar-item ${selectedItem === 'item8' ? 'active' : ''}`}>*/}
-                        {/*    <NavLink href="#">*/}
-                        {/*        <i className="bi bi-house"></i>*/}
-                        {/*        <span className="text">Hàng trong kho</span>*/}
-                        {/*    </NavLink>*/}
-                        {/*</li>*/}
+                        <li className={`sidebar-item ${selectedItem === 'item8' ? 'active' : ''}`}>
+                            <NavLink to="/dashboard/product/list">
+                                <i className="bi bi-house"></i>
+                                <span className="text">Hàng trong kho</span>
+                            </NavLink>
+                        </li>
                         <li className={`sidebar-item ${selectedItem === 'item7' ? 'active' : ''}`}>
                             <NavLink to="/dashboard/changePassword">
                                 <i className="bi bi-key"></i>
