@@ -9,7 +9,10 @@ import 'swiper/css/pagination';
 import 'swiper/css/effect-coverflow';
 import {EffectCoverflow} from 'swiper/modules';
 import {useNavigate} from "react-router-dom";
-import {TextWithNewLines} from "../../services/news/currentDate";
+import {formatLocalDateTime, TextWithNewLines} from "../../services/news/currentDate";
+import HomeHeader from "../home/HomeHeader";
+import HomeFooter from "../home/HomeFooter";
+import LazyLoad from "react-lazy-load";
 
 export function NewsList() {
 
@@ -66,6 +69,8 @@ export function NewsList() {
 
     return (
         <>
+            <HomeHeader/>
+
             <div className="container-xl mt-3">
                 <h2 className="hlptitle">Khuyến mãi, giảm giá</h2>
                 <div>
@@ -160,27 +165,31 @@ export function NewsList() {
                             className="hlpbutton1 ">Khác
                     </button>
                 </div>
-                {
-                    news &&
-                    <div className="row gy-3 mb-5">
-                        {
-                            news.map((news, index) => (
-                                <div className="col-xl-3 col-lg-4 col-md-6 ph-news-card mt-4 mb-4">
-                                    <div className="card ph-news-card-content">
-                                        <i className="ph-card-hover" onClick={() => goDetailsPage(news.id)}>
-                                            <img className="card-img-top" alt="..." src={news.image}/>
-                                        </i>
-                                        <div className="card-body ph-card-body">
-                                            <h5 className="card-title">{news.name}</h5>
-                                            <p className="card-text">{news.content}</p>
+                {/*<LazyLoad threshold={0.95}>*/}
+                    {
+                        news &&
+                        <div className="row gy-3 mb-5">
+                            {
+                                news.map((news, index) => (
+                                    <div className="col-xl-3 col-lg-4 col-md-6 ph-news-card mt-4 mb-4">
+                                        <div className="card ph-news-card-content">
+                                            <i className="ph-card-hover" onClick={() => goDetailsPage(news.id)}>
+                                                <img className="card-img-top" alt="..." src={news.image}/>
+                                            </i>
+                                            <div className="card-body ph-card-body">
+                                                <h5 className="card-title">{news.name}</h5>
+                                                <p className="card-text">{news.content}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))
-                        }
-                    </div>
-                }
+                                ))
+                            }
+                        </div>
+                    }
+                {/*</LazyLoad>*/}
             </div>
+            <HomeFooter/>
+
         </>
 
     )
