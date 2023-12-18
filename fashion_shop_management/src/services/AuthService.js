@@ -1,5 +1,4 @@
 import axios from "axios";
-
 export default function authHeader() {
     const user = JSON.parse(localStorage.getItem('user'));
 
@@ -22,22 +21,7 @@ export const login = async (account) => {
 }
 export const changePassword = async (account) => {
     try {
-        let res = await axios.patch("http://localhost:8080/api/changePassword", account, {headers: authHeader()});
-        return res.data;
-    } catch (e) {
-        throw e.response;
-    }
-};
-
-export const recoverPassword = async (email) => {
-    try {
-        let res = await axios.post("http://localhost:8080/api/recoverPassword", null, {
-            params: {
-                emailRecover: email
-            },
-            headers: authHeader()
-        });
-
+        let res = await axios.patch("http://localhost:8080/api/changePassword", account, { headers: authHeader() });
         return res.data;
     } catch (e) {
         throw e.response;
