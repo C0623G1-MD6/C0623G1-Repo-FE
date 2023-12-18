@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Bar, Line} from "react-chartjs-2";
+import {Bar} from "react-chartjs-2";
 import {Chart, registerables} from "chart.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,7 +11,7 @@ Chart.register(...registerables);
 function formatDateString(date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
-  return `${day}/${month}`;
+  return `${day} thg ${month}`;
 }
 
 function SalesReport() {
@@ -53,57 +53,80 @@ function SalesReport() {
   };
 
   const labels = salesReportProduct.map((salesReport) => formatDateString(new Date(salesReport.date)));
-  const dataRevenue = salesReportProduct.map((salesReport) => salesReport.revenue);
-  const dataSpend = salesReportProduct.map((salesReport) => salesReport.spend);
+  const dataRevenue =  salesReportProduct.map((salesReport) => salesReport.revenue);
+  const dataSpend = salesReportProduct.map((salesReport) => salesReport.spend );
   const chartData = {
     labels: labels,
     datasets: [
       {
-        type: "bar",
+        type: "line",
         label: "Tổng Chi",
-        backgroundColor: "rgba(255, 99, 132, 1.0)",
+        bac: "rgba(108, 117, 125, 0.5)",
         data: dataSpend,
-        yAxisID: "y1",
+        pointRadius: dataSpend.map(value => value !== 0 ? 2 : 0),
+        backgroundColor: 'rgba(108, 117, 125, 1.0)',
       },
       {
         type: "line",
         label: "Doanh thu (VND)",
-        backgroundColor: "rgba(75, 192, 192, 1.0)",
-        borderWidth: 2,
-        fill: false,
+        borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
-        yAxisID: "y2",
+        pointRadius: dataRevenue.map(value => value !== 0 ? 2 : 0),
+        backgroundColor: 'rgba(32, 201, 151, 1.0)',
       },
     ],
   };
 
   const options = {
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
     responsive: true,
     scales: {
       x: {
-        scaleLabel: {
+        title: {
           display: true,
-          labelString: "Ngày",
-        },
+          text: 'Ngày'
+        }
       },
-      y1: {
-        beginAtZero: true,
-        min: 0,
-        scaleLabel: {
+      y: {
+        stacked: true,
+        title: {
           display: true,
-          labelString: "Tổng chi",
-        },
-      },
-      y2: {
-        beginAtZero: true,
-        min: 0,
-        position: "right",
-        scaleLabel: {
-          display: true,
-          labelString: "Doanh thu (VND)",
-        },
-      },
+          text: 'VNĐ'
+        }
+      }
     },
+    plugins: {
+      title: {
+        display: true,
+        text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
+        font: {
+          size: 12,
+          family: 'tahoma',
+          weight: 'normal',
+        },
+        tooltip: {
+          enabled: false,
+          position: 'nearest'
+        }
+      },
+      subtitle: {
+        display: true,
+        text: 'City 6 Fashion',
+        color: 'blue',
+        font: {
+          size: 12,
+          family: 'tahoma',
+          weight: 'normal',
+          style: 'italic'
+        },
+        padding: {
+          bottom: 10
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -123,6 +146,7 @@ function SalesReport() {
                   selected={startDate}
                   onChange={handleStartDateChange}
                   maxDate={endDate}
+                  style={{fontWeight:"none"}}
               />
             </div>
             <div className="col-md-2">
