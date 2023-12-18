@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import "./lam.css";
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import * as WarehouseReceiptService from "../../services/WarehouseReceiptService";
+import * as WarehouseReceiptService from "../../services/warehouse/WarehouseService";
 
 export function WarehouseCreate() {
   const [inputValues, setInputValues] = useState({});
@@ -14,9 +14,9 @@ export function WarehouseCreate() {
   const getAllProducts = async () => {
     const products = await WarehouseReceiptService.getAllProducts();
     let res = await WarehouseReceiptService.getCode();
-    setCode(res.data);
+    setCode(res);
     setProducts(products);
-    console.log(res.data);
+    console.log(res);
   };
 
   useEffect(() => {

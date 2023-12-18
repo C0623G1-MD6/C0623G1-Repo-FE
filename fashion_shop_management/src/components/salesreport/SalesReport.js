@@ -3,7 +3,7 @@ import {Bar, Line} from "react-chartjs-2";
 import {Chart, registerables} from "chart.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import * as SalesReportService from "../../services/SalesReportService";
+import * as SalesReportService from "../../services/salesreport/SalesReportService";
 
 
 Chart.register(...registerables);
