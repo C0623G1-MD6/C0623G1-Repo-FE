@@ -1,0 +1,96 @@
+.input-card {
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+}
+
+.input-table {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-bottom: 20%;
+}
+
+.input-title {
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.input-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.input-group {
+    position: relative;
+}
+
+.input-form .input-group label {
+    /*font-size: 16px;*/
+    color: rgb(99, 102, 102);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    transition: all .3s ease;
+}
+
+.input-form .input-group input,
+.input-form .input-group textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    outline: 0;
+    width: 100%;
+    background-color: transparent;
+}
+
+.input-form .input-group input:placeholder-shown + label, .input-form .input-group textarea:placeholder-shown + label {
+    top: 10px;
+    background-color: transparent;
+}
+
+.input-form .input-group input:focus,
+.input-form .input-group textarea:focus {
+    border-color: #3366cc;
+}
+
+.input-form .input-group input:focus + label, .input-form .input-group textarea:focus + label {
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    color: black;
+    font-weight: 600;
+    /*font-size: 14px;*/
+}
+
+.input-form .input-group textarea {
+    resize: none;
+    height: 100px;
+}
+
+
+
+.input-button {
+    text-align: center;
+}
+
+.input-body {
+    background-color: lightgray;
+}
+
+#collapse1 {
+    overflow-y: scroll;
+    height: 300px;
+    margin-top: 20px;
+    text-align: center;
+}

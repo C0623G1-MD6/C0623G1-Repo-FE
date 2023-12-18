@@ -14,10 +14,6 @@ import { NotFound } from "./components/NotFound";
 import { Payment } from "./components/payment/Payment";
 import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
-// import {CustomerList} from "./components/customer/CustomerList";
-// import React from "react";
-import {LookUpCustomer} from "./components/payment/LookUpCustomer";
-
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
@@ -38,16 +34,23 @@ import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
+import PaymentOverview from "./components/payment/PaymentOverview";
+import LookUpCustomerOverview from "./components/payment/LookUpCustomerOverview";
+import {LookUpCustomer} from "./components/payment/LookUpCustomer";
+import SalesReport from "./components/salesreport/SalesReport";
+import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
+import DashboardCreateNews from "./components/news/DashboardCreateNews";
 
 function App() {
     return (
         <>
+
             <Provider store={store}>
                 <BrowserRouter>
                     <Routes>
                         <Route path="/" element={<HomePage/>}></Route>
-                        <Route path="/sale-staff/payment" element={<Payment/>}></Route>
-                        <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
+                        <Route path="/payment" element={<PaymentOverview/>}></Route>
+                        <Route path="/look-up-customer" element={<LookUpCustomerOverview/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
                         <Route path="/customer/list" element={<CustomerListMain/>}/>
 
@@ -58,20 +61,20 @@ function App() {
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
+                        <Route path="/sales" element={<SalesReport/>}/>
+                        <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
-                        <Route path="/create" element={<NewsCreate/>}></Route>
+                        <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
                         <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
-                        <Route path="/customer/create" element={<CreateCustomer/>}></Route>
-                        <Route path="/customer/edit/:id" element={<EditCustomer/>}></Route>
-                        <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
         </>
     );
+
 }
 
 export default App;

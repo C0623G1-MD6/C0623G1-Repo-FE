@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import {ErrorMessage, Field, Formik, Form} from "formik";
 
 
+
 export function NewsCreate() {
     const [image, setImage] = useState("");
     const navigate = useNavigate();
@@ -98,8 +99,8 @@ export function NewsCreate() {
                             <div>
                                 <div className="my-4">
                                     <div className="row">
-                                        <div className="col-lg-12">
-                                            <h2 className="hlptitle text-primary ">Đăng tin tức</h2>
+                                        <div className="col-lg-12 create-news">
+                                            <h2 className="hlptitle hlptitle fw-bold text-primary">Đăng tin tức</h2>
                                             <Form>
                                                 <div className="mb-3">
                                                     <label>Tiêu đề</label>
@@ -145,13 +146,15 @@ export function NewsCreate() {
                                                         backgroundSize: "cover",
                                                         width: "400px",
                                                         height: "200px",
-                                                        backgroundColor: "gray",
+                                                        background:"https://imgproxy.epicpxls.com/QYpDBZjuuguXNHJdTH_5ypHJARfCHXSL26i-1LGeDH4/rs:fill:800:600:0/g:no/aHR0cHM6Ly9pdGVt/cy5lcGljcHhscy5j/b20vdXBsb2Fkcy9w/aG90by80MGFhZjNl/YzQ0YTM5Y2VmMzM4/NzI5NjJkOWQ3NWYy/Yg.jpg",
                                                         marginBottom: "10px"
                                                     }
                                                 }></div>
-                                                <button type="submit" className="btn btn-outline-primary rounded-0">Đăng
-                                                    tin
-                                                </button>
+                                                <div>
+                                                    <button type="submit" className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
+                                                        tin
+                                                    </button>
+                                                </div>
                                             </Form>
                                         </div>
                                     </div>
