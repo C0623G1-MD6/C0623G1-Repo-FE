@@ -37,6 +37,7 @@ import NewsDetail from "./components/news/NewsDetail";
 import PaymentOverview from "./components/payment/PaymentOverview";
 import LookUpCustomerOverview from "./components/payment/LookUpCustomerOverview";
 import {LookUpCustomer} from "./components/payment/LookUpCustomer";
+import SalesReport from "./components/salesreport/SalesReport";
 import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
 import DashboardCreateNews from "./components/news/DashboardCreateNews";
 
@@ -60,6 +61,7 @@ function App() {
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
+                        <Route path="/sales" element={<SalesReport/>}/>
                         <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
