@@ -55,8 +55,8 @@ function App() {
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
-                        <Route path="/customer/create" element={<CreateCustomer/>}></Route>
-                        <Route path="/customer/edit/:id" element={<EditCustomer/>}></Route>
+                        <Route path="/customer/create" element={<Create/>}></Route>
+                        <Route path="/customer/edit/:id" element={<Edit/>}></Route>
                         <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>

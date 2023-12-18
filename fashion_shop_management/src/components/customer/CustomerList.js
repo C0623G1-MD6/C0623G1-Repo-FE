@@ -162,7 +162,7 @@ export function CustomerList() {
                                                             <td>{cus.address}</td>
                                                             <td className="p-1">
                                                                 <Link role="button"
-                                                                      to={`/customer/CustomerEdit/${cus.id}`}
+                                                                      to={`/customer/edit/${cus.id}`}
                                                                       className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                                 <button
                                                                     className="btn btn-outline-danger btn-sm rounded-0"
