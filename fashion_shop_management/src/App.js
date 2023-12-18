@@ -15,6 +15,7 @@ import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
+import Home from "./pages/Home";
 
 function App() {
     return (
@@ -33,7 +34,7 @@ function App() {
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
-                <ToastContainer><ToastContainer/>
+                <ToastContainer/>
             </Provider>
         </>
     );
