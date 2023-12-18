@@ -32,6 +32,7 @@ import SearchProducts from "./components/home/SearchProducts";
 
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
+import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
