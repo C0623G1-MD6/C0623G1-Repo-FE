@@ -1,7 +1,6 @@
-
-import logo from './logo.svg';
-import './App.css';
-import './components/product/LoanTTV.css'
+import logo from "./logo.svg";
+import "./App.css";
+import "./components/product/LoanTTV.css";
 import HomePage from "./components/home/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
@@ -11,9 +10,9 @@ import { Provider } from "react-redux";
 import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 
-import {NotFound} from "./components/NotFound";
-import {Payment} from "./components/payment/Payment";
-import {CustomerList} from "./components/customer/CustomerList";
+import { NotFound } from "./components/NotFound";
+import { Payment } from "./components/payment/Payment";
+import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
 // import {CustomerList} from "./components/customer/CustomerList";
 // import React from "react";
