@@ -1,5 +1,6 @@
 import React from 'react';
 import Sidebar from "./Sidebar";
+import Overview from "./overview/Overview";
 
 
 function DashboardManager() {
