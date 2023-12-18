@@ -152,7 +152,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Top 5 nhân viên bán hàng tốt nhất</p>
+                                <h6>Top 5 nhân viên bán hàng tốt nhất</h6>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -186,7 +186,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Danh sách chưa có</p>
+                                <h6>Danh sách 5 nhân viên bán hàng có thành tích xuất sắc chưa có</h6>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Top 5 đơn hàng mới nhất</p>
+                                <h6>Top 5 đơn hàng mới nhất</h6>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -228,7 +228,7 @@ function Overview() {
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Danh sách chưa có</p>
+                                <h6>Danh sách 5 đơn hàng mới nhất chưa có</h6>
                             </div>
                         </div>
                     </div>
