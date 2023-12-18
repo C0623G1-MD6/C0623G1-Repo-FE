@@ -47,7 +47,7 @@ function InformationUser() {
                     <div className="col-lg-12">
                         <div className="content">
                             <div className="row">
-                                <div className="col-5 box-avatar">
+                                <div className="col-lg-5 col-sm-12 box-avatar">
                                     <div className="avatar">
                                         <img src="/images/avatar-mockup.png" alt="Avatar User" width={100}/>
                                         <h4>Thông tin nhân viên</h4>
@@ -55,7 +55,7 @@ function InformationUser() {
                                         <h3>Chức vụ: {roleUser}</h3>
                                     </div>
                                 </div>
-                                <div className="col-7">
+                                <div className="col-lg-7 col-sm-12">
                                     <div className="content-information">
                                         <div>
                                             <div className="mb-3">
