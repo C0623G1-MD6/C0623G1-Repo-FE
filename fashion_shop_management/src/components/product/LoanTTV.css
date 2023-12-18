@@ -82,14 +82,14 @@
 /*Create*/
 
 #loan-products #img svg {
-    width: 50%;
+    width: 30%;
     /*height: 210px;*/
     margin-bottom: 15px;
 }
 
 #loan-products #img {
     padding: 25px;
-    background-color: #dfe0e2;
+    background-color: #f6f7f8;
     text-align: center;
     border-radius: 5px;
     /*height: 300px;*/
@@ -103,7 +103,7 @@
 }
 
 #loan-products .create-product div {
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
 }
 
 /*.create-product div {*/
@@ -170,3 +170,7 @@
 #loan-products .cate-size select {
     height: 50px;
 }
+
+/*#loan-products .validation {*/
+/*    height: 20px;*/
+/*}*/

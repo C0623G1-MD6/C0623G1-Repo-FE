@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from 'formik';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createNotification } from '../../services/notification/notificationService';
+import {createNotification, getAllRole} from '../../services/notification/notificationService';
 import { toast } from 'react-toastify';
 import '../notification/form_css.css';
 
@@ -9,19 +9,27 @@ export function CreateNotification() {
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState('');
 
+    const [role, setRole] = useState([]);
+
     useEffect(() => {
         setCurrentDate(getCurrentDate());
+        displayRole()
     }, []);
 
     const add = async (values, { resetForm }) => {
-        await createNotification(values);
+        await createNotification({ ...values, roleId: role });
         toast('Thêm mới thành công');
         resetForm();
     };
+    const displayRole = async () => {
+        const res = await getAllRole();
+        setRole(res);
+    };
 
-    // const handleCancel = (resetForm) => {
-    //     resetForm();
-    // };
+    const handleChangeRole = (event) => {
+        const selectedRoles = Array.from(event.target.selectedOptions, (option) => JSON.parse(option.value));
+        setRole(selectedRoles);
+    };
 
     function getCurrentDate() {
         const today = new Date();
@@ -38,7 +46,7 @@ export function CreateNotification() {
                     noticePostingDate: currentDate,
                     title: '',
                     content: '',
-                    inlineRadioOptions: ''
+                    inlineRadioOptions: '',
                 }}
                 onSubmit={add}
             >
@@ -84,47 +92,18 @@ export function CreateNotification() {
                                             Nội dung <span style={{ color: 'red' }}>*</span>
                                         </label>
                                     </div>
-                                    <div className="trivn-button mb-3">
-                                        <div className="form-check form-check-inline">
-                                            <label>Đối tượng : </label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <Field
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="inlineRadioOptions"
-                                                id="inlineRadio"
-                                                value="option1"
-                                            />
-                                            <label className="form-check-label" htmlFor="inlineRadio">
-                                                Tất cả
-                                            </label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <Field
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="inlineRadioOptions"
-                                                id="inlineRadio1"
-                                                value="option1"
-                                            />
-                                            <label className="form-check-label" htmlFor="inlineRadio1">
-                                                Nhân viên bán hàng
-                                            </label>
-                                        </div>
-                                        <div className="form-check form-check-inline">
-                                            <Field
-                                                className="form-check-input"
-                                                type="radio"
-                                                name="inlineRadioOptions"
-                                                id="inlineRadio2"
-                                                value="option2"
-                                            />
-                                            <label className="form-check-label" htmlFor="inlineRadio2">
-                                                Quản lý kho
-                                            </label>
-                                        </div>
+                                    <div className="trivn-group">
+                                        <label className="form-label" htmlFor="type">Đối tượng</label>
+                                        <Field as="select" className="form-select" name='role' id="role" aria-label="role" onChange={handleChangeRole}>
+                                            {
+                                                role.map((r)=>(
+                                                    <option key={r.id} value={JSON.stringify(r)}>{r.name}</option>
+                                                ))
+                                            }
+                                        </Field>
+
                                     </div>
+
                                     <div className="trivn-button">
                                         <button
                                             className="btn btn-outline-secondary rounded-0 me-2"

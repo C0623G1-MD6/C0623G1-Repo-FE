@@ -1,7 +1,6 @@
-
-import logo from './logo.svg';
-import './App.css';
-import './components/product/LoanTTV.css'
+import logo from "./logo.svg";
+import "./App.css";
+import "./components/product/LoanTTV.css";
 import HomePage from "./components/home/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
@@ -11,16 +10,19 @@ import { Provider } from "react-redux";
 import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 
-import {NotFound} from "./components/NotFound";
-import {Payment} from "./components/payment/Payment";
-import {CustomerList} from "./components/customer/CustomerList";
+import { NotFound } from "./components/NotFound";
+import { Payment } from "./components/payment/Payment";
+import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
+// import {CustomerList} from "./components/customer/CustomerList";
+// import React from "react";
 import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
+import CustomerListMain from "./components/customer/CustomerListMain";
 import CreateCustomer from "./components/customer/CreateCustomer";
 import EditCustomer from "./components/customer/EditCustomer";
 import Create from "./components/customer/Create";
@@ -32,8 +34,10 @@ import SearchProducts from "./components/home/SearchProducts";
 
 import ProductListMain from "./components/product/ProductListMain";
 import CreateProductMain from "./components/product/CreateProductMain";
+import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
+import NewsDetail from "./components/news/NewsDetail";
 
 function App() {
     return (
@@ -45,6 +49,8 @@ function App() {
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
                         <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
+                        <Route path="/customer/list" element={<CustomerListMain/>}/>
+
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
                         <Route path="/product/create" element={<CreateProductMain/>}></Route>
@@ -54,6 +60,8 @@ function App() {
                         <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
+                        <Route path="/create" element={<NewsCreate/>}></Route>
+                        <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                         <Route path="/customer/create" element={<Create/>}></Route>
                         <Route path="/customer/edit/:id" element={<Edit/>}></Route>
