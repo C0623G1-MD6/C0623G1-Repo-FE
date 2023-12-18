@@ -74,13 +74,10 @@ export function CustomerList() {
     return (
         customer && (
             <div className="row" style={{width: "100%"}}>
-                <div className="col-lg-2">
-
-                </div>
-                <div className="col-lg-10">
+                <div className="col-lg-12">
                     <div className="row pt-5">
                         <div className="col-lg-12">
-                            <div className="card mb-4" name="customer-table">
+                            <div className="card mb-4" name="customer-table" style={{borderRadius:"0"}}>
                                 <div className="shadow container card-header" name="customer-table">
                                     <div className="title_customer" style={{textAlign: "center"}}>
                                         <h2 className="fw-bold text-primary p-3">Danh Sách Khách Hàng</h2>
@@ -137,8 +134,8 @@ export function CustomerList() {
                                             <th style={{width: "13%"}}>Email</th>
                                             <th style={{width: "2%"}}>Điểm</th>
                                             <th style={{width: "4%"}}>Bậc</th>
-                                            <th style={{width: "19%"}}>Địa Chỉ</th>
-                                            <th style={{width: "11%"}}>Tính Năng</th>
+                                            <th style={{width: "17%"}}>Địa Chỉ</th>
+                                            <th style={{width: "13%"}}>Tính Năng</th>
                                         </tr>
                                         </thead>
                                         {
@@ -162,7 +159,7 @@ export function CustomerList() {
                                                             <td>{cus.address}</td>
                                                             <td className="p-1">
                                                                 <Link role="button"
-                                                                      to={`/customer/CustomerEdit/${cus.id}`}
+                                                                      to={`/customer/edit/${cus.id}`}
                                                                       className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                                 <button
                                                                     className="btn btn-outline-danger btn-sm rounded-0" onClick={() => handleModal(cus)}>Xóa
