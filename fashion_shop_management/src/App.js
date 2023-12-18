@@ -38,6 +38,7 @@ import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
+import DashboardCreateNews from "./components/news/DashboardCreateNews";
 
 function App() {
     return (
@@ -60,7 +61,7 @@ function App() {
                         <Route path="/customer/list" element={<CustomerList/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
-                        <Route path="/create" element={<NewsCreate/>}></Route>
+                        <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
                         <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                         <Route path="/customer/create" element={<CreateCustomer/>}></Route>
