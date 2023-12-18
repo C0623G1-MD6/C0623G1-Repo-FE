@@ -416,7 +416,7 @@ function CreateProduct() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <ProductImage callBack={onCallBack}/>
+                                        <ProductImage callBack={onCallBack} name="productImage" onInput={changeValue}/>
                                     </div>
                             </div>
                             <p><small className='text-danger'>{beError?.productImage}</small></p>
