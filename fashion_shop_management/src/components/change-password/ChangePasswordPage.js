@@ -6,7 +6,6 @@ import {NotFound} from "../NotFound";
 
 function ChangePasswordPage() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
     if (!user) {
         return <NotFound/>;
     }

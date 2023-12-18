@@ -3,8 +3,6 @@ import {useEffect, useState} from "react";
 import './content.css';
 import * as service from "../../services/news/service";
 import {formatLocalDateTime, TextWithNewLines} from "../../services/news/currentDate";
-import HomeHeader from "../home/HomeHeader";
-import HomeFooter from "../home/HomeFooter";
 
 
 function NewsDetail() {
@@ -54,57 +52,53 @@ function NewsDetail() {
     }
 
     return (
-        <>
-            <HomeHeader/>
-            <div className="ph-new-details-wrapper row">
+        <div className="ph-new-details-wrapper row">
 
-                <div className="col-xl-8">
-                    <p className="ph-new-details-title mt-5 mb-5">
-                        {detail.name}
-                    </p>
-                    <div className="ph-new-detail-head mb-5">
-                        <img
-                            src={detail.image}
-                            alt="new img" className="ph-new-details-img"/>
-                    </div>
-                    <div className="">
-
-                        <strong>{getCategoryName(detail.newsCategoryId)}</strong>
-                        <hr/>
-                        <p className="ph-new-details-content">
-                            <TextWithNewLines text={detail.content}/>
-                        </p>
-                        <center className="fst-italic">Tác giả: Phước Hưng</center>
-                        <p className="ph-new-details-date">
-                            Ngày tạo: {formatLocalDateTime(detail.dateCreate)}
-                        </p>
-                    </div>
+            <div className="col-xl-8">
+                <p className="ph-new-details-title mt-5 mb-5">
+                    {detail.name}
+                </p>
+                <div className="ph-new-detail-head mb-5">
+                    <img
+                        src={detail.image}
+                        alt="new img" className="ph-new-details-img"/>
                 </div>
+                <div className="">
 
-
-                <div className="col-xl-4">
-                    <div className="more-news mt-5 mb-3">
-                        Tin tức khác
-                    </div>
-                    <div style={{overflow: "scroll",maxHeight:"500px"}}>
-                        {another &&
-                            another.map((item, index) =>
-                                (
-                                    <div className="hlpdetail" onClick={() => goDetailsPage(item.id)}>
-                                        <div className="hlpdetail-img"
-                                             style={{backgroundImage: `url("${item.image}")`}}>
-                                        </div>
-                                        <div className="hlpdetail-content">
-                                            <h4>{item.name}</h4>
-
-                                        </div>
-                                    </div>
-                                ))}
-                    </div>
+                    <strong>{getCategoryName(detail.newsCategoryId)}</strong>
+                    <hr/>
+                    <p className="ph-new-details-content">
+                        <TextWithNewLines text={detail.content}/>
+                    </p>
+                    <center className="fst-italic">Tác giả: Phước Hưng</center>
+                    <p className="ph-new-details-date">
+                        Ngày tạo: {formatLocalDateTime(detail.dateCreate)}
+                    </p>
                 </div>
             </div>
-            <HomeFooter/>
-        </>
+
+
+            <div className="col-xl-4">
+                <div className="more-news mt-5 mb-3">
+                    Tin tức khác
+                </div>
+                <div style={{overflow: "scroll",maxHeight:"500px"}}>
+                    {another &&
+                        another.map((item, index) =>
+                            (
+                                <div className="hlpdetail" onClick={() => goDetailsPage(item.id)}>
+                                    <div className="hlpdetail-img"
+                                         style={{backgroundImage: `url("${item.image}")`}}>
+                                    </div>
+                                    <div className="hlpdetail-content">
+                                        <h4>{item.name}</h4>
+
+                                    </div>
+                                </div>
+                            ))}
+                </div>
+            </div>
+        </div>
     )
 }
 

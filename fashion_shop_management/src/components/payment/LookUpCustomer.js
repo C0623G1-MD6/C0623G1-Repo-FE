@@ -6,7 +6,6 @@ export function LookUpCustomer() {
     const [customers, setCustomers] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(0);
-    const [customer, setCustomer] = useState({});
 
     useEffect(() => {
         getAllCustomer()
@@ -19,11 +18,11 @@ export function LookUpCustomer() {
 
     return (
         <>
-            <div className="form-control rounded-0">
-                <div className="text-center pt-5">
+            <div className="container border p-0 mt-5">
+                <div className="title text-center pt-5">
                     <h2 className="ms-3 fw-bold text-primary">TRA CỨU KHÁCH HÀNG</h2>
                 </div>
-                <div className="p-3">
+                <div className="p-5">
                     <div className="d-flex">
                         <input className="form-control form-control-sm rounded-0 border-dark"
                                placeholder="Nhập mã khách hàng, tên khách hàng hoặc số diện thoại"
@@ -31,8 +30,8 @@ export function LookUpCustomer() {
                         />
                         <button className="btn btn-outline-dark btn-sm rounded-0 ms-3"><span className="text-center"><i
                             className="bi bi-search ms-3"></i></span></button>
-                        <Link role="button" to={`/payment`} state={{cus:customer}}
-                              className="btn btn-outline-dark btn-sm rounded-0 ms-3">Chọn</Link>
+                        <NavLink role="button" to="/sale-staff/payment"
+                              className="btn btn-outline-dark btn-sm rounded-0 ms-3">Chọn</NavLink>
                     </div>
                     <div>
                         <table className="table table-hover border mt-4">
@@ -44,23 +43,19 @@ export function LookUpCustomer() {
                                 <th scope="col" className="col-3">Số điện thoại</th>
                             </tr>
                             </thead>
-                            <tbody className="table-group-divider">
+                            <tbody>
                             {
                                 !customers ?
                                     <tr>
                                         <td colSpan="4" className="text-danger">Không tìm thấy khách hàng</td>
                                     </tr>
                                     :
-                                    customers.map((c, index) => (
-                                        <tr key={c.id}  onClick={()=>
-                                            setCustomer(c)
-                                        }
-                                            className={c.id===customer.id?"bg-secondary bg-opacity-25":''}
-                                        >
+                                    customers.map((customer, index) => (
+                                        <tr key={customer.id}>
                                             <td>{index + 1}</td>
-                                            <td>{c.customer_code}</td>
-                                            <td>{c.name}</td>
-                                            <td>{c.phone}</td>
+                                            <td>{customer.customer_code}</td>
+                                            <td>{customer.name}</td>
+                                            <td>{customer.phone}</td>
                                         </tr>
                                     ))
                             }
@@ -69,7 +64,7 @@ export function LookUpCustomer() {
                     </div>
                     <div>
                         <nav aria-label="Page navigation example">
-                            <ul className="pagination pagination-sm justify-content-end">
+                            <ul className="pagination justify-content-end">
                                 <li className="page-item">
                                     <a className="page-link rounded-0 border-secondary text-dark" href="#"
                                        aria-label="Previous">
