@@ -34,6 +34,7 @@ import Home from "./pages/Home";
 import {NewsCreate} from "./components/news/NewsCreate";
 import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
+import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 
 function App() {
     return (
