@@ -64,7 +64,7 @@ function App() {
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
-        </>
+        </>)
 }
 
 export default App;
