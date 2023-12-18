@@ -14,12 +14,16 @@ import { NotFound } from "./components/NotFound";
 import { Payment } from "./components/payment/Payment";
 import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
-import { LookUpCustomer } from "./components/payment/LookUpCustomer";
+
+import {CustomerList} from "./components/customer/CustomerList";
+import React from "react";
+import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
+import CustomerListMain from "./components/customer/CustomerListMain";
 import CreateCustomer from "./components/customer/CreateCustomer";
 import EditCustomer from "./components/customer/EditCustomer";
 import Create from "./components/customer/Create";
@@ -45,6 +49,8 @@ function App() {
                         <Route path="/sale-staff/payment" element={<Payment/>}></Route>
                         <Route path="/sale-staff/look-up-customer" element={<LookUpCustomer/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
+                        <Route path="/customer/list" element={<CustomerListMain/>}/>
+
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
                         <Route path="/product/create" element={<CreateProductMain/>}></Route>
@@ -64,7 +70,8 @@ function App() {
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
-        </>)
+        </>
+    )
 }
 
 export default App;

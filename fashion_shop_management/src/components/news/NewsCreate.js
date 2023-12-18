@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
-import {getDownloadURL, refImage, storage, uploadBytes} from "../../services/news/firebase";
+import {refImage, storage} from "../../services/news/firebase";
+import {getDownloadURL, uploadBytes} from "firebase/storage";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import * as service from "../../services/news/service";
