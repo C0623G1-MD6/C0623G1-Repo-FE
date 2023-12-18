@@ -10,7 +10,6 @@ export function CreateNotification() {
     const [currentDate, setCurrentDate] = useState('');
 
     const [role, setRole] = useState([]);
-    const [selectRole,setSelectRole] = useState(null);
 
     useEffect(() => {
         setCurrentDate(getCurrentDate());
@@ -18,7 +17,7 @@ export function CreateNotification() {
     }, []);
 
     const add = async (values, { resetForm }) => {
-        await createNotification(values,selectRole);
+        await createNotification({ ...values, roleId: role });
         toast('Thêm mới thành công');
         resetForm();
     };
@@ -27,11 +26,10 @@ export function CreateNotification() {
         setRole(res);
     };
 
-    const handleChangeRole = (id) => {
-        setSelectRole(id);
+    const handleChangeRole = (event) => {
+        const selectedRoles = Array.from(event.target.selectedOptions, (option) => JSON.parse(option.value));
+        setRole(selectedRoles);
     };
-
-    console.log(role)
 
     function getCurrentDate() {
         const today = new Date();
@@ -96,10 +94,10 @@ export function CreateNotification() {
                                     </div>
                                     <div className="trivn-group">
                                         <label className="form-label" htmlFor="type">Đối tượng</label>
-                                        <Field as="select" className="form-select" name='role' id="role" aria-label="role" onChange={(event) => handleChangeRole(event.target.value)}>
+                                        <Field as="select" className="form-select" name='role' id="role" aria-label="role" onChange={handleChangeRole}>
                                             {
                                                 role.map((r)=>(
-                                                    <option key={r.id} value={r.id}>{r.name}</option>
+                                                    <option key={r.id} value={JSON.stringify(r)}>{r.name}</option>
                                                 ))
                                             }
                                         </Field>
