@@ -32,26 +32,26 @@ export function Payment() {
     }, [keyword])
 
     useEffect(() => {
-        if(cus!==null){
+        if (cus !== null) {
             setCustomer(cus);
             setCustomerId(cus.id);
         }
     }, [customerId]);
 
     useEffect(() => {
-        if(productCode!==""){
+        if (productCode !== "") {
             getProduct();
         }
     }, [productCode]);
 
     useEffect(() => {
-        if(productId>0){
+        if (productId > 0) {
             getAllSizeProduct();
         }
     }, [productId]);
 
     useEffect(() => {
-        if(productId>0){
+        if (productId > 0) {
             getQuantityProduct();
         }
     }, [productCode, sizeName]);
@@ -67,7 +67,7 @@ export function Payment() {
     }
 
     const getQuantityProduct = async () => {
-        if(productCode!==""&&sizeName!==""){
+        if (productCode !== "" && sizeName !== "") {
             const res = await paymentService.getQuantityByProductCodeAndSizeName(productCode, sizeName);
             setQuantity(res.data.quantity);
         }
@@ -77,31 +77,37 @@ export function Payment() {
         const data = await paymentService.getProductByProductCode(productCode);
         setProduct(data);
         setProductId(data.id);
-        if(!sellingQuantity||!data){
+        if (!sellingQuantity || !data) {
             setTotal(0);
         } else {
-            setTotal((data.price*sellingQuantity*(1-data.percent)));
+            setTotal((data.price * sellingQuantity * (1 - data.percent)));
         }
 
     }
 
     const handleTotal = (e) => {
         setSellingQuantity(e);
-        if(!product.price){
+        if (!product.price) {
             setTotal(0)
         } else {
-            setTotal((product.price*e*(1-product.percent)));
+            setTotal((product.price * e * (1 - product.percent)));
         }
 
     }
 
-    if(!product){
+    if (!product) {
         setProduct(initProduct);
         setSizes([]);
     }
 
     const initValue = {
-
+        productCode: "",
+        name: "",
+        size: "",
+        amount: 0,
+        price: 0,
+        promotion: 0,
+        total: 0
     }
 
     return (
@@ -147,69 +153,105 @@ export function Payment() {
                                             hàng</NavLink>
                                     </div>
                                 </div>
-                                <Formik initialValues={initValue} onSubmit={}>
-
+                                <Formik
+                                    initialValues={initValue}
+                                    onSubmit={values => {
+                                        console.log(values);
+                                    }}>
+                                    {
+                                        ({setFieldValue})=>(
+                                            <Form>
+                                                <div>
+                                                    <table className="table table-bordered mb-0">
+                                                        <thead>
+                                                        <tr>
+                                                            <td className="p-1 col-1">
+                                                                <button type="submit"
+                                                                    className="btn btn-sm btn-outline-primary rounded-0 w-100">Nhập
+                                                                </button>
+                                                            </td>
+                                                            <th className="p-1 col-1"><Field
+                                                                className="p-1 form-control form-control-sm rounded-0 border-dark text-center"
+                                                                list="datalistOptions"
+                                                                onChange={event => {
+                                                                    setProductCode(event.target.value);
+                                                                    setFieldValue("productCode",event.target.value);
+                                                                }}
+                                                                name="productCode"
+                                                            />
+                                                                <datalist id="datalistOptions">
+                                                                    {
+                                                                        products.map(product => (
+                                                                            <option key={product.product_code}
+                                                                                    value={product.product_code}></option>
+                                                                        ))
+                                                                    }
+                                                                </datalist>
+                                                            </th>
+                                                            <td className="p-1 col-4">
+                                                                <Field
+                                                                    className="p-1 form-control form-control-sm rounded-0 text-end"
+                                                                    defaultValue={product.name}
+                                                                    name="name"
+                                                                    readOnly/>
+                                                            </td>
+                                                            <td className="p-1 col-1">
+                                                                <Field as="select"
+                                                                       className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
+                                                                       onChange={event => {
+                                                                           setSizeName(event.target.value)
+                                                                           setFieldValue("size",event.target.value)
+                                                                       }}
+                                                                       name="size"
+                                                                >
+                                                                    {
+                                                                        sizes.map(size => (
+                                                                            <option key={size.name}
+                                                                                    value={size.name}>{size.name}</option>
+                                                                        ))
+                                                                    }
+                                                                </Field>
+                                                            </td>
+                                                            <td className="p-1 col-1">
+                                                                <Field type="number"
+                                                                       className="p-1 form-control form-control-sm rounded-0 border-dark text-end"
+                                                                       onChange={event => {
+                                                                           handleTotal(event.target.value);
+                                                                           setFieldValue("amount", event.target.value)
+                                                                       }}
+                                                                       max={quantity} min="0"
+                                                                       name="amount"
+                                                                />
+                                                            </td>
+                                                            <td className="p-1 col-1">
+                                                                <Field
+                                                                    className="p-1 form-control form-control-sm rounded-0 text-end"
+                                                                    value={!product.price ? product.price : parseFloat(product.price).toLocaleString('vi-VN')}
+                                                                    name="price"
+                                                                    readOnly/>
+                                                            </td>
+                                                            <td className="p-1 col-1">
+                                                                <Field
+                                                                    className="p-1 form-control form-control-sm rounded-0 text-end"
+                                                                    defaultValue={product.percent}
+                                                                    name="promotion"
+                                                                    readOnly/>
+                                                            </td>
+                                                            <td className="p-1 col-2">
+                                                                <Field
+                                                                    className="p-1 form-control form-control-sm rounded-0 text-end"
+                                                                    value={total !== 0 ? total.toLocaleString("vi-VN") : ""}
+                                                                    name="total"
+                                                                    readOnly/>
+                                                            </td>
+                                                        </tr>
+                                                        </thead>
+                                                    </table>
+                                                </div>
+                                            </Form>
+                                        )
+                                    }
                                 </Formik>
-                                <div>
-                                    <table className="table table-bordered mb-0">
-                                        <thead>
-                                        <tr>
-                                            <td className="p-1 col-1">
-                                                <button className="btn btn-sm btn-outline-primary rounded-0 w-100">Nhập
-                                                </button>
-                                            </td>
-                                            <th className="p-1 col-1"><input
-                                                className="p-1 form-control form-control-sm rounded-0 border-dark text-center"
-                                                list="datalistOptions"
-                                                onChange={event => setProductCode(event.target.value)}/>
-                                                <datalist id="datalistOptions">
-                                                    {
-                                                        products.map(product => (
-                                                            <option key={product.product_code} value={product.product_code}></option>
-                                                        ))
-                                                    }
-                                                </datalist>
-                                            </th>
-                                            <td className="p-1 col-4">
-                                                <input
-                                                className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                defaultValue={product.name} readOnly/>
-                                            </td>
-                                            <td className="p-1 col-1">
-                                                <select
-                                                    className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
-                                                    onChange={event => setSizeName(event.target.value)}
-                                                >
-                                                    {
-                                                        sizes.map(size => (
-                                                            <option key={size.name}
-                                                                    value={size.name}>{size.name}</option>
-                                                        ))
-                                                    }
-                                                </select>
-                                            </td>
-                                            <td className="p-1 col-1"><input type="number"
-                                                className="p-1 form-control form-control-sm rounded-0 border-dark text-end"
-                                                onChange={event => handleTotal(event.target.value)}
-                                                                             max={quantity} min="0"
-                                            />
-                                            </td>
-                                            <td className="p-1 col-1">
-                                                <input className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                       value={!product.price?product.price:parseFloat(product.price).toLocaleString('vi-VN')} readOnly/>
-                                            </td>
-                                            <td className="p-1 col-1">
-                                                <input className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                       defaultValue={product.percent} readOnly/>
-                                            </td>
-                                            <td className="p-1 col-2">
-                                                <input className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                       value={total!==0?total.toLocaleString("vi-VN"):""} readOnly/>
-                                            </td>
-                                        </tr>
-                                        </thead>
-                                    </table>
-                                </div>
                                 <div>
                                     <table className="table table-bordered table-hover">
                                         <thead className="table-secondary">
