@@ -39,7 +39,7 @@ function SidebarStoreManage(props){
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item4' ? 'active' : ''}`}>
-                            <NavLink to="/create">
+                            <NavLink to="/dashboard/news/create">
                                 <i className="bi bi-newspaper"></i>
                                 <span className="text">Đăng tin tức</span>
                             </NavLink>
