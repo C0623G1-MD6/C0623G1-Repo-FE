@@ -10,6 +10,7 @@ export function CreateNotification() {
     const [currentDate, setCurrentDate] = useState('');
 
     const [role, setRole] = useState([]);
+    const [selectedRole,setSelectedRole] = useState(0);
 
     useEffect(() => {
         setCurrentDate(getCurrentDate());
@@ -17,18 +18,22 @@ export function CreateNotification() {
     }, []);
 
     const add = async (values, { resetForm }) => {
-        await createNotification({ ...values, roleId: role });
-        toast('Thêm mới thành công');
-        resetForm();
+        try {
+            await createNotification(values, selectedRole);
+            toast('Thêm mới thành công');
+            resetForm();
+        }catch (e) {
+            alert("Them moi that bai")
+        }
+
     };
     const displayRole = async () => {
         const res = await getAllRole();
         setRole(res);
     };
 
-    const handleChangeRole = (event) => {
-        const selectedRoles = Array.from(event.target.selectedOptions, (option) => JSON.parse(option.value));
-        setRole(selectedRoles);
+    const handleChangeRole = (id) => {
+        setSelectedRole(id);
     };
 
     function getCurrentDate() {
@@ -94,10 +99,10 @@ export function CreateNotification() {
                                     </div>
                                     <div className="trivn-group">
                                         <label className="form-label" htmlFor="type">Đối tượng</label>
-                                        <Field as="select" className="form-select" name='role' id="role" aria-label="role" onChange={handleChangeRole}>
+                                        <Field as="select" className="form-select" name='role' id="role" aria-label="role" onChange={(event) => handleChangeRole(event.target.value)}>
                                             {
                                                 role.map((r)=>(
-                                                    <option key={r.id} value={JSON.stringify(r)}>{r.name}</option>
+                                                    <option key={r.id} value={r.id}>{r.name}</option>
                                                 ))
                                             }
                                         </Field>
