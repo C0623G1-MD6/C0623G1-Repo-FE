@@ -14,8 +14,6 @@ import { NotFound } from "./components/NotFound";
 import { Payment } from "./components/payment/Payment";
 import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
-import {LookUpCustomer} from "./components/payment/LookUpCustomer";
-
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
