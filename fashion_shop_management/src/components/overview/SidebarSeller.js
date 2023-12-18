@@ -33,13 +33,13 @@ function SidebarSeller(props) {
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item3' ? 'active' : ''}`}>
-                            <NavLink to="/payment">
+                            <NavLink href="#">
                                 <i className="bi bi-wallet2"></i>
                                 <span className="text">Thanh toán</span>
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item4' ? 'active' : ''}`}>
-                            <NavLink to="/dashboard/product/list">
+                            <NavLink href="#">
                                 <i className="bi bi-house"></i>
                                 <span className="text">Hàng trong kho</span>
                             </NavLink>

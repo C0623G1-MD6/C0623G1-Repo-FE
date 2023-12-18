@@ -6,7 +6,6 @@ import {NotFound} from "../NotFound";
 
 function ChangePasswordPage() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
     if (!user) {
         return <NotFound/>;
     }
@@ -16,7 +15,7 @@ function ChangePasswordPage() {
             item="item5";
             break
         case "ROLE_MANAGER":
-            item="item8";
+            item="item7";
             break;
         case "ROLE_SALES":
             item="item5";

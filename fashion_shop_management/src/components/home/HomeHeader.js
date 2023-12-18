@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ModalLogin from "../auth/modal/ModalLogin";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
@@ -36,14 +36,14 @@ const HomeHeader = () => {
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <li className="nav-item font-custome">
-                  <Link className="nav-link active" aria-current="page" to="/">
+                  <a className="nav-link active" aria-current="page" href="/">
                     Trang chủ
-                  </Link>
+                  </a>
                 </li>
                 <li className="nav-item font-custome">
-                  <Link className="nav-link" to="/news">
+                  <a className="nav-link" href="/news">
                     Tin tức
-                  </Link>
+                  </a>
                 </li>
                   <DropdownButton className="nav-item nav-menu" id="nav-dropdown" title="Thời trang">
                     <Dropdown.Item href="/search?gender=1">Nữ</Dropdown.Item>

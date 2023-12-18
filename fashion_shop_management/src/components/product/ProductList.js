@@ -2,9 +2,16 @@ import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getAllProducts, getAllSizes} from "../../services/product/ProductService";
 import Pagination from "antd/es/pagination";
+import AccessDenied from "../auth/AccessDenied";
+import DashboardManager from "../DashboardManager";
+import DashboardWarehouse from "../DashboardWarehouse";
+import DashboardSale from "../DashboardSale";
 
 
 function ProductList() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user)
+    console.log(user)
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
@@ -17,14 +24,14 @@ function ProductList() {
         sortDirection: "asc"
     });
 
-    const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
-        getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection).then(res => {
-            setProducts(res.content);
-            setPageable({
-                ...pageable,
-                totalPages: res.totalElements,
-                currentPage: currentPage
-            })
+    const getAll = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
+        let data = await getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection);
+        console.log(data)
+        setProducts(data.content);
+        setPageable({
+            ...pageable,
+            totalPages: data.totalElements,
+            currentPage: currentPage
         });
     };
 
@@ -113,9 +120,7 @@ function ProductList() {
         return originalElement;
     };
 
-
-    if (!products) return <div>Loading...</div>;
-
+    if (!products) return null;
 
     // if (!sizes) return null
     return (
@@ -128,8 +133,13 @@ function ProductList() {
                         </div>
                         <div className="row">
                             <div className="col-lg-3 title">
-                                <Link to={"/product/create"}>
-                                    <i className="bi bi-plus-lg"/><span> Thêm sản phẩm mới</span></Link>
+                                {user.roles[0] === "ROLE_WAREHOUSE" ? (
+                                    <Link to={"/product/create"}>
+                                        <i className="bi bi-plus-lg"/><span> Thêm sản phẩm mới</span>
+                                    </Link>
+                                ) :
+                                    ("")
+                                }
                             </div>
                             <div className="col-lg-9 search d-flex justify-content-between">
                                 <div className="col-lg-auto">
@@ -142,7 +152,8 @@ function ProductList() {
                                     </select>
                                 </div>
                                 <div className="col-lg-auto">
-                                    <select defaultValue="0" onChange={changePrice} className="form-select rounded-0"
+                                    <select defaultValue="0" onChange={changePrice}
+                                            className="form-select rounded-0"
                                             aria-label="Default select example">
                                         <option value="0" selected>Giá</option>
                                         <option value="1">100.000 - 500.000 VNĐ</option>
@@ -152,7 +163,8 @@ function ProductList() {
                                     </select>
                                 </div>
                                 <div className="col-lg-auto">
-                                    <input onChange={changeProductName} type="text" className="form-control rounded-0"
+                                    <input onChange={changeProductName} type="text"
+                                           className="form-control rounded-0"
                                            id="searchByName" name="productName"
                                            placeholder="Tìm kiếm tên sản phẩm..."/>
                                 </div>
@@ -184,14 +196,14 @@ function ProductList() {
                                     <td>{index + 1}</td>
                                     <td>{item.productCode}</td>
                                     <td className="text-lg-start">
-                                    {/*<td className="product-img">*/}
+                                        {/*<td className="product-img">*/}
                                         {/*<div className="col-lg-auto">*/}
                                         {/*    <img*/}
                                         {/*        src={item.productImage.split(",")[0]}*/}
                                         {/*        alt="product image"/>*/}
                                         {/*</div>*/}
                                         {/*<div className="col-lg-auto">*/}
-                                            <span>{item.productName}</span>
+                                        <span>{item.productName}</span>
                                         {/*</div>*/}
                                     </td>
                                     <td className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
@@ -202,7 +214,7 @@ function ProductList() {
                             </tbody>
                         </table>
 
-                        <div style={{textAlign: 'right',marginTop: '15px', marginBottom: '15px'}}>
+                        <div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>
                             <Pagination current={pageable.currentPage} hideOnSinglePage={true}
                                         total={pageable.totalPages} pageSize={5} onChange={handleChange}
                                         itemRender={itemRender}/>

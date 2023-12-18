@@ -10,8 +10,9 @@ import 'swiper/css/effect-coverflow';
 import {EffectCoverflow} from 'swiper/modules';
 import {useNavigate} from "react-router-dom";
 import {TextWithNewLines} from "../../services/news/currentDate";
-import HomeHeader from "../home/HomeHeader";
-import HomeFooter from "../home/HomeFooter";
+
+
+
 
 
 export function NewsList() {
@@ -69,7 +70,6 @@ export function NewsList() {
 
     return (
         <>
-            <HomeHeader/>
             <div className="container-xl mt-3">
                 <h2 className="hlptitle">Khuyến mãi, giảm giá</h2>
                 <div>
@@ -187,7 +187,6 @@ export function NewsList() {
                 }
                 {/*</LazyLoad>*/}
             </div>
-            <HomeFooter/>
         </>
     )
 }

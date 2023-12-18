@@ -1,8 +1,11 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 function ModalLogout() {
     const logOutUser = async () => {
         await localStorage.removeItem('user');
+        toast.success("Đăng xuất thanh công !")
         window.location.href = '/';
     };
 
@@ -22,7 +25,7 @@ function ModalLogout() {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                            <button type="button" class="btn btn-confirm" onClick={logOutUser}>Xác nhận</button>
+                            <button type="button" className="btn btn-confirm" onClick={logOutUser}>Xác nhận</button>
                         </div>
                     </div>
                 </div>
