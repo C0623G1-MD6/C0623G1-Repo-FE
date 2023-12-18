@@ -16,10 +16,10 @@ export function CountNotification() {
 
     return (
         <>
-            <div className="mt-3">
+            <div>
                 <button type="button" className="btn  position-relative">
                     <Link to="">
-                        <i className="bi bi-bell"></i>
+                        <i style={{ fontSize: "larger" }} className="bi bi-bell"></i>
                     </Link>
                     {count > 0 && ( // Chỉ hiển thị số đếm nếu nó lớn hơn 0
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
