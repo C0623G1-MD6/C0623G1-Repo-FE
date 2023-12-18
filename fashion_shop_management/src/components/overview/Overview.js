@@ -139,11 +139,20 @@ function Overview() {
                         </div>
                     </div>
                 </div>
-                {topFiveSeller.length!=0? <div className="my-4">
+                <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Top 5 nhân viên bán hàng tốt nhất</p>
+                                <ListNotification/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {topFiveSeller.length != 0 ? <div className="my-4">
+                    <div className="row">
+                        <div className="col-lg-12">
+                            <div className="top-employee px-3 py-3">
+                                <h6>Top 5 nhân viên bán hàng tốt nhất</h6>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -173,21 +182,21 @@ function Overview() {
                         </div>
                     </div>
 
-                </div>: <div className="my-4">
+                </div> : <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Danh sách chưa có</p>
+                                <h6>Danh sách top 5 nhân viên bán hàng tốt nhất chưa có</h6>
                             </div>
                         </div>
                     </div>
 
                 </div>}
-                {topFiveNewOrder.length!=0? <div className="my-4">
+                {topFiveNewOrder.length != 0 ? <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Top 5 đơn hàng mới nhất</p>
+                                <h6>Top 5 đơn hàng mới nhất</h6>
                                 <div className="mt-4">
                                     <table className="table table-hover truong-table">
                                         <thead>
@@ -203,7 +212,9 @@ function Overview() {
                                             <tr key={index}>
                                                 <td scope="row">{index + 1}</td>
                                                 <td>{item.name}</td>
-                                                <td>{new Intl.NumberFormat().format(item.total)}</td>
+                                                <td>{item.total.toLocaleString('vi', {
+                                                    style: 'currency',
+                                                    currency: 'VND'})}</td>
                                                 <td>{convertDateFormat(item.date + "")}</td>
                                             </tr>
                                         ))}
@@ -215,11 +226,11 @@ function Overview() {
                             </div>
                         </div>
                     </div>
-                </div>: <div className="my-4">
+                </div> : <div className="my-4">
                     <div className="row">
                         <div className="col-lg-12">
                             <div className="top-employee px-3 py-3">
-                                <p>Danh sách chưa có</p>
+                                <h6>Danh sách chưa có</h6>
                             </div>
                         </div>
                     </div>

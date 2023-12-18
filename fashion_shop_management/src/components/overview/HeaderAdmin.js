@@ -1,9 +1,11 @@
 import React, {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getInfoByIdAccount} from "../../redux/middlewares/EmployeeMiddleware";
+import {CountNotification} from "../notification/CountNotification";
 
 function HeaderAdmin() {
     const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user)
     const role = [...user.roles]+""
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
@@ -50,7 +52,9 @@ function HeaderAdmin() {
 
                         <div className="justify-content-end" id="navbarSupportedContent">
                             <div className="user d-flex">
-                                <i style={{fontSize: "larger"}} className="bi bi-bell me-4 mt-2"></i>
+                                <div className="bell">
+                                    <CountNotification/>
+                                </div>
                                 <img
                                     src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
                                     alt=""/>

@@ -1,11 +1,11 @@
-import React from 'react';
-import HeaderAdmin from "./overview/HeaderAdmin";
-import Overview from "./overview/Overview";
-import SidebarWarehouseManage from "./overview/SidebarWarehouseManage";
-import Sidebar from "./Sidebar";
+import Sidebar from "../Sidebar";
+import HeaderAdmin from "../overview/HeaderAdmin";
+import Overview from "../overview/Overview";
+import React from "react";
+import {CustomerList} from "./CustomerList";
 
-function DashboardWarehouse() {
-    let item="item1";
+function CustomerListMain() {
+    let item="item6";
     return (
         <>
             <div className="main-container d-flex">
@@ -14,13 +14,13 @@ function DashboardWarehouse() {
                     <HeaderAdmin/>
                     <div className="dashboard-content px-3 py-3 pt-4">
                         <div className="my-3 mx-3">
-                            <Overview/>
+                            <CustomerList/>
                         </div>
                     </div>
                 </div>
             </div>
         </>
     );
-}
 
-export default DashboardWarehouse;
+}
+export default CustomerListMain;
