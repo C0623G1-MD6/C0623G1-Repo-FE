@@ -1,12 +1,22 @@
 import axios from "axios";
 import authHeader from "../AuthService";
 
-export const getAll = async (page,roleName) => {
+export const getAll = async (page,accountId) => {
   try {
-      return await axios.get(`http://localhost:8080/api/notification/list/sales?page=${page}&roleName=${roleName}`,{ headers: authHeader() },)
+      let res =  await axios.get(`http://localhost:8080/api/notification/list?id=${accountId}`,{ headers: authHeader() })
+      return res;
   }catch (e) {
-      alert("Hiển thị thông báo thất bại")
+      console.log(e)
   }
+}
+
+export const getAllNotificationIsView = async (accountId) => {
+    try {
+        let res =  await axios.get(`http://localhost:8080/api/notification/view?id=${accountId}`,{ headers: authHeader() })
+        return res;
+    }catch (e) {
+        console.log(e)
+    }
 }
 export const createNotification = async (value,roleId) => {
   try {
@@ -20,13 +30,13 @@ export const getCount = async () => {
       const  res = await axios.get("http://localhost:8080/api/notification/list/count", { headers: authHeader() })
         return res.data
   }catch (e) {
-      alert("Đếm số lương bị lỗi")
+      // alert("Đếm số lương bị lỗi")
   }
 }
 
-export const readNotification = async (id) => {
+export const readNotificationById = async (id) => {
     try {
-        let res = await axios.patch(`http://localhost:8080/api/notification/list/read/${id}`, null,{ headers: authHeader() });
+        let res = await axios.patch(`http://localhost:8080/api/notification/read/${id}`, null,{ headers: authHeader() });
     }catch (e) {
         alert("Doc that bai")
     }
