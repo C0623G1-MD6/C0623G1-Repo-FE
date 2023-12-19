@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {AllHTMLAttributes as input, useEffect, useState} from "react";
 import {getAllCustomerType} from "../../services/customer/typeCustomerService";
 import {getAllCustomer} from "../../services/customer/customerService";
 import {Link} from "react-router-dom";
-import {valueOrDefault} from "chart.js/helpers";
+import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
+import {string} from "yup";
 
 export function CustomerList() {
 
@@ -22,6 +23,17 @@ export function CustomerList() {
 
     const [status, setStatus] = useState(false);
     const [selectCustomer, setSelectCustomer] = useState();
+    // const checkNameCustomer = (value) => {
+    //     const rergex = /^[a-zA-Z0-9 ]*$/;
+    //     let check = value.match(rergex);
+    //     if (check) {
+    //         setNameCustomer(value);
+    //     } else if (value === "") {
+    //         setNameCustomer("");
+    //     // } else {
+    //     //     setCustomer([]);
+    //     }
+    // }
 
     useEffect(() => {
         displayCustomer()
@@ -35,9 +47,14 @@ export function CustomerList() {
 
     const displayCustomer = async () => {
         const res = await getAllCustomer(nameCustomer, typeSearch, page);
-        console.log(res)
-        setTotalPage(res.data.totalPages);
-        setCustomer(res.data.content);
+        console.log(nameCustomer);
+        if (res.status === 204) {
+            setCustomer([]);
+        } else if (res.status === 200) {
+            setTotalPage(res.data.totalPages);
+            setCustomer(res.data.content);
+        }
+
     }
 
     const nextPage = () => {
@@ -71,13 +88,19 @@ export function CustomerList() {
     }
 
 
+    const formatPhone = (phoneNumber) => {
+        const match = phoneNumber.match(/^(\d{4})(\d{3})(\d{3})$/);
+        return match[1] + '.' + match[2] + '.' + match[3];
+    }
+
+
     return (
         customer && (
             <div className="row" style={{width: "100%"}}>
                 <div className="col-lg-12">
                     <div className="row pt-5">
                         <div className="col-lg-12">
-                            <div className="card mb-4" name="customer-table" style={{borderRadius:"0"}}>
+                            <div className="card mb-4" name="customer-table" style={{borderRadius: "0"}}>
                                 <div className="shadow container card-header" name="customer-table">
                                     <div className="title_customer" style={{textAlign: "center"}}>
                                         <h2 className="fw-bold text-primary p-3">Danh Sách Khách Hàng</h2>
@@ -99,8 +122,8 @@ export function CustomerList() {
                                             <div className="button-search me-1">
                                                 <select className="form-control-sm rounded-0" name="typeSearch"
                                                         id="typeSearch"
-                                                        onChange={(event => setTypeSearch(event.target.value))}>
-                                                    <option value="">Chọn</option>
+                                                        onChange={event => setTypeSearch(event.target.value)}>
+                                                    <option value="">Chọn Bậc</option>
                                                     {
                                                         typeCustomer.map(type => (
                                                             <option key={type.id}
@@ -112,30 +135,34 @@ export function CustomerList() {
                                             <div className="input-search me-1">
                                                 <input type="text" className="form-control-sm rounded-0"
                                                        name="table-search"
+                                                       id="table-search"
                                                        onChange={(event) => setNameCustomer(event.target.value)}
-                                                       placeholder="Nhập tên"/>
+                                                       placeholder="Nhập tên" pattern="[a-z0-9A-Z]+"
+                                                       title="Không Được Nhập Các Kí Tự Đặc Biệt"/>
                                             </div>
                                             <div className="search-button">
-                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0" onClick={() => displayCustomer()}>
-                                                    <i className="bi bi-search" />
+                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0"
+                                                        onClick={() => displayCustomer()}>
+                                                    <i className="bi bi-search"/>
                                                 </button>
                                             </div>
                                         </div>
                                     </div>
-                                    <table className="table table-hover border mt-3" style={{height: "300px"}}>
+                                    <table className="table table-hover text-center border mt-3"
+                                           style={{height: "300px"}}>
                                         <thead className="table-secondary">
                                         <tr>
-                                            <th style={{width: "3%"}}>STT</th>
-                                            <th style={{width: "7%"}}>Mã</th>
-                                            <th style={{width: "16%"}}>Họ & Tên</th>
+                                            <th style={{width: "3%", height: "5%"}}>STT</th>
+                                            <th style={{width: "8%"}}>Mã</th>
+                                            <th style={{width: "20%"}}>Họ & Tên</th>
                                             <th style={{width: "10%"}}>Ngày Sinh</th>
-                                            <th style={{width: "9%"}}>Giới Tính</th>
-                                            <th style={{width: "7%"}}>Điện Thoại</th>
-                                            <th style={{width: "13%"}}>Email</th>
-                                            <th style={{width: "5%"}}>Điểm</th>
-                                            <th style={{width: "6%"}}>Bậc</th>
+                                            <th style={{width: "8%"}}>Giới Tính</th>
+                                            <th style={{width: "10%"}}>Điện Thoại</th>
+                                            <th style={{width: "16%"}}>Email</th>
+                                            <th style={{width: "6%"}}>Điểm</th>
+                                            <th style={{width: "9%"}}>Bậc</th>
                                             {/*<th style={{width: "17%"}}>Địa Chỉ</th>*/}
-                                            <th style={{width: "8%"}}>Tính Năng</th>
+                                            <th style={{width: "10%"}}>Tính Năng</th>
                                         </tr>
                                         </thead>
                                         {
@@ -149,7 +176,7 @@ export function CustomerList() {
                                                             <td>{cus.name}</td>
                                                             <td>{formatDateTime(cus.birthday)}</td>
                                                             <td>{cus.gender ? 'Nữ' : 'Nam'}</td>
-                                                            <td>{cus.phone}</td>
+                                                            <td>{formatPhone(cus.phone)}</td>
                                                             <td>{cus.email}</td>
                                                             <td>{cus.point}</td>
                                                             <td>
@@ -179,21 +206,21 @@ export function CustomerList() {
                                                 </tr>
                                         }
                                     </table>
-                                    <nav aria-label="Page navigation example" className="">
-                                        <ul className="pagination justify-content-end ">
-                                            {totalPage > 1 && (
-                                                <li className="page-item d-flex">
-                                                    <button className="page-link" type="button" disabled={page === 0}
-                                                            onClick={() => prevPage()}>&laquo;</button>
-                                                    <li className="page-item"><a
-                                                        className="page-link">{page + 1}/{totalPage}</a></li>
-                                                    <button className="page-link text-dark" type="button"
-                                                            disabled={page === totalPage}
-                                                            onClick={() => nextPage()}>&raquo;</button>
-                                                </li>
-                                            )}
-                                        </ul>
-                                    </nav>
+                                    {/*<nav aria-label="Page navigation example" className="">*/}
+                                    <ul className="pagination justify-content-end ">
+                                        {totalPage > 1 && (
+                                            <li className="page-item d-flex">
+                                                <button className="page-link" type="button" disabled={page === 0}
+                                                        onClick={() => prevPage()}>&laquo;</button>
+                                                <li className="page-item"><a
+                                                    className="page-link">{page + 1}/{totalPage}</a></li>
+                                                <button className="page-link text-dark" type="button"
+                                                        disabled={page === totalPage}
+                                                        onClick={() => nextPage()}>&raquo;</button>
+                                            </li>
+                                        )}
+                                    </ul>
+                                    {/*</nav>*/}
                                 </div>
                             </div>
                         </div>
