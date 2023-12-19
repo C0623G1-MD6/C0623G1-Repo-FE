@@ -30,7 +30,7 @@ export const getTopFiveSeller=async (time)=>{
         let res=await axios.get(`http://localhost:8080/api/overview/top_seller/${time}`,{ headers: authHeader() });
         return res.data;
     } catch (e){
-        return undefined;
+        return [];
     }
 }
 export const getFiveNewOrder=async ()=>{
@@ -38,6 +38,6 @@ export const getFiveNewOrder=async ()=>{
         let res=await axios.get("http://localhost:8080/api/overview/top_new_order",{ headers: authHeader() });
         return res.data;
     } catch (e){
-        return undefined;
+        return [];
     }
 }

@@ -63,7 +63,11 @@ function ProductList() {
                 maxPrice: 100000000
             },
             {
-                minPrice: 500000,
+                minPrice: 100000,
+                maxPrice: 500000
+            },
+            {
+                minPrice: 500001,
                 maxPrice: 1000000
             },
             {
