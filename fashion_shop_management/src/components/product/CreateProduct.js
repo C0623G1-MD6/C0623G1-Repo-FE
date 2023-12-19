@@ -426,8 +426,8 @@ function CreateProduct() {
                                     </div>
                             </div>
                             <p><small className='text-danger'>{beError?.productImage}</small></p>
-                            <div className="row">
-                                <div className="col-lg-auto me-5">
+                            <div className="row col-lg-12">
+                                <div className="col-lg-4">
                                     <label htmlFor="gender">Giới tính</label>
                                     <div className="d-flex">
                                         <div className="form-check form-check-inline" id="gender">
@@ -446,7 +446,7 @@ function CreateProduct() {
                                     <p><small className='text-danger'>{errors?.gender?.message}</small></p>
                                     <p><small className='text-danger'>{beError?.gender}</small></p>
                                 </div>
-                                <div className="col-lg-auto">
+                                <div className="col-lg-8">
                                     <label htmlFor="sizes">Kích thước</label>
                                     <div className="d-flex" id="sizes">
                                         {sizes.map((item) =>
@@ -502,7 +502,7 @@ function CreateProduct() {
                                                 aria-label="Default select example">
                                             <option value="">Mã giảm giá</option>
                                             {promotions.map((item) =>
-                                                <option key={item.id} value={item.id}>{item.percent}</option>
+                                                <option key={item.id} value={item.id}>{item.percent * 100} %</option>
                                             )}
                                         </select>
                                     </div>
