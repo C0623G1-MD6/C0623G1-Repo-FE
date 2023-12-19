@@ -39,7 +39,7 @@ function SidebarSeller(props) {
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item4' ? 'active' : ''}`}>
-                            <NavLink href="#">
+                            <NavLink to="/dashboard/product/list">
                                 <i className="bi bi-house"></i>
                                 <span className="text">Hàng trong kho</span>
                             </NavLink>
