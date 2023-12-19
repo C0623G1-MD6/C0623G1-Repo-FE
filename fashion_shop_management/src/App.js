@@ -38,7 +38,7 @@ import PaymentOverview from "./components/payment/PaymentOverview";
 import LookUpCustomerOverview from "./components/payment/LookUpCustomerOverview";
 import DashboardCreateNews from "./components/news/DashboardCreateNews";
 import SalesReportMain from "./components/salesreport/SalesReportMain";
-import WarehouseCreateMain from "./components/salesreport/SalesReportMain";
+import WarehouseCreateMain from "./components/warehouse/WarehouseCreateMain";
 
 function App() {
     return (

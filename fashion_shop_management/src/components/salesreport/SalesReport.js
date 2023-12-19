@@ -11,7 +11,8 @@ Chart.register(...registerables);
 function formatDateString(date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
-  return `${day} thg ${month}`;
+  const year = date.getFullYear() ;
+  return `${day}/ ${month}/${year}`;
 }
 
 function SalesReport() {
@@ -63,15 +64,15 @@ function SalesReport() {
         label: "Tổng Chi",
         bac: "rgba(108, 117, 125, 0.5)",
         data: dataSpend,
-        pointRadius: dataSpend.map(value => value !== 0 ? 2 : 0),
+        pointRadius: dataSpend.map(value => value !== 0 ? 4 : 0),
         backgroundColor: 'rgba(108, 117, 125, 1.0)',
       },
       {
         type: "line",
-        label: "Doanh thu (VND)",
+        label: "Doanh thu",
         borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
-        pointRadius: dataRevenue.map(value => value !== 0 ? 2 : 0),
+        pointRadius: dataRevenue.map(value => value !== 0 ? 4 : 0),
         backgroundColor: 'rgba(32, 201, 151, 1.0)',
       },
     ],
@@ -88,14 +89,28 @@ function SalesReport() {
         title: {
           display: true,
           text: 'Ngày'
-        }
+        },
+        ticks: {
+          font: {
+            family: "Verdana",
+            size: 14,
+            weight: "normal",
+          },
+        },
       },
       y: {
         stacked: true,
         title: {
           display: true,
           text: 'VNĐ'
-        }
+        },
+        ticks: {
+          font: {
+            family: "Verdana",
+            size: 14,
+            weight: "normal",
+          },
+        },
       }
     },
     plugins: {
@@ -135,7 +150,7 @@ function SalesReport() {
 
   return (
       <>
-        <div className="container pt-5 pb-5">
+        <div className="container pt-5 pb-5 form-control">
           <h2 className="text-center mt-5 text-primary">Thống Kê Doanh Thu</h2>
           <div className="row mt-5">
             <div className="col-md-4"></div>
