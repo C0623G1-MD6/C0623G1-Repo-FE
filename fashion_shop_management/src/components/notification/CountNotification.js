@@ -17,9 +17,9 @@ export function CountNotification() {
     return (
         <>
             <div>
-                <button style={{fontSize: "larger"}} type="button" className="btn  position-relative" >
+                <button style={{fontSize: "larger"}} type="button" className="btn  position-relative">
                     <Link to="">
-                        <i className="bi bi-bell bi-2x"></i>
+                        <i className="bi bi-bell"></i>
                     </Link>
                     {count > 0 && ( // Chỉ hiển thị số đếm nếu nó lớn hơn 0
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
