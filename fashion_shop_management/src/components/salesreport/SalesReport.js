@@ -54,8 +54,8 @@ function SalesReport() {
   };
 
   const labels = salesReportProduct.map((salesReport) => formatDateString(new Date(salesReport.date)));
-  const dataRevenue =  salesReportProduct.map((salesReport) => salesReport.revenue);
-  const dataSpend = salesReportProduct.map((salesReport) => salesReport.spend );
+  const dataRevenue = salesReportProduct.map((salesReport) => salesReport.revenue);
+  const dataSpend = salesReportProduct.map((salesReport) => salesReport.spend);
   const chartData = {
     labels: labels,
     datasets: [
@@ -122,10 +122,6 @@ function SalesReport() {
           family: 'tahoma',
           weight: 'normal',
         },
-        tooltip: {
-          enabled: false,
-          position: 'nearest'
-        }
       },
       subtitle: {
         display: true,
@@ -161,7 +157,6 @@ function SalesReport() {
                   selected={startDate}
                   onChange={handleStartDateChange}
                   maxDate={endDate}
-                  style={{fontWeight:"none"}}
               />
             </div>
             <div className="col-md-2">

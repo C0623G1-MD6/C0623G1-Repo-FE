@@ -4,7 +4,7 @@ import React from "react";
 import {LookUpCustomer} from "./LookUpCustomer";
 
 function LookUpCustomerOverview() {
-    let item="item4";
+    let item="item3";
     return(
         <>
             <div className="main-container d-flex">

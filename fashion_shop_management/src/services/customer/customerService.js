@@ -22,7 +22,7 @@ const URL_CUSTOMER = "http://localhost:8080/api/customer";
 
 export const getCustomerByIdService = async (id) => {
     try {
-        const res = await axios.get(URL_CUSTOMER + `/${id}`)
+        const res = await axios.get(URL_CUSTOMER + `/${id}`,{ headers: authHeader() })
         return res.data
     } catch (e) {
         alert("error Service get Customer")
@@ -31,7 +31,7 @@ export const getCustomerByIdService = async (id) => {
 
 export const editCustomerService = async (value) => {
     try {
-        const res = await axios.patch(URL_CUSTOMER + `/${value.id}`, value)
+        const res = await axios.patch(URL_CUSTOMER + `/${value.id}`, value,{ headers: authHeader() })
         return res
     } catch (e) {
         alert("error Service Edit")
@@ -39,7 +39,7 @@ export const editCustomerService = async (value) => {
 }
 export const createCustomerService = async (value) => {
     try {
-        const res = await axios.post(URL_CUSTOMER, value)
+        const res = await axios.post(URL_CUSTOMER, value,{ headers: authHeader() })
         console.log(res)
         return res
     } catch (e) {
@@ -48,7 +48,7 @@ export const createCustomerService = async (value) => {
 }
 export const getCustomerTypeListService = async () => {
     try {
-        const res = await axios.get("http://localhost:8080/api/customerType")
+        const res = await axios.get("http://localhost:8080/api/customerType",{ headers: authHeader() })
         return res.data
     } catch (e) {
         alert("error Service get List")

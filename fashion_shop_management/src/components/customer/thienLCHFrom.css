@@ -42,4 +42,8 @@
     font-weight: 600;
     font-size: 14px;
 }
+.thienlch-error{
+    position: relative;
+    bottom: 15px;
+}
 
