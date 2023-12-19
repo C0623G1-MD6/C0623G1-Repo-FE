@@ -1,20 +1,37 @@
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService"
 import {Link, NavLink} from "react-router-dom";
+import Pagination from "./Pagination";
 
 export function LookUpCustomer() {
     const [customers, setCustomers] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(0);
     const [customer, setCustomer] = useState({});
-
+    // const [totalPages, setTotalPages] = useState()
+    // console.log(totalPages)
+    const totalPages = 8;
     useEffect(() => {
         getAllCustomer()
     }, [page, keyword]);
 
+
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
+
     const getAllCustomer = async () => {
         const res = await paymentService.getAllCustomer(page, keyword);
         setCustomers(res.data.content);
+        // setTotalPages(res.data.totalPages)
+    }
+
+    const arr = (number) => {
+        const pages = []
+        for (let i = 0; i < number; i++) {
+            pages[i].push(i + 1)
+        }
+        return pages;
     }
 
     return (
@@ -31,7 +48,7 @@ export function LookUpCustomer() {
                         />
                         <button className="btn btn-outline-dark btn-sm rounded-0 ms-3"><span className="text-center"><i
                             className="bi bi-search ms-3"></i></span></button>
-                        <Link role="button" to={`/payment`} state={{cus:customer}}
+                        <Link role="button" to={`/payment`} state={{cus: customer}}
                               className="btn btn-outline-dark btn-sm rounded-0 ms-3">Chọn</Link>
                     </div>
                     <div>
@@ -52,10 +69,10 @@ export function LookUpCustomer() {
                                     </tr>
                                     :
                                     customers.map((c, index) => (
-                                        <tr key={c.id}  onClick={()=>
+                                        <tr key={c.id} onClick={() =>
                                             setCustomer(c)
                                         }
-                                            className={c.id===customer.id?"bg-secondary bg-opacity-25":''}
+                                            className={c.id === customer.id ? "bg-secondary bg-opacity-25" : ''}
                                         >
                                             <td>{index + 1}</td>
                                             <td>{c.customer_code}</td>
@@ -67,30 +84,42 @@ export function LookUpCustomer() {
                             </tbody>
                         </table>
                     </div>
-                    <div>
-                        <nav aria-label="Page navigation example">
-                            <ul className="pagination pagination-sm justify-content-end">
-                                <li className="page-item">
-                                    <a className="page-link rounded-0 border-secondary text-dark" href="#"
-                                       aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                <li className="page-item"><a className="page-link border-secondary text-dark"
-                                                             href="#">1</a></li>
-                                <li className="page-item"><a className="page-link border-secondary text-dark"
-                                                             href="#">2</a></li>
-                                <li className="page-item"><a className="page-link border-secondary text-dark"
-                                                             href="#">3</a></li>
-                                <li className="page-item">
-                                    <a className="page-link rounded-0 border-secondary text-dark" href="#"
-                                       aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
+                    {/*<div>*/}
+                    {/*    <nav aria-label="Page navigation example">*/}
+                    {/*        <ul className="pagination pagination-sm justify-content-end">*/}
+                    {/*            <li className="page-item">*/}
+                    {/*                <a className="page-link rounded-0 border-secondary text-dark" href="#"*/}
+                    {/*                   aria-label="Previous">*/}
+                    {/*                    <span aria-hidden="true">&laquo;</span>*/}
+                    {/*                </a>*/}
+                    {/*            </li>*/}
+                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
+                    {/*            /!*                             href="#">1</a></li>*!/*/}
+                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
+                    {/*            /!*                             href="#">2</a></li>*!/*/}
+                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
+                    {/*            /!*                             href="#">3</a></li>*!/*/}
+
+                    {/*            {*/}
+                    {/*                */}
+
+                    {/*                // totalPages.map((item, index) => (*/}
+                    {/*                //     <li className="page-item"><a*/}
+                    {/*                //         className="page-link border-secondary text-dark"*/}
+                    {/*                //         href="#">{index + 1}</a></li>*/}
+                    {/*                // ))*/}
+                    {/*            }*/}
+                    {/*            <li className="page-item">*/}
+                    {/*                <a className="page-link rounded-0 border-secondary text-dark" href="#"*/}
+                    {/*                   aria-label="Next">*/}
+                    {/*                    <span aria-hidden="true">&raquo;</span>*/}
+                    {/*                </a>*/}
+                    {/*            </li>*/}
+                    {/*        </ul>*/}
+                    {/*    </nav>*/}
+                    {/*</div>*/}
+
+                    <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
                 </div>
             </div>
         </>
