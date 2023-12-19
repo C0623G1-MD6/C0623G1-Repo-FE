@@ -67,7 +67,10 @@ const SearchProducts = () => {
               </div>
             </div>
             {searchList.map((item) => (
-              <div key={item.productId} className="col col-3 mb-4 ">
+              <div
+                key={item.productId}
+                className="col-12 col-md-6 col-lg-3 mb-4 "
+              >
                 <div
                   className="card"
                   onClick={() => handleSelectProductView(item)}
