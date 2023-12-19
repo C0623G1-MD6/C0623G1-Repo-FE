@@ -71,6 +71,9 @@ function App() {
                         <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
                         <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
+                        <Route path="/customer/create" element={<Create/>}></Route>
+                        <Route path="/customer/edit/:id" element={<Edit/>}></Route>
+                        <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>

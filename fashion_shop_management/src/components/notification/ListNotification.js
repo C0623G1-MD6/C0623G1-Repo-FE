@@ -4,9 +4,12 @@ import {getAll, readNotification} from "../../services/notification/notification
 import {Field} from "formik";
 
 export function ListNotification() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user.roles)
     const [notification, setNotification] = useState([]);
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
+
 
     useEffect(() => {
         display()
@@ -14,7 +17,7 @@ export function ListNotification() {
     }, [page]);
 
     const display = async () => {
-        const res = await getAll(page);
+        const res = await getAll(page,user.roles);
         setTotalPage(res.data.totalPages);
         setNotification(res.data.content);
     }
@@ -84,7 +87,6 @@ export function ListNotification() {
                                 />
                             </div>
                         )}
-
                     </div>
                 ))}
             </div>
@@ -108,8 +110,6 @@ export function ListNotification() {
                     </div>
                 </div>
             </div>
-
-
         </>
     )
 }
