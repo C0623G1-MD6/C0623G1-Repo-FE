@@ -1,9 +1,9 @@
 import axios from "axios";
 import authHeader from "../AuthService";
 
-export const getAll = async (page) => {
+export const getAll = async (page,roleName) => {
   try {
-      return await axios.get(`http://localhost:8080/api/notification/list/sales?page=${page}`,{ headers: authHeader() })
+      return await axios.get(`http://localhost:8080/api/notification/list/sales?page=${page}&roleName=${roleName}`,{ headers: authHeader() },)
   }catch (e) {
       alert("Hiển thị thông báo thất bại")
   }
