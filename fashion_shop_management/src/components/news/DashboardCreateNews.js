@@ -12,7 +12,7 @@ function DashboardCreateNews(props) {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
-    let item="item3"
+    let item="item4"
 
     useEffect(() => {
         if (user) {

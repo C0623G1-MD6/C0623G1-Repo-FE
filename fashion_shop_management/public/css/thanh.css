@@ -60,14 +60,14 @@
     text-align: center;
 }
 
-#change-password .btn-submit .btn {
+#change-password .btn-submit .btn, .create-noti .btn-add-noti {
     background: #151515;
     color: #fff;
     border: 0;
     border-radius: 0;
 }
 
-#change-password .input-pass {
+#change-password .input-pass, .create-noti {
     /*border-radius: 15px;*/
     border: 1px solid #F5F5F5;
     background: #FFF;
@@ -133,7 +133,7 @@ section#login .form-check-input {
     border-radius: 0;
 }
 
-.content .form-control {
+.content .form-control, .create-noti .form-select {
     border-radius: 0;
 }
 

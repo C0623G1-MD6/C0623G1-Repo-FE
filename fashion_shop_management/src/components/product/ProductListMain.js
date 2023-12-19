@@ -2,9 +2,26 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import ProductList from "./ProductList";
+import {NotFound} from "../NotFound";
 
 function ProductListMain() {
-    let item="item4";
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user)
+    if (!user) {
+        return <NotFound/>;
+    }
+    let item;
+    switch (user.roles[0]){
+        case "ROLE_WAREHOUSE":
+            item="item4";
+            break
+        case "ROLE_MANAGER":
+            item="item8";
+            break;
+        case "ROLE_SALES":
+            item="item4";
+            break;
+    }
     return(
         <>
             <div className="main-container d-flex">

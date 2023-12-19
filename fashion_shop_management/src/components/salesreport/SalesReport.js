@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Bar, Line} from "react-chartjs-2";
 import {Chart, registerables} from "chart.js";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
 import * as SalesReportService from "../../services/salesreport/SalesReportService";
+import {DatePicker} from "antd";
 
 
 Chart.register(...registerables);
@@ -143,7 +142,7 @@ function SalesReport() {
           </div>
           <div className="row mt-5">
             <div className="col-lg-12">
-              <Bar data={chartData} options={options} id="myChart" style={{width: "80%", margin: "0 auto"}}/>
+              {/*<Bar data={chartData} options={options} id="myChart" style={{width: "80%", margin: "0 auto"}}/>*/}
             </div>
           </div>
         </div>

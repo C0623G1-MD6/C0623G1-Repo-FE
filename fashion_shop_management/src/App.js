@@ -61,7 +61,9 @@ function App() {
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
-                        <Route path="/sales" element={<SalesReport/>}/>
+                        <Route path="/dashboard/sales" element={<SalesReportMain/>}/>
+                        <Route path="/customer/create" element={<Create/>}/>
+                        <Route path="/customer/edit/:id" element={<Edit/>}/>
                         <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
@@ -74,7 +76,6 @@ function App() {
             </Provider>
         </>
     );
-
 }
 
 export default App;
