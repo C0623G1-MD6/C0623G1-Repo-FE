@@ -42,32 +42,32 @@ function CreateCustomer() {
 
     const customerValidate = {
         customerCode: Yup.string()
-            .required("vui lòng nhập")
-            .matches(/^KH-\d{4}$/, "Không đúng định dạng, ex: KH-0001"),
+            .required("vui lòng nhập.")
+            .matches(/^KH-\d{4}$/, "Không đúng định dạng, ex: KH-0001."),
         name: Yup.string()
-            .required("vui lòng nhập")
-            .matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
+            .required("vui lòng nhập.")
+            .matches(/^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+ [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+(?: [AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]*)*$/, "Chứa kí tự đặc biệt, hoặc số."),
         phone: Yup.string()
-            .required("vui lòng nhập")
-            .matches(/^0[0-9]{9}$/, "SĐT bào gồm 10 số ex:012312312"),
+            .required("vui lòng nhập.")
+            .matches(/^0[0-9]{9}$/, "SĐT bào gồm 10 số ex:012312312."),
         email: Yup.string()
-            .required("vui lòng nhập")
-            .matches(/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt"),
+            .required("vui lòng nhập.")
+            .matches(/^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$/, "Không đúng định dạng hoặc chứa kí tự đặc biệt."),
         address: Yup.string()
-            .required("vui lòng nhập"),
+            .required("vui lòng nhập."),
         birthday: Yup.date()
             .required("vui lòng nhập")
-            .max(date10, "Vui lòng nhập lớn hơn 10 tuổi")
-            .min(date100, "Vui lòng nhập bé hơn 100 tuổi"),
+            .max(date10, "Vui lòng nhập lớn hơn 10 tuổi.")
+            .min(date100, "Vui lòng nhập bé hơn 100 tuổi."),
         gender: Yup.string()
-            .required("vui lòng chọn giới tính ")
+            .required("vui lòng chọn giới tính.")
     }
     return (
         <>
             <Formik initialValues={initialValue} onSubmit={(values, {setErrors}) => {
                 createCustomer(values, setErrors)
             }} validationSchema={Yup.object(customerValidate)}>
-                <div className="col-lg-10">
+                <div className="col-lg-12">
                     <div
                         className="d-flex justify-content-center bg-light pb-3 p-5"
                         style={{padding: 0}}
@@ -88,7 +88,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="code">Mã khách hàng<span style={{color: "red"}}>*</span></label>
-                                        <ErrorMessage className="text text-danger" name="customerCode"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="customerCode"
                                                       component="div"></ErrorMessage>
                                     </div>
                                     <div className="thienlch-group">
@@ -99,7 +99,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="name">Họ và tên<span style={{color: "red"}}>*</span></label>
-                                        <ErrorMessage className="text text-danger" name="name"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="name"
                                                       component="div"></ErrorMessage>
                                     </div>
                                     <label htmlFor="gender" className="form-label">
@@ -133,7 +133,7 @@ function CreateCustomer() {
                                             </label>
                                         </div>
                                     </div>
-                                    <ErrorMessage className="text text-danger" name="gender"
+                                    <ErrorMessage className="thienlch-error text text-danger" name="gender"
                                                   component="div"></ErrorMessage>
                                     <div className="thienlch-group">
                                         <Field
@@ -143,7 +143,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="birthday">Ngày sinh</label>
-                                        <ErrorMessage className="text text-danger" name="birthday"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="birthday"
                                                       component="div"></ErrorMessage>
 
                                     </div>
@@ -155,7 +155,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="address">Địa chỉ</label>
-                                        <ErrorMessage className="text text-danger" name="address"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="address"
                                                       component="div"></ErrorMessage>
                                     </div>
                                     <div className="thienlch-group">
@@ -166,7 +166,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="email">Email</label>
-                                        <ErrorMessage className="text text-danger" name="email"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="email"
                                                       component="div"></ErrorMessage>
                                     </div>
                                     <div className="thienlch-group">
@@ -176,7 +176,7 @@ function CreateCustomer() {
                                             required=""
                                         />
                                         <label htmlFor="phone">Số điện thoại</label>
-                                        <ErrorMessage className="text text-danger" name="phone"
+                                        <ErrorMessage className="thienlch-error text text-danger" name="phone"
                                                       component="div"></ErrorMessage>
                                     </div>
                                     <div className="thienlch-group d-flex me-5 justify-content-center">
