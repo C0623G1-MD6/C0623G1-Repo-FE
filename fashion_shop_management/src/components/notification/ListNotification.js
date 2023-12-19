@@ -68,7 +68,7 @@ export function ListNotification() {
                         </div>
                         {!notifi.deleted ? (
                             <div>
-                                Đã đọc
+                                <i className="bi bi-check2-circle"></i> Đã đọc
                             </div>
                         ) : (
                             <div className="form-check">
