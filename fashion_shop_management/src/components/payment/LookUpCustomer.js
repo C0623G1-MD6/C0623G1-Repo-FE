@@ -1,16 +1,15 @@
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService"
 import {Link, NavLink} from "react-router-dom";
-import Pagination from "./Pagination";
+import Pagination from "../pagination/Pagination";
 
 export function LookUpCustomer() {
     const [customers, setCustomers] = useState([]);
     const [keyword, setKeyword] = useState("");
     const [page, setPage] = useState(0);
     const [customer, setCustomer] = useState({});
-    // const [totalPages, setTotalPages] = useState()
-    // console.log(totalPages)
-    const totalPages = 8;
+    const [totalPages, setTotalPages] = useState()
+
     useEffect(() => {
         getAllCustomer()
     }, [page, keyword]);
@@ -23,7 +22,7 @@ export function LookUpCustomer() {
     const getAllCustomer = async () => {
         const res = await paymentService.getAllCustomer(page, keyword);
         setCustomers(res.data.content);
-        // setTotalPages(res.data.totalPages)
+        setTotalPages(res.data.totalPages)
     }
 
     const arr = (number) => {
@@ -84,41 +83,6 @@ export function LookUpCustomer() {
                             </tbody>
                         </table>
                     </div>
-                    {/*<div>*/}
-                    {/*    <nav aria-label="Page navigation example">*/}
-                    {/*        <ul className="pagination pagination-sm justify-content-end">*/}
-                    {/*            <li className="page-item">*/}
-                    {/*                <a className="page-link rounded-0 border-secondary text-dark" href="#"*/}
-                    {/*                   aria-label="Previous">*/}
-                    {/*                    <span aria-hidden="true">&laquo;</span>*/}
-                    {/*                </a>*/}
-                    {/*            </li>*/}
-                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
-                    {/*            /!*                             href="#">1</a></li>*!/*/}
-                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
-                    {/*            /!*                             href="#">2</a></li>*!/*/}
-                    {/*            /!*<li className="page-item"><a className="page-link border-secondary text-dark"*!/*/}
-                    {/*            /!*                             href="#">3</a></li>*!/*/}
-
-                    {/*            {*/}
-                    {/*                */}
-
-                    {/*                // totalPages.map((item, index) => (*/}
-                    {/*                //     <li className="page-item"><a*/}
-                    {/*                //         className="page-link border-secondary text-dark"*/}
-                    {/*                //         href="#">{index + 1}</a></li>*/}
-                    {/*                // ))*/}
-                    {/*            }*/}
-                    {/*            <li className="page-item">*/}
-                    {/*                <a className="page-link rounded-0 border-secondary text-dark" href="#"*/}
-                    {/*                   aria-label="Next">*/}
-                    {/*                    <span aria-hidden="true">&raquo;</span>*/}
-                    {/*                </a>*/}
-                    {/*            </li>*/}
-                    {/*        </ul>*/}
-                    {/*    </nav>*/}
-                    {/*</div>*/}
-
                     <Pagination page={page} totalPages={totalPages} onPageChange={handlePageChange} />
                 </div>
             </div>

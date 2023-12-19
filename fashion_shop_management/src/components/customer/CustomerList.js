@@ -74,13 +74,10 @@ export function CustomerList() {
     return (
         customer && (
             <div className="row" style={{width: "100%"}}>
-                <div className="col-lg-2">
-
-                </div>
-                <div className="col-lg-10">
+                <div className="col-lg-12">
                     <div className="row pt-5">
                         <div className="col-lg-12">
-                            <div className="card mb-4" name="customer-table">
+                            <div className="card mb-4" name="customer-table" style={{borderRadius:"0"}}>
                                 <div className="shadow container card-header" name="customer-table">
                                     <div className="title_customer" style={{textAlign: "center"}}>
                                         <h2 className="fw-bold text-primary p-3">Danh Sách Khách Hàng</h2>
@@ -119,8 +116,8 @@ export function CustomerList() {
                                                        placeholder="Nhập tên"/>
                                             </div>
                                             <div className="search-button">
-                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0">
-                                                    <i className="bi bi-search" onClick={() => displayCustomer()}/>
+                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0" onClick={() => displayCustomer()}>
+                                                    <i className="bi bi-search" />
                                                 </button>
                                             </div>
                                         </div>
@@ -130,15 +127,15 @@ export function CustomerList() {
                                         <tr>
                                             <th style={{width: "3%"}}>STT</th>
                                             <th style={{width: "7%"}}>Mã</th>
-                                            <th style={{width: "14%"}}>Họ & Tên</th>
+                                            <th style={{width: "16%"}}>Họ & Tên</th>
                                             <th style={{width: "10%"}}>Ngày Sinh</th>
                                             <th style={{width: "9%"}}>Giới Tính</th>
                                             <th style={{width: "7%"}}>Điện Thoại</th>
                                             <th style={{width: "13%"}}>Email</th>
-                                            <th style={{width: "2%"}}>Điểm</th>
-                                            <th style={{width: "4%"}}>Bậc</th>
-                                            <th style={{width: "19%"}}>Địa Chỉ</th>
-                                            <th style={{width: "11%"}}>Tính Năng</th>
+                                            <th style={{width: "5%"}}>Điểm</th>
+                                            <th style={{width: "6%"}}>Bậc</th>
+                                            {/*<th style={{width: "17%"}}>Địa Chỉ</th>*/}
+                                            <th style={{width: "8%"}}>Tính Năng</th>
                                         </tr>
                                         </thead>
                                         {
@@ -159,13 +156,14 @@ export function CustomerList() {
                                                             <span
                                                                 className="badge rounded-pill text-bg-secondary">{cus.customerType.name}</span>
                                                             </td>
-                                                            <td>{cus.address}</td>
+                                                            {/*<td>{cus.address}</td>*/}
                                                             <td className="p-1">
                                                                 <Link role="button"
-                                                                      to={`/customer/CustomerEdit/${cus.id}`}
+                                                                      to={`/customer/edit/${cus.id}`}
                                                                       className="btn btn-outline-secondary btn-sm rounded-0 me-2">Sửa</Link>
                                                                 <button
-                                                                    className="btn btn-outline-danger btn-sm rounded-0" onClick={() => handleModal(cus)}>Xóa
+                                                                    className="btn btn-outline-danger btn-sm rounded-0"
+                                                                    onClick={() => handleModal(cus)}>Xóa
                                                                 </button>
                                                             </td>
                                                         </tr>

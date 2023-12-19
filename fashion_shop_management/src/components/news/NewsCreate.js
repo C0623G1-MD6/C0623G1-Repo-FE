@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
-import {getDownloadURL, refImage, storage, uploadBytes} from "../../services/news/firebase";
+import {refImage, storage} from "../../services/news/firebase";
+import {getDownloadURL, uploadBytes} from "firebase/storage";
 import {useEffect, useState} from "react";
 import {toast} from "react-toastify";
 import * as service from "../../services/news/service";
@@ -97,8 +98,8 @@ export function NewsCreate() {
                             <div>
                                 <div className="my-4">
                                     <div className="row">
-                                        <div className="col-lg-12">
-                                            <h2 className="hlptitle text-primary ">Đăng tin tức</h2>
+                                        <div className="col-lg-12 create-news">
+                                            <h2 className="hlptitle hlptitle fw-bold text-primary">Đăng tin tức</h2>
                                             <Form>
                                                 <div className="mb-3">
                                                     <label>Tiêu đề</label>
@@ -148,9 +149,12 @@ export function NewsCreate() {
                                                         marginBottom: "10px"
                                                     }
                                                 }></div>
-                                                <button type="submit" className="btn btn-outline-primary rounded-0">Đăng
-                                                    tin
-                                                </button>
+                                                <div>
+                                                    <button type="submit" className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
+                                                        tin
+                                                    </button>
+                                                </div>
+
                                             </Form>
                                         </div>
                                     </div>

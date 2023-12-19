@@ -1,14 +1,14 @@
-import HeaderAdmin from "../overview/HeaderAdmin";
-import React, {useEffect} from "react";
-import Sidebar from "../Sidebar";
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {getInfoByIdAccount} from "../../redux/middlewares/EmployeeMiddleware";
 import AccessDenied from "../auth/AccessDenied";
-import DashboardManager from "../DashboardManager";
-import {ListNotification} from "../notification/ListNotification";
+import Sidebar from "../Sidebar";
+import HeaderAdmin from "../overview/HeaderAdmin";
 import {CreateNotification} from "../notification/CreateNotification";
-import CreateCustomer from "./CreateCustomer";
-function Post() {
+import DashboardManager from "../DashboardManager";
+import {NewsCreate} from "./NewsCreate";
+
+function DashboardCreateNews(props) {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
@@ -35,8 +35,9 @@ function Post() {
                         <div className="content">
                             <HeaderAdmin/>
                             <div className="dashboard-content">
-                                <div className="py-5 px-5">
-                                    <CreateCustomer/>
+                                <div className="px-5">
+                                    {/*Đặt component của mọi người ở đây nhé*/}
+                                    <NewsCreate/>
                                 </div>
                             </div>
                         </div>
@@ -50,8 +51,6 @@ function Post() {
     return <>
         {renderPost()}
     </>;
-
-
 }
 
-export default Post;
+export default DashboardCreateNews;

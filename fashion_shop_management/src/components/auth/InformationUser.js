@@ -74,7 +74,7 @@ function InformationUser() {
                                                 <label htmlFor="birthday" className="form-label">Ngày
                                                     sinh</label>
                                                 <input readOnly={true} type="text" className="form-control" id="birthday"
-                                                       value={employee.birthday}/>
+                                                       value={new Date(employee.birthday).toLocaleDateString('vi-VN')}/>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="address" className="form-label">Địa chỉ</label>

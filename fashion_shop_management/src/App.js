@@ -1,7 +1,6 @@
-
-import logo from './logo.svg';
-import './App.css';
-import './components/product/LoanTTV.css'
+import logo from "./logo.svg";
+import "./App.css";
+import "./components/product/LoanTTV.css";
 import HomePage from "./components/home/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
@@ -11,16 +10,20 @@ import { Provider } from "react-redux";
 import store from "./redux/Store";
 import DashboardInformation from "./pages/DashboardInformation";
 
-import {NotFound} from "./components/NotFound";
-import {Payment} from "./components/payment/Payment";
-import {CustomerList} from "./components/customer/CustomerList";
+import { NotFound } from "./components/NotFound";
+import { Payment } from "./components/payment/Payment";
+import { CustomerList } from "./components/customer/CustomerList";
 import React from "react";
-import {LookUpCustomer} from "./components/payment/LookUpCustomer";
-
 import Overview from "./components/overview/Overview";
 import DashboardManager from "./components/DashboardManager";
 import Post from "./components/example/Post";
 import ChangePasswordPage from "./components/change-password/ChangePasswordPage";
+import CustomerListMain from "./components/customer/CustomerListMain";
+import CreateCustomer from "./components/customer/CreateCustomer";
+import EditCustomer from "./components/customer/EditCustomer";
+import Create from "./components/customer/Create";
+import Edit from "./components/customer/Edit";
+
 
 import SearchProducts from "./components/home/SearchProducts";
 
@@ -33,6 +36,11 @@ import {NewsList} from "./components/news/NewsList";
 import NewsDetail from "./components/news/NewsDetail";
 import PaymentOverview from "./components/payment/PaymentOverview";
 import LookUpCustomerOverview from "./components/payment/LookUpCustomerOverview";
+import {LookUpCustomer} from "./components/payment/LookUpCustomer";
+import SalesReport from "./components/salesreport/SalesReport";
+import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
+import DashboardCreateNews from "./components/news/DashboardCreateNews";
+import SalesReportMain from "./components/salesreport/SalesReportMain";
 
 function App() {
     return (
@@ -45,6 +53,8 @@ function App() {
                         <Route path="/payment" element={<PaymentOverview/>}></Route>
                         <Route path="/look-up-customer" element={<LookUpCustomerOverview/>}></Route>
                         <Route path="/dashboard" element={<Dashboard/>}></Route>
+                        <Route path="/customer/list" element={<CustomerListMain/>}/>
+
                         {/*Mọi người làm theo dòng phía dưới nhé*/}
                         <Route path="/dashboard/product/list" element={<ProductListMain/>}></Route>
                         <Route path="/product/create" element={<CreateProductMain/>}></Route>
@@ -52,15 +62,24 @@ function App() {
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
+                        <Route path="/dashboard/sales" element={<SalesReportMain/>}/>
+                        <Route path="/customer/create" element={<Create/>}/>
+                        <Route path="/customer/edit/:id" element={<Edit/>}/>
+                        <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
+                        <Route path="/news" element={<NewsList/>}></Route>
+                        <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
+                        <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
+                        <Route path="/customer/create" element={<Create/>}></Route>
+                        <Route path="/customer/edit/:id" element={<Edit/>}></Route>
+                        <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
         </>
     );
-
 }
 
 export default App;
