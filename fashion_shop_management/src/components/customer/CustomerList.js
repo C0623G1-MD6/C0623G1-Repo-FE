@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
 import {string} from "yup";
+import Pagination from "../pagination/Pagination";
 
 export function CustomerList() {
 
@@ -92,6 +93,9 @@ export function CustomerList() {
         const match = phoneNumber.match(/^(\d{4})(\d{3})(\d{3})$/);
         return match[1] + '.' + match[2] + '.' + match[3];
     }
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+    };
 
 
     return (
@@ -206,21 +210,7 @@ export function CustomerList() {
                                                 </tr>
                                         }
                                     </table>
-                                    {/*<nav aria-label="Page navigation example" className="">*/}
-                                    <ul className="pagination justify-content-end ">
-                                        {totalPage > 1 && (
-                                            <li className="page-item d-flex">
-                                                <button className="page-link" type="button" disabled={page === 0}
-                                                        onClick={() => prevPage()}>&laquo;</button>
-                                                <li className="page-item"><a
-                                                    className="page-link">{page + 1}/{totalPage}</a></li>
-                                                <button className="page-link text-dark" type="button"
-                                                        disabled={page === totalPage}
-                                                        onClick={() => nextPage()}>&raquo;</button>
-                                            </li>
-                                        )}
-                                    </ul>
-                                    {/*</nav>*/}
+                                    <Pagination page={page} totalPages={totalPage} onPageChange={handlePageChange} />
                                 </div>
                             </div>
                         </div>
@@ -235,21 +225,3 @@ export function CustomerList() {
         )
     )
 }
-
-//<div className="row" style={{alignItems: "center"}}>
-//                                                 <div className="col-md-6">
-//                                                     <button className="btn btn-outline-primary" style={{marginLeft: "15rem"}} onClick={() => prevPage()}>
-//                                                         <i className="fa-solid fa-forward fa-rotate-180"
-//                                                            style={{color: "#b966e5"}}/>
-//                                                     </button>
-//                                                     <span className="btn btn-outline-primary">
-//                                                 {page + 1}/{totalPage}
-//                                             </span>
-//                                                     <button className="btn btn-outline-primary"
-//                                                             onClick={() => nextPage()}>
-//                                                 <span> <i className="fa-solid fa-forward"
-//                                                           style={{color: "#b966e5"}}/>
-//                                                 </span>
-//                                                     </button>
-//                                                 </div>
-//                                             </div>
