@@ -3,13 +3,13 @@ import * as overViewService from "../../services/overview/OverviewService"
 import {ListNotification} from "../notification/ListNotification";
 
 function Overview() {
-    const [totalCustomer, setTotalCustomer] = useState(0);
+    const [totalProductsSold, setTotalProductsSold] = useState(0);
     const [totalOrder, setTotalOrder] = useState(0);
     const [totalRevenue, setTotalRevenue] = useState(0);
     const [topFiveSeller, setTopFiveSeller] = useState([]);
     const [topFiveNewOrder, setFiveNewOrder] = useState([]);
 
-    const [time, setTime] = useState("week");
+    const [time, setTime] = useState("year");
 
     function convertDateFormat(inputDateString) {
         // Parse the input date string
@@ -36,9 +36,9 @@ function Overview() {
     }
 
 
-    const getTotalCustomer = async () => {
-        let data = await overViewService.getTotalCustomer(time);
-        setTotalCustomer(data);
+    const getTotalProductsSold = async () => {
+        let data = await overViewService.getTotalProductsSold(time);
+        setTotalProductsSold(data);
     }
     const getTotalOrder = async () => {
         let data = await overViewService.getTotalOrder(time);
@@ -66,7 +66,7 @@ function Overview() {
     }, [])
     useEffect(() => {
         getTopFiveSeller();
-        getTotalCustomer();
+        getTotalProductsSold();
         getTotalOrder();
         getTotalRevenue();
     }, [time])
@@ -75,29 +75,12 @@ function Overview() {
             <div>
                 <div className="mb-4">
                     <div className="row">
-                        <div className="col-lg-4">
-                            <div className="statistical d-flex justify-content-center">
-                                <div className="mt-3 item-one">
-                                    <div className="d-flex justify-content-center">
-                                        <i className="bi bi-people-fill"></i>
-                                    </div>
-                                    <div className="d-flex justify-content-center">
-                                        <h4>Lượt khách</h4>
-                                    </div>
-                                    <div className="d-flex justify-content-center">
-                                        <h2>{new Intl.NumberFormat().format(totalCustomer)}</h2>
-                                    </div>
-                                    <div className="d-flex justify-content-center">
-                                        {/*<h5>Tăng 20%</h5>*/}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                         <div className="col-lg-4">
                             <div className="statistical d-flex justify-content-center">
                                 <div className="mt-3 item-two">
                                     <div className="d-flex justify-content-center">
-                                        <i className="bi bi-bag-fill"></i>
+                                        <i className="bi bi-cart-fill"></i>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                         <h4>Đơn hàng</h4>
@@ -106,6 +89,24 @@ function Overview() {
                                         <h2>{new Intl.NumberFormat().format(totalOrder)}</h2>
                                     </div>
                                     <div className="d-flex justify-content-center">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-lg-4">
+                            <div className="statistical d-flex justify-content-center">
+                                <div className="mt-3 item-one">
+                                    <div className="d-flex justify-content-center">
+                                        <i className="bi bi-bag-fill"></i>
+                                    </div>
+                                    <div className="d-flex justify-content-center">
+                                        <h4>Đã bán</h4>
+                                    </div>
+                                    <div className="d-flex justify-content-center">
+                                        <h2>{new Intl.NumberFormat().format(totalProductsSold)}</h2>
+                                    </div>
+                                    <div className="d-flex justify-content-center">
+                                        {/*<h6>Sản phẩm</h6>*/}
                                     </div>
                                 </div>
                             </div>
@@ -203,7 +204,7 @@ function Overview() {
                                         <tr className="table-secondary">
                                             <th scope="col">STT</th>
                                             <th scope="col">Khách hàng</th>
-                                            <th scope="col">Số lượng</th>
+                                            <th scope="col">Tổng tiền</th>
                                             <th scope="col">Ngày mua</th>
                                         </tr>
                                         </thead>
@@ -212,7 +213,10 @@ function Overview() {
                                             <tr key={index}>
                                                 <td scope="row">{index + 1}</td>
                                                 <td>{item.name}</td>
-                                                <td>{new Intl.NumberFormat().format(item.total)}</td>
+                                                <td>{item.total.toLocaleString('vi', {
+                                                    style: 'currency',
+                                                    currency: 'VND'
+                                                })}</td>
                                                 <td>{convertDateFormat(item.date + "")}</td>
                                             </tr>
                                         ))}
