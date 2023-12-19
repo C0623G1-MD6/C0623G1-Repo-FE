@@ -1,7 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {refImage, storage} from "../../services/news/firebase";
 import {getDownloadURL, uploadBytes} from "firebase/storage";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {toast} from "react-toastify";
 import * as service from "../../services/news/service";
 import * as Yup from "yup";
@@ -10,9 +10,10 @@ import {formatLocalDateTime, processAndSaveToDatabase} from "../../services/news
 
 
 export function NewsCreate() {
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState("https://media.istockphoto.com/id/1219543807/ko/%EB%B2%A1%ED%84%B0/%EA%B7%B8%EB%A6%BC-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%A1%9C%EA%B3%A0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%85%98-%EC%82%AC%EC%A7%84-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%B2%A1%ED%84%B0-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%9E%85%EB%8B%88%EB%8B%A4-%EC%9B%B9-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EA%B8%B0%ED%98%B8-%EB%A1%9C%EA%B3%A0-%EC%95%84%EC%9D%B4%EC%BD%98-%EA%B8%B0%ED%98%B8-%EC%9D%91%EC%9A%A9-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-ui%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%8B%A0-%EC%9C%A0%ED%96%89-%EC%82%AC%EC%A7%84-%EA%B0%A4%EB%9F%AC%EB%A6%AC.jpg?s=170667a&w=0&k=20&c=q1q3pEdGVDSXOf46Dua9Dbplh6WZHui_sG2yL_muJfw=");
     const navigate = useNavigate();
     const [category, setCategory] = useState([]);
+    const inputImg = useRef();
 
     useEffect(() => {
         findAllCategory();
@@ -147,9 +148,11 @@ export function NewsCreate() {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label>Ảnh</label>
-                                                    <input type={"file"} onChange={(e) => {
+                                                    <input ref={inputImg} type={"file"} onChange={(e) => {
                                                         handleImageUpload(e)
-                                                    }} className="form-control"/>
+                                                    }} className="form-control"
+                                                           hidden={true}
+                                                    />
                                                 </div>
                                                 <div style={
                                                     {
@@ -157,11 +160,17 @@ export function NewsCreate() {
                                                         backgroundPosition: "center",
                                                         backgroundSize: "cover",
                                                         width: "400px",
-                                                        height: "200px",
-                                                        backgroundColor:"gray",
-                                                        marginBottom: "10px"
+                                                        aspectRatio: "16/9",
+                                                        backgroundColor:"white",
+                                                        border:"black 1px solid",
+                                                        marginBottom: "10px",
+                                                        cursor: "pointer"
                                                     }
-                                                }></div>
+                                                }
+                                                     onClick={() => {
+                                                         inputImg.current.click()
+                                                     }}
+                                                ></div>
                                                 <div>
                                                     <button type="submit"
                                                             className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
