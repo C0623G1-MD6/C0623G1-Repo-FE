@@ -15,9 +15,8 @@ export function CreateNotification() {
         setCurrentDate(getCurrentDate());
         displayRole()
     }, []);
-
-    const add = async (values, {resetForm}) => {
-        await createNotification({...values, roleId: role});
+    const add = async (values, { resetForm }) => {
+        await createNotification({ ...values, roleId: role });
         toast('Thêm mới thành công');
         resetForm();
     };
