@@ -16,8 +16,8 @@ export function CountNotification() {
 
     return (
         <>
-            <div className="mt-3">
-                <button type="button" className="btn  position-relative" style={{bottom:"10px"}}>
+            <div>
+                <button style={{fontSize: "larger"}} type="button" className="btn  position-relative" >
                     <Link to="">
                         <i className="bi bi-bell bi-2x"></i>
                     </Link>
