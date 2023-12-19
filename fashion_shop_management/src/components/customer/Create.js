@@ -37,7 +37,6 @@ function Post() {
                             <div className="dashboard-content">
                                 <div className="py-5 px-5">
                                     <CreateCustomer/>
-                                    <CreateNotification/>
                                 </div>
                             </div>
                         </div>
