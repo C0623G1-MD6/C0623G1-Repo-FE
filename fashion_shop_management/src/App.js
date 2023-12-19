@@ -40,6 +40,7 @@ import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 import SalesReport from "./components/salesreport/SalesReport";
 import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
 import DashboardCreateNews from "./components/news/DashboardCreateNews";
+import SalesReportMain from "./components/salesreport/SalesReportMain";
 
 function App() {
     return (
@@ -61,20 +62,24 @@ function App() {
                         <Route path="/dashboard/post" element={<Post/>} ></Route>
                         <Route path="/dashboard/changePassword" element={<ChangePasswordPage/>} ></Route>
                         <Route path="/customer/list" element={<CustomerList/>}/>
-                        <Route path="/sales" element={<SalesReport/>}/>
+                        <Route path="/dashboard/sales" element={<SalesReportMain/>}/>
+                        <Route path="/customer/create" element={<Create/>}/>
+                        <Route path="/customer/edit/:id" element={<Edit/>}/>
                         <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
                         <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
                         <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
+                        <Route path="/customer/create" element={<Create/>}></Route>
+                        <Route path="/customer/edit/:id" element={<Edit/>}></Route>
+                        <Route path="/customer/list" element={<CustomerList/>}></Route>
                     </Routes>
                 </BrowserRouter>
                 <ToastContainer/>
             </Provider>
         </>
     );
-
 }
 
 export default App;

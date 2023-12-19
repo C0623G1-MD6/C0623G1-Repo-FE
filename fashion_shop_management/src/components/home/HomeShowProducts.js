@@ -16,6 +16,7 @@ import {
 import {useParams} from "react-router-dom";
 import axios from "axios";
 import {Button, Modal} from "react-bootstrap";
+import ImageGallery from "./ImageGallery/ImageGallery";
 
 const HomeShowProducts = () => {
     const [products, setProducts] = useState([]);
@@ -24,6 +25,21 @@ const HomeShowProducts = () => {
     const [sort, setSort] = useState("ASC");
     const [newestProducts, setNewestProducts] = useState([]);
     const [showModal, setShowModal] = useState(false);
+    const imagesModal = [
+        {
+            original: "https://picsum.photos/id/1018/1000/600/",
+            thumbnail: "https://picsum.photos/id/1018/250/150/",
+        },
+        {
+            original: "https://picsum.photos/id/1015/1000/600/",
+            thumbnail: "https://picsum.photos/id/1015/250/150/",
+        },
+        {
+            original: "https://picsum.photos/id/1019/1000/600/",
+            thumbnail: "https://picsum.photos/id/1019/250/150/",
+        },
+    ];
+
     const handleCloseModal = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
 
@@ -118,22 +134,28 @@ const HomeShowProducts = () => {
                             className="mySwiper"
                         >
                             {products.map((item) => (
-                                <SwiperSlide>
+                                <SwiperSlide key={item.productId}>
                                     <div className="card" onClick={() => handleSelectProductView(item)}>
-                                        <img src={item.productImage} height="333px" className="card-img-top" alt="..."/>
+                                        <img src={item.productImage.split(",")[0]} height="333px"
+                                             className="card-img-top" alt="..."/>
                                         <div className="card-body px-0">
                                             <h5 className="card-title">{item.productName}</h5>
-                                            <p class="card-text">Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải
-                                                gân.</p>
+
                                             <hr/>
                                             <p className="size-product">XS - S - M - L - XL - XXL</p>
+
                                             <div className="row price-product justify-content-between">
+
                                                 <div className="col-auto">
                                                             <span className="price-sale">
+                                                                <del>
+
+
                                                                 {item.price.toLocaleString("vi", {
                                                                     style: "currency",
                                                                     currency: "VND",
                                                                 })}
+                                                                     </del>
                                                             </span>
                                                     <span className="percent">
                                                                 {item.percent * 100}%
@@ -151,6 +173,8 @@ const HomeShowProducts = () => {
                                                             </span>
                                                 </div>
                                             </div>
+
+
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -165,7 +189,7 @@ const HomeShowProducts = () => {
                                 <h3 className="title-product">
                                     SẢN PHẨM MỚI
                                 </h3>
-                                <p>Các sản phẩm đang được khuyến mãi</p>
+                                <p>Các sản phẩm mới được cập nhật</p>
                             </div>
                             <div className="col-auto sort">
                                 <span>Sắp xếp theo:</span>
@@ -208,28 +232,33 @@ const HomeShowProducts = () => {
                             className="mySwiper"
                         >
                             {newestProducts.map((item) => (
-                                <SwiperSlide>
+                                <SwiperSlide key={item.productId}>
                                     <div className="card" onClick={() => handleSelectProductView(item)}>
-                                        <img src={item.productImage} height="333px" className="card-img-top" alt="..."/>
+                                        <img src={item.productImage.split(",")[0]} height="333px"
+                                             className="card-img-top" alt="..."/>
                                         <div className="card-body px-0">
                                             <h5 className="card-title">{item.productName}</h5>
-                                            <p className="card-text">Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải
-                                                gân.</p>
+
                                             <hr/>
                                             <p className="size-product">XS - S - M - L - XL - XXL</p>
-                                            <div className="row price-product justify-content-between">
-                                                <div className="col-auto">
+                                            {item.percent > 0 && (
+                                                <div className="row price-product justify-content-between">
+                                                    <div className="col-auto">
+
                                                             <span className="price-sale">
+                                                                <del>
                                                                 {item.price.toLocaleString("vi", {
                                                                     style: "currency",
                                                                     currency: "VND",
                                                                 })}
+                                                                    </del>
                                                             </span>
-                                                    <span className="percent">
+
+                                                        <span className="percent">
                                                                 {item.percent * 100}%
                                                             </span>
-                                                </div>
-                                                <div className="col-lg-auto">
+                                                    </div>
+                                                    <div className="col-lg-auto">
                                                             <span className="price">
                                                                 {(item.price - item.price * item.percent).toLocaleString(
                                                                     "vi",
@@ -239,8 +268,24 @@ const HomeShowProducts = () => {
                                                                     }
                                                                 )}
                                                             </span>
+                                                    </div>
+                                                </div>)}
+                                            {(item.percent < 0 || item.percent === 0) && (
+                                                <div className="row price-product justify-content-between">
+                                                    <div className="col-auto">
+                                                            <span className="price-normal">
+                                                                {item.price.toLocaleString("vi", {
+                                                                    style: "currency",
+                                                                    currency: "VND",
+                                                                })}
+                                                            </span>
+
+                                                    </div>
+                                                    <div className="col-lg-auto">
+
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            )}
                                         </div>
                                     </div>
                                 </SwiperSlide>
@@ -262,12 +307,15 @@ const HomeShowProducts = () => {
                 <Modal.Body id="body-view-product">
                     <div className="row">
                         <div className="col-lg-6">
-                            <img src={productModal.productImage} className="card-img-top" alt="..."/>
+                            {
+                                !productModal.productImage ? "" : (
+                                    <ImageGallery images={productModal.productImage.split(",")} />
+                                )
+                            }
                         </div>
                         <div className="col-lg-6">
                             <h5 className="card-title">{productModal.productName}</h5>
-                            <p className="card-text">Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải
-                                gân.</p>
+                            <p className="card-text">Made by CITY 6.</p>
                             <p className="size-product">XS - S - M - L - XL - XXL</p>
                             <div className="row price-product justify-content-between">
                                 {productModal.price !== undefined ? (
@@ -303,11 +351,9 @@ const HomeShowProducts = () => {
                             </div>
                             <div className="chat-lieu">
                                 <p>
-                                    <span>Chất liệu:</span> Chúng tôi đang triển khai các chương trình giám sát nhằm
+                                    <span>Chất liệu:</span> CITY 6 đang triển khai các chương trình giám sát nhằm
                                     đảm bảo sự tuân thủ các tiêu chuẩn của chúng tôi về xã hội, môi trường, cũng như
-                                    về độ an toàn và tính lành mạnh của các sản phẩm. Nhằm đánh giá sự tuân thủ các
-                                    tiêu chuẩn này, chúng tôi đã phát triển một chương trình kiểm toán và các kế
-                                    hoạch cải thiện liên tục.
+                                    về độ an toàn và tính lành mạnh của các sản phẩm.
                                 </p>
                             </div>
                         </div>
