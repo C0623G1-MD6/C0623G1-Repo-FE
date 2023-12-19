@@ -210,7 +210,11 @@ export function CustomerList() {
                                                 </tr>
                                         }
                                     </table>
-                                    <Pagination page={page} totalPages={totalPage} onPageChange={handlePageChange} />
+                                    {
+                                        totalPage > 1 && (<Pagination page={page} totalPages={totalPage}
+                                                                      onPageChange={handlePageChange}/>)
+                                    }
+
                                 </div>
                             </div>
                         </div>
