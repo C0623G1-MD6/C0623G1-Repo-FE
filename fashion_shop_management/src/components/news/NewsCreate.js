@@ -6,6 +6,7 @@ import {toast} from "react-toastify";
 import * as service from "../../services/news/service";
 import * as Yup from "yup";
 import {ErrorMessage, Field, Formik, Form} from "formik";
+import {formatLocalDateTime, processAndSaveToDatabase} from "../../services/news/currentDate";
 
 
 export function NewsCreate() {
@@ -56,13 +57,13 @@ export function NewsCreate() {
             let storageRef = refImage(storage, `image-fashion/` + file.name);
             let snapshot = await uploadBytes(storageRef, file);
             let downloadURL = await getDownloadURL(snapshot.ref);
-            console.log(1111111)
             console.log(downloadURL)
             setImage(downloadURL);
         } catch (e) {
             console.log(e);
         }
     };
+
 
 
     const initValues = {
@@ -75,12 +76,17 @@ export function NewsCreate() {
 
     const validateObject = {
         dateCreate: Yup.date()
-            .required("Vui lòng nhập trường này!"),
+            .required("Vui lòng nhập trường này."),
         name: Yup.string()
-            .required("Vui lòng nhập trường này!"),
+            .required("Vui lòng nhập trường này.")
+            .max(200, "Không quá 200 kí tự.")
+            .min(5, "Không ít hơn 5 kí tự.")
+            .matches("^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+( ([AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ]|[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz])[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+)+$", "Vui lòng viết hoa chữ cái đầu tiên."),
         content: Yup.string()
-            .required("Vui lòng nhập trường này!"),
-
+            .required("Vui lòng nhập trường này.")
+            .max(20000, "Không quá 20000 kí tự.")
+            .min(5, "Không ít hơn 5 kí tự.")
+            .matches("^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+( ([AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ]|[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz])[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+)+(.|,)*$","Vui lòng viết hoa chữ cái đầu tiên.")
     }
 
     if (!category) {
@@ -109,8 +115,15 @@ export function NewsCreate() {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label>Nội dung</label>
-                                                    <Field type='textarea' name="content" id='content'
-                                                           className="form-control"/>
+                                                    <Field
+                                                        className='form-control'
+                                                        as="textarea"
+                                                        placeholder=""
+                                                        id="content"
+                                                        name="content"
+                                                        rows="5"
+                                                        required=""
+                                                    />
                                                     <ErrorMessage name="content" component="span"
                                                                   style={{color: "red"}}></ErrorMessage>
                                                 </div>
@@ -145,12 +158,13 @@ export function NewsCreate() {
                                                         backgroundSize: "cover",
                                                         width: "400px",
                                                         height: "200px",
-                                                        backgroundColor: "gray",
+                                                        backgroundColor:"gray",
                                                         marginBottom: "10px"
                                                     }
                                                 }></div>
                                                 <div>
-                                                    <button type="submit" className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
+                                                    <button type="submit"
+                                                            className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
                                                         tin
                                                     </button>
                                                 </div>
