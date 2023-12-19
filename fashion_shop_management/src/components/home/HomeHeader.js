@@ -8,6 +8,7 @@ const HomeHeader = () => {
   const [seachName, setSeachName] = useState("");
   const handleSearch = (value) => {
     setSeachName(value.target.value);
+    console.log(value.target.value);
   };
 
   const onSearch = () => {
@@ -68,7 +69,7 @@ const HomeHeader = () => {
                 <button
                   onClick={onSearch}
                   className="btn btn-outline-dark"
-                  type="submit"
+                  type="button"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

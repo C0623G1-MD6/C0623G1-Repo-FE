@@ -30,12 +30,11 @@ const SearchProducts = () => {
     let res = null;
     if (gender == 0) {
       res = await searchProductForMen();
+      setSearchList(res?.content ?? []);
     } else if (gender == 1) {
       res = await searchProductForWomen();
-    } else {
-      res = null;
+      setSearchList(res?.content ?? []);
     }
-    setSearchList(res?.content ?? []);
   };
   useEffect(() => {
     getProductsForGender(gender);
@@ -56,9 +55,16 @@ const SearchProducts = () => {
           <div className="row mt-5">
             <div className="row my-3 justify-content-between align-items-end">
               <div className="col-auto">
-                <h3 className="title-product">
-                  Bộ sưu tập sản phẩm dành cho {gender == 0 ? "Nam" : "Nữ"}
-                </h3>
+                {keyword == null && (
+                  <h3 className="title-product">
+                    Bộ sưu tập sản phẩm dành cho {gender == 0 ? "Nam" : "Nữ"}
+                  </h3>
+                )}
+                {keyword !== null && (
+                  <h3 className="title-product">
+                    Bộ sưu tập sản phẩm " {keyword} "
+                  </h3>
+                )}
                 <p>
                   Những thiết kế thời trang mang phong cách đậm chất retro đi
                   cùng những màu sắc và kiểu dáng sang trọng vô cùng thích hợp
