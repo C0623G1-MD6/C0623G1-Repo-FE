@@ -40,6 +40,7 @@ import {LookUpCustomer} from "./components/payment/LookUpCustomer";
 import SalesReport from "./components/salesreport/SalesReport";
 import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
 import DashboardCreateNews from "./components/news/DashboardCreateNews";
+import SalesReportMain from "./components/salesreport/SalesReportMain";
 
 function App() {
     return (

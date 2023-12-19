@@ -41,10 +41,10 @@ export function NewsCreate() {
             //     // const data = {...news, category: JSON.parse(news.category)}
             const status = await service.createNews(news)
             if (status === 201) {
-                toast.success("Đăng tin mới thành công");
-                navigate("/news")
+                toast.success("Create Successfully");
+                navigate("/")
             } else {
-                toast.error("Đăng tin thất bại")
+                toast.error("Create Fail")
 
             }
         }
@@ -98,8 +98,8 @@ export function NewsCreate() {
                             <div>
                                 <div className="my-4">
                                     <div className="row">
-                                        <div className="col-lg-12">
-                                            <h2 className="hlptitle text-primary ">Đăng tin tức</h2>
+                                        <div className="col-lg-12 create-news">
+                                            <h2 className="hlptitle hlptitle fw-bold text-primary">Đăng tin tức</h2>
                                             <Form>
                                                 <div className="mb-3">
                                                     <label>Tiêu đề</label>
@@ -109,15 +109,8 @@ export function NewsCreate() {
                                                 </div>
                                                 <div className="mb-3">
                                                     <label>Nội dung</label>
-                                                    <Field
-                                                        className="form-control"
-                                                        as="textarea"
-                                                        placeholder=""
-                                                        id="content"
-                                                        name="content"
-                                                        rows="5"
-                                                        required=""
-                                                    />
+                                                    <Field type='textarea' name="content" id='content'
+                                                           className="form-control"/>
                                                     <ErrorMessage name="content" component="span"
                                                                   style={{color: "red"}}></ErrorMessage>
                                                 </div>
@@ -156,9 +149,12 @@ export function NewsCreate() {
                                                         marginBottom: "10px"
                                                     }
                                                 }></div>
-                                                <button type="submit" className="btn btn-outline-primary rounded-0">Đăng
-                                                    tin
-                                                </button>
+                                                <div>
+                                                    <button type="submit" className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
+                                                        tin
+                                                    </button>
+                                                </div>
+
                                             </Form>
                                         </div>
                                     </div>
