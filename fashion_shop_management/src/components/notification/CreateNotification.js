@@ -1,48 +1,79 @@
-import {ErrorMessage, Field, Form, Formik} from 'formik';
+import {ErrorMessage, Field, Form, Formik, useFormikContext} from 'formik';
 import React, {useEffect, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {createNotification, getAllRole} from '../../services/notification/notificationService';
 import {toast} from 'react-toastify';
 import '../notification/form_css.css';
+import * as Yup from "yup";
 
 export function CreateNotification() {
-    const navigate = useNavigate();
-    const [currentDate, setCurrentDate] = useState('');
-
     const [role, setRole] = useState([]);
-    const [selectedRole,setSelectedRole] = useState(0);
+    const initialValues = {
+        noticePostingDate: new Date().toLocaleDateString(),
+        title: '',
+        content: '',
+        role: []
+    }
+    const validationSchema = Yup.object().shape({
+        noticePostingDate: Yup.string().required('Ngày đăng là bắt buộc'),
+        title: Yup.string().required('Tiêu đề là bắt buộc'),
+        content: Yup.string().required('Nội dung là bắt buộc'),
+        role: Yup.array().min(1, 'Bạn phải chọn ít nhất một đối tượng nhận thông báo')
+    });
+    const RoleCheckboxes = () => {
+        const {values, setFieldValue} = useFormikContext();
+
+        const handleChangeCheckbox = (roleId, isChecked) => {
+            const updatedRoles = isChecked
+                ? [...values.role, roleId]
+                : values.role.filter(id => id !== roleId);
+            setFieldValue('role', updatedRoles);
+        };
+
+        return (
+            <>
+                {role.map((item, index) => (
+                    <div key={index} className="form-check form-check-inline">
+                        <Field
+                            name="role"
+                            className="form-check-input"
+                            type="checkbox"
+                            value={item.id}
+                            checked={values.role.includes(item.id)}
+                            onChange={(e) => handleChangeCheckbox(item.id, e.target.checked)}
+                        />
+                        <label className="form-check-label">{renderRole(item.name)}</label>
+                    </div>
+                ))}
+                <ErrorMessage name="role" className="text-danger" component="p"/>
+            </>
+        );
+    };
 
     useEffect(() => {
-        setCurrentDate(getCurrentDate());
         displayRole()
     }, []);
-    const add = async (values, { resetForm }) => {
-        try {
-            await createNotification(values, selectedRole);
+    const add = async (values, {resetForm}) => {
+        values.noticePostingDate = convertDate(values.noticePostingDate);
+        let res = await createNotification(values);
+        if (res) {
             toast('Thêm mới thành công');
             resetForm();
-        }catch (e) {
-            alert("Them moi that bai")
+        } else {
+            toast.error("Them moi that bai")
         }
-
     };
+    function convertDate(dateString) {
+        const parts = dateString.split('/');
+        const day = parts[0];
+        const month = parts[1];
+        const year = parts[2];
+        return `${year}-${month}-${day}`;
+    }
     const displayRole = async () => {
         const res = await getAllRole();
         setRole(res);
     };
-
-    const handleChangeRole = (id) => {
-        setSelectedRole(id);
-    };
-
-    function getCurrentDate() {
-        const today = new Date();
-        const day = String(today.getDate()).padStart(2, '0');
-        const month = String(today.getMonth() + 1).padStart(2, '0');
-        const year = today.getFullYear();
-        return day + '/' + month + '/' + year;
-    }
-
     function renderRole(role) {
         if (role === "ROLE_SALES") {
             return <>Nhân viên bán hàng</>
@@ -52,16 +83,13 @@ export function CreateNotification() {
             return <>Quản lý cửa hàng</>
         }
     }
+
     return (
         <>
             <Formik
-                initialValues={{
-                    noticePostingDate: currentDate,
-                    title: '',
-                    content: '',
-                    inlineRadioOptions: '',
-                }}
+                initialValues={initialValues}
                 onSubmit={add}
+                validationSchema={validationSchema}
             >
                 {({resetForm}) => (
                     <>
@@ -71,7 +99,7 @@ export function CreateNotification() {
                                 <div className="mb-3">
                                     <label htmlFor="noticePostingDate" className="form-label">Ngày đăng</label>
                                     <Field type="text" className="form-control" name="noticePostingDate"
-                                           id="noticePostingDate" value={currentDate} readOnly/>
+                                           id="noticePostingDate" readOnly/>
                                     <ErrorMessage name="noticePostingDate" className="text-danger" component="p"/>
                                 </div>
                                 <div className="mb-3">
@@ -81,19 +109,14 @@ export function CreateNotification() {
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="content" className="form-label">Nội dung thông báo</label>
-                                    <Field as="textarea" rows="10" className="form-control" name="content" id="passwordNew"/>
+                                    <Field as="textarea" rows="10" className="form-control" name="content"
+                                           id="passwordNew"/>
                                     <ErrorMessage name="content" className="text-danger" component="p"/>
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="role" className="form-label">Đối tượng nhận thông báo</label>
-                                    <Field className="form-select" as="select" name="role" onChange={(event) => handleChangeRole(event.target.value)}>
-                                        {
-                                            role.map((r) => (
-                                                <option key={r.id} value={r.id}>{renderRole(r.name)}</option>
-                                            ))
-                                        }
-                                    </Field>
-                                    <ErrorMessage name="role" className="text-danger" component="p"/>
+                                    <br/>
+                                    <RoleCheckboxes/>
                                 </div>
                                 <div className="btn-submit text-center">
                                     <button type="submit" className="btn btn-add-noti">Thêm thông báo</button>

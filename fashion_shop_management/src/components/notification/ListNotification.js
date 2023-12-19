@@ -1,40 +1,26 @@
 import "../notification/form_css.css"
 import {useEffect, useState} from "react";
-import {
-    getAll,
-    getAllNotificationIsView,
-    readNotification,
-    readNotificationById
-} from "../../services/notification/notificationService";
-import {Field} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {getAllNotificationById, readNotificationMiddleware} from "../../redux/middlewares/NotificationMiddleware";
 
 export function ListNotification() {
     const user = JSON.parse(localStorage.getItem('user'));
-    const [notification, setNotification] = useState([]);
+    const dispatch = useDispatch();
+    const notificationNotView = useSelector((store) => store.notification.notificationNotView);
+    const notification = useSelector((store) => store.notification.notifications);
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
-    const [listNotificationIsView,setListNotificationIsView] = useState([]);
 
     useEffect(() => {
-        getNotiHasAccountId()
-        getNotiIsView();
-    }, []);
-
-    const getNotiHasAccountId = async () => {
-        const res = await getAll(page,user.id);
-        setNotification(res.data)
-    }
-
-    const getNotiIsView = async () => {
-        const res = await getAllNotificationIsView(user.id);
-        let data = res.data.map(item => item.notification.id);
-        setListNotificationIsView(data);
+        getAllNoti()
+    }, [dispatch]);
+    //
+    const getAllNoti = async () => {
+        await dispatch(getAllNotificationById(page, user.id));
     }
 
     const readNotification = async (notificationId) => {
-        await readNotificationById(notificationId);
-        getNotiHasAccountId()
-        getNotiIsView();
+        let isRead = await dispatch(readNotificationMiddleware(notificationId));
     };
 
 
@@ -61,6 +47,9 @@ export function ListNotification() {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     }
 
+    if (!notification || !notificationNotView) {
+        return undefined;
+    }
     return (
 
         <>
@@ -69,7 +58,8 @@ export function ListNotification() {
             </div>
             <div className="box-body p-0 bg-light" style={{height: "32rem"}}>
                 {notification.map((notifi) => (
-                    <div key={notifi.id} className="p-3 d-flex  bg-light border-bottom osahan-post-header justify-content-between">
+                    <div key={notifi.id}
+                         className="p-3 d-flex  bg-light border-bottom osahan-post-header justify-content-between">
                         <div className="font-weight-bold mr-3 ">
                             <div>
                                 <div
@@ -79,11 +69,7 @@ export function ListNotification() {
                                 <div className="small fw-normal">{notifi.content}</div>
                             </div>
                         </div>
-                        {listNotificationIsView.includes(notifi.id) ? (
-                            <div>
-                                <i className="bi bi-check2-circle"></i> Đã đọc
-                            </div>
-                        ) : (
+                        {notificationNotView.some((notView) => notView.id === notifi.id) ? (
                             <div className="form-check">
                                 <label className="form-check-label" htmlFor={`flexSwitchCheckChecked-${notifi.id}`}>
                                     Đánh dấu đã đọc
@@ -91,10 +77,13 @@ export function ListNotification() {
                                 <input
                                     className="form-check-input"
                                     type="checkbox"
-                                    role="switch"
                                     id={`flexSwitchCheckChecked-${notifi.id}`}
                                     onChange={() => readNotification(notifi.id)}
                                 />
+                            </div>
+                        ) : (
+                            <div>
+                                <i className="bi bi-check2-circle"></i> Đã đọc
                             </div>
                         )}
                     </div>
