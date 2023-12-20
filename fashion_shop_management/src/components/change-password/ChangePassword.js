@@ -1,14 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {toast} from "react-toastify";
 import {useDispatch} from "react-redux";
 import {changePassword} from "../../services/AuthService";
+import {useNavigate} from "react-router-dom";
 
 function ChangePassword() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const [disableSubmit, setDisableSubmit] = useState(false);
+    const navigate = useNavigate();
     const initValues = {
-        username: user.username.toString(),
         password: "",
         passwordNew: "",
         passwordNewAgain: ""
@@ -16,23 +17,24 @@ function ChangePassword() {
 
     const validateFormChangePassword = Yup.object({
         password: Yup.string()
-            .required("Trường password bắt buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Chỉ được chứa ký tự alphabet, số và dấu gạch dưới."),
+            .required("Vui lòng nhập mật khẩu."),
         passwordNew: Yup.string()
-            .required("Trường mật khẩu mới bắt buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Chỉ được chứa ký tự alphabet, số và dấu gạch dưới.")
+            .required("Vui lòng nhập mật khẩu mới.")
             .min(8,"Mật khẩu mới phải trên 8 kí tự")
-            .max(100,"Mật khẩu không được quá 100 kí tự"),
+            .max(100,"Mật khẩu mới không được quá 100 kí tự"),
         passwordNewAgain: Yup.string()
-            .required("Trường nhập lại mật khẩu mới bắt buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Chỉ được chứa ký tự alphabet, số và dấu gạch dưới.")
-            .oneOf([Yup.ref('passwordNew'), null], 'Mật khẩu nhập lại không khớp.')
+            .required("Vui lòng nhập lại mật khẩu mới.")
+            .oneOf([Yup.ref('passwordNew'), null], 'Nhập lại mật khẩu mới không khớp.')
     });
     const handleSubmitFormChangePass = async (values, {setErrors}) => {
         try {
+            setDisableSubmit(true);
             await changePassword(values);
-            toast.success("Đổi mật khẩu thành công !")
+            localStorage.removeItem("user");
+            navigate("/")
+            toast.success("Đổi mật khẩu thành công, vui lòng đăng nhập lại để tiếp tục !")
         } catch (e) {
+            setDisableSubmit(false);
             setErrors(e.data);
         }
     };
@@ -43,6 +45,7 @@ function ChangePassword() {
                     <div className="col-lg-12">
                         <Formik initialValues={initValues} onSubmit={(values, { setErrors }) => handleSubmitFormChangePass(values, {setErrors})} validationSchema={validateFormChangePassword}>
                             <div className="input-pass">
+                                <h3 className="mb-4">Đổi mật khẩu</h3>
                                 <Form>
                                     <div className="mb-3">
                                         <label htmlFor="password" className="form-label">Mật khẩu cũ</label>
@@ -60,7 +63,7 @@ function ChangePassword() {
                                         <ErrorMessage name="passwordNewAgain" className="text-danger" component="p"/>
                                     </div>
                                     <div className="btn-submit">
-                                        <button type="submit" className="btn">Cập nhật</button>
+                                        <button disabled={disableSubmit} type="submit" className="btn">Cập nhật</button>
                                     </div>
                                 </Form>
                             </div>
