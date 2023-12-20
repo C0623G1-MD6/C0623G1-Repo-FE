@@ -31,14 +31,12 @@ function ModalLogin() {
 
     const validateFormLogin = Yup.object({
         username: Yup.string()
-            .required("Trường username buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Tên đăng nhập chỉ được chứa ký tự alphabet, số và dấu gạch dưới."),
+            .required("Vui lòng nhập tên đăng nhập."),
         password: Yup.string()
-            .required("Trường password buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Mật khẩu chỉ được chứa ký tự alphabet, số và dấu gạch dưới."),
+            .required("Vui lòng nhập mật khẩu.")
     });
 
-    const handleSubmitFormLogin = async (values, {setErrors}) => {
+    const handleSubmitFormLogin = async (values, {setFieldError}) => {
         try {
             setDisableSubmit(true);
             await dispatch(loginUser(values));
@@ -47,7 +45,7 @@ function ModalLogin() {
             toast.success("Đăng nhập thành công !");
         } catch (e) {
             setDisableSubmit(false);
-            setErrors(e.data);
+            setFieldError("password",e.data);
         }
     }
     const setContentRecover = () => {
@@ -68,7 +66,7 @@ function ModalLogin() {
                                     <div className="content w-75">
                                         <h2>Xin chào,</h2>
                                         <Formik initialValues={initValues}
-                                                onSubmit={(values, {setErrors}) => handleSubmitFormLogin(values, {setErrors})}
+                                                onSubmit={(values, {setFieldError}) => handleSubmitFormLogin(values, {setFieldError})}
                                                 validationSchema={validateFormLogin}>
                                             <Form>
                                                 <div className="mb-3">
