@@ -31,7 +31,7 @@ export function NewsList() {
         setScrollPosition(window.scrollY);
     };
     const topFunction = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     useEffect(() => {
@@ -50,7 +50,7 @@ export function NewsList() {
     }, [scrollPosition]);
     const display = async () => {
         try {
-            const res = await service.findAll(newsCategoryId, role,currentPage);
+            const res = await service.findAll(newsCategoryId, role, currentPage);
             setNews(res.data.content);
             setTotalPages(res.data.totalPages)
             console.log(res.data.content)
@@ -83,7 +83,6 @@ export function NewsList() {
         }
     }
 
-
     const displayDate = async () => {
         try {
             const res = await service.getAllByDateCreate()
@@ -98,15 +97,14 @@ export function NewsList() {
         display()
         displayPromotion()
         displayDate()
-    }, [role,currentPage]);
-
+    }, [role, currentPage]);
 
 
     return (
         <>
             <HomeHeader/>
             <div className="container-xl mt-3">
-                <h2 className="hlptitle">Khuyến mãi, giảm giá</h2>
+                <h2 className="hlptitle">KHUYẾN MÃI - GIẢM GIÁ</h2>
                 <div>
                     <Swiper
                         effect={'coverflow'}
@@ -124,7 +122,7 @@ export function NewsList() {
                         modules={[EffectCoverflow]}
                         className="mySwiper"
                     >
-                        {promotion &&
+                        {promotion && promotion.length !== 0 ? (
                             promotion.map((item, index) =>
                                 (
                                     <SwiperSlide>
@@ -134,15 +132,14 @@ export function NewsList() {
                                                  style={{backgroundImage: `url("${item.image}")`}}>
                                             </div>
                                         </div>
-
-
                                     </SwiperSlide>
-                                ))}
-
+                                ))): <div>
+                            <p style={{textAlign: "center", fontWeight: "700"}}>Không tìm thấy tin tức</p>
+                        </div>}
                     </Swiper>
                 </div>
                 <hr/>
-                <h2 className="hlptitle">Tin mới nhất</h2>
+                <h2 className="hlptitle">TIN MỚI NHẤT</h2>
                 <div className="hlpnewsall">
                     {date && date.length > 0 && (
                         <div className="hlpnewsleft"
@@ -150,7 +147,7 @@ export function NewsList() {
                              style={{backgroundImage: `url("${date[0].image}")`}}></div>
                     )}
                     <div style={{overflow: "auto"}}>
-                        {date &&
+                        {date && date.length !== 0 ? (
                             date.slice(1).map((item, index) =>
                                 (
                                     <div className="hlpnews" onClick={() => goDetailsPage(item.id)}>
@@ -164,11 +161,14 @@ export function NewsList() {
                                             </p>
                                         </div>
                                     </div>
-                                ))}
+                                ))) : <div>
+                            <p style={{position: "absolute", left: "44.5%",top:"70%", fontWeight: "700"}}>Không tìm thấy tin tức</p>
+                        </div>}
                     </div>
+
                 </div>
                 <hr/>
-                <h2 className="mb-3 mt-3 ph-more-news-title">Danh mục tin tức</h2>
+                <h2 className="mb-3 mt-3 ph-more-news-title">DANH MỤC TIN TỨC</h2>
                 <div className=" hlpbutton">
                     <button type="button"
                             style={{backgroundImage: "url('https://drifttravel.com/wp-content/uploads/2022/11/Minimalist-Style.jpg')"}}
@@ -203,8 +203,7 @@ export function NewsList() {
                             className="hlpbutton1 ">Khác
                     </button>
                 </div>
-                {
-                    news &&
+                {news && news.length !== 0 ? (
                     <div className="row gy-3 mb-5">
                         {
                             news.map((news, index) => (
@@ -221,31 +220,35 @@ export function NewsList() {
                                 </div>
                             ))
                         }
-                    </div>
+                    </div>) : <div>
+
+                    <p style={{textAlign: "center", fontWeight: "700"}}>Không tìm thấy tin tức</p>
+
+                </div>
                 }
             </div>
             <nav aria-label="Page navigation example">
                 <ul className="pagination" style={{marginLeft: '44%'}}>
                     <li className="page-item">
-                        <button className="page-link  text-secondary" aria-label="Previous" onClick={() => prePage()} tabIndex={-1} disabled={currentPage + 1 <= 1}>
+                        <button className="page-link  text-secondary" aria-label="Previous" onClick={() => prePage()}
+                                tabIndex={-1} disabled={currentPage + 1 <= 1}>
                             <span aria-hidden="true">Trước</span>
                         </button>
                     </li>
-                    <li className="page-item"><button className="page-link  text-secondary" >{currentPage + 1}-{totalPages}</button></li>
                     <li className="page-item">
-                        <button className="page-link text-secondary" aria-label="Next" disabled={currentPage + 1 >= totalPages} onClick={() => nextPage()}>
+                        <button className="page-link  text-secondary">{currentPage + 1}-{totalPages}</button>
+                    </li>
+                    <li className="page-item">
+                        <button className="page-link text-secondary" aria-label="Next"
+                                disabled={currentPage + 1 >= totalPages} onClick={() => nextPage()}>
                             <span aria-hidden="true">Sau</span>
                         </button>
                     </li>
                 </ul>
             </nav>
             <button ref={myBtn} onClick={topFunction} id="myBtn" title="Go to top">TOP</button>
-
-
             <HomeFooter/>
         </>
-
-
     )
 }
 
