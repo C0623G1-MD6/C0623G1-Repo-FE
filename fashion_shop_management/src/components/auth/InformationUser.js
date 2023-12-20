@@ -60,11 +60,15 @@ function InformationUser() {
         }
     }
     const handleSubmitForm = async (values) => {
-        let res = await dispatch(updateInfoEmployee(values));
-        if (res) {
-            toast.success("Cập nhật thành công !")
+        if (JSON.stringify(values) === JSON.stringify(employee)) {
+            toast.error("Bạn chưa thay đổi dữ liệu nào !")
         } else {
-            toast.success("Cập nhật thất bại !")
+            let res = await dispatch(updateInfoEmployee(values));
+            if (res) {
+                toast.success("Cập nhật thành công !")
+            } else {
+                toast.success("Cập nhật thất bại !")
+            }
         }
     };
     return (
@@ -79,7 +83,8 @@ function InformationUser() {
                                 onSubmit={(values) => handleSubmitForm(values)}
                                 validationSchema={validationSchema}
                             >
-                                <Form>
+                                {({dirty }) => (
+                                    <Form>
                                     <div className="row">
                                         <div className="col-lg-6 col-sm-12 box-avatar">
                                             <div className="avatar">
@@ -127,13 +132,14 @@ function InformationUser() {
                                                         <ErrorMessage name="email" className="text-danger" component="p"/>
                                                     </div>
                                                     <div className="text-center">
-                                                        <button type="submit" className="btn btn-submit">Cập nhật</button>
+                                                        <button type="submit" className="btn btn-submit" disabled={!dirty}>Cập nhật</button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </Form>
+                                )}
                             </Formik>
                         </div>
                     </div>

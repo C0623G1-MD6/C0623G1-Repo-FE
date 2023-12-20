@@ -53,8 +53,11 @@ export function CreateNotification() {
         displayRole()
     }, []);
     const add = async (values, {resetForm}) => {
-        values.noticePostingDate = convertDate(values.noticePostingDate);
-        let res = await createNotification(values);
+        let valuesConvert = {
+            ...values,
+            noticePostingDate: convertDate(values.noticePostingDate)
+        }
+        let res = await createNotification(valuesConvert);
         if (res) {
             toast('Thêm mới thành công');
             resetForm();
