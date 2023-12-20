@@ -176,9 +176,12 @@ export function Payment() {
             invoiceDetailDtoSet: invoiceDetailSet
         }
         const res = await paymentService.saveInvoice(invoice);
-        if(res.status===200){
+        console.log(res);
+        if(!res){
+            toast.error("Lưu hóa đơn thất bại!");
+        } else if (res.status===200) {
             toast.success("Lưu hóa đơn thành công!");
-            navigate("/payment")
+            navigate("/payment");
         } else {
             toast.error("Lưu hóa đơn thất bại!");
         }
