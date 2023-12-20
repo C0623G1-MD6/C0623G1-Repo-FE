@@ -1,4 +1,5 @@
 import axios from "axios";
+import authHeader from "../AuthService";
 
 const URL = "http://localhost:8080/api/invoices"
 
@@ -38,6 +39,14 @@ export const getListSizeByProductCode = async (productCode) =>{
 export const getQuantityByProductCodeAndSizeName = async (productCode, sizeName) =>{
     try {
         return await axios.get(URL+`/size-details/${productCode}/${sizeName}`);
+    } catch (e){
+        console.log("Error")
+    }
+}
+
+export const saveInvoice = async (invoice)=>{
+    try {
+        return await axios.post(URL+"/save-invoice", invoice,{ headers: authHeader() });
     } catch (e){
         console.log("Error")
     }

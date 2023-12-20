@@ -95,7 +95,7 @@ export function WarehouseCreate() {
     console.log(
         productId
     )
-    if (!products || !sizes ) return null;
+    if (!products || !sizes || !productName) return null;
 
     return (
         <>
