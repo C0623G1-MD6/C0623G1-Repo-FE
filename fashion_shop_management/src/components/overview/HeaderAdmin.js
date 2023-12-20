@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getInfoByIdAccount} from "../../redux/middlewares/EmployeeMiddleware";
 import {CountNotification} from "../notification/CountNotification";
@@ -21,6 +21,22 @@ function HeaderAdmin() {
             break;
 
     }
+    const [show,setShow]=useState(true);
+    const checkScreenSize = () => {
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth;
+        if(screenWidth<767){
+            setShow(false)
+        } else {
+            setShow(true)
+        }
+    };
+    useEffect(() => {
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
     useEffect(() => {
         if (user) {
             getInfoEmployee();
@@ -40,7 +56,7 @@ function HeaderAdmin() {
                             <img
                                 src="https://media.istockphoto.com/id/1337144146/vector/default-avatar-profile-icon-vector.jpg?s=612x612&w=0&k=20&c=BIbFwuv7FxTWvh5S3vB6bkT0Qv8Vn8N5Ffseq84ClGI="
                                 alt=""/>
-                            <p className="mt-2"><span>{roleName} </span><span
+                            <p className="mt-2">{show?<span className="role">{roleName} </span>:null}<span
                                 className="name">{employeeInfo.name}</span>
                             </p>
                         </div>

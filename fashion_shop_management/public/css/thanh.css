@@ -155,6 +155,10 @@ section#login .form-check-input {
 section#information .content {
     min-height: unset;
 }
+
+#drowdown-notification {
+    width: 500px;
+}
 @media only screen and (max-width: 768px) {
     .img-login {
         display: none;

@@ -44,14 +44,14 @@ export function CountNotification() {
                                 <div className="box-title p-3">
                                     <h6 className="m-0">Thông báo quan trọng cần xem!</h6>
                                 </div>
-                                <div className="box-body p-0 bg-light">
+                                <div id="drowdown-notification" className="box-body p-0 bg-light">
                                     {listNotificationNotView.map((notifi) => (
                                         <div key={notifi.id}
                                              className="p-3 d-flex bg-light border-bottom justify-content-between">
                                             <div className="col-lg-11 mr-3 ">
-                                                <div className="text-truncate fw-bolder">{notifi.title}</div>
+                                                <div className="fw-bolder">{notifi.title}</div>
                                                 <div className="small fw-semibold">{notifi.noticePostingDate}</div>
-                                                <div className="small fw-normal text-truncate">{notifi.content}</div>
+                                                <div className="small fw-normal">{notifi.content}</div>
                                             </div>
                                             <div className="col-lg-1 form-check">
                                                 <input
