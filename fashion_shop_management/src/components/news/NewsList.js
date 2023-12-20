@@ -83,7 +83,6 @@ export function NewsList() {
         }
     }
 
-
     const displayDate = async () => {
         try {
             const res = await service.getAllByDateCreate()
@@ -250,8 +249,6 @@ export function NewsList() {
             <button ref={myBtn} onClick={topFunction} id="myBtn" title="Go to top">TOP</button>
             <HomeFooter/>
         </>
-
-
     )
 }
 
