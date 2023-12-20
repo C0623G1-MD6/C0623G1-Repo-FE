@@ -41,7 +41,7 @@ export function NewsCreate() {
                 const status = await service.createNews(news)
                 if (status === 201) {
                     toast.success("Đăng tin tức thành công");
-                    navigate("/")
+                    navigate("/dashboard/news/create")
                 } else {
                     toast.error("Đăng tin lỗi")
 
@@ -73,14 +73,14 @@ export function NewsCreate() {
 
     const validateObject = {
         name: Yup.string()
-            .required("Vui lòng nhập trường này.")
+            .required("Vui lòng nhập tiêu đề.")
             .max(200, "Vượt quá số lượng kí tự cho phép̣.")
-            .min(5, "Vượt quá số lượng kí tự cho phép̣.")
+            .min(10, "Tiêu đề phải có tối thiểu 10 ký tự.")
             .matches("^[AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ][aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+( ([AÀẢÃÁẠĂẰẲẴẮẶÂẦẨẪẤẬBCDĐEÈẺẼÉẸÊỀỂỄẾỆFGHIÌỈĨÍỊJKLMNOÒỎÕÓỌÔỒỔỖỐỘƠỜỞỠỚỢPQRSTUÙỦŨÚỤƯỪỬỮỨỰVWXYỲỶỸÝỴZ]|[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz])[aàảãáạăằẳẵắặâầẩẫấậbcdđeèẻẽéẹêềểễếệfghiìỉĩíịjklmnoòỏõóọôồổỗốộơờởỡớợpqrstuùủũúụưừửữứựvwxyỳỷỹýỵz]+)+$", "Tiêu đề không đúng định dạng."),
         content: Yup.string()
-            .required("Vui lòng nhập trường này.")
+            .required("Vui lòng nhập nội dung.")
             .max(20000, "Vượt quá số lượng kí tự cho phép̣.")
-            .min(5, "Vượt quá số lượng kí tự cho phép̣.")
+            .min(50, "Nội dung phải có tối thiểu 50 ký tự.")
     }
 
     if (!category) {
@@ -99,8 +99,7 @@ export function NewsCreate() {
                                 <div className="my-4">
                                     <div className="row">
                                         <div className="col-lg-12 create-news">
-                                            <h2 className="hlptitle hlptitle fw-bold text-primary">Đăng tin
-                                                tức</h2>
+                                            <h2 className="hlptitle hlptitle fw-bold text-primary mt-3">ĐĂNG TIN TỨC</h2>
                                             <Form>
                                                 <div className="mb-3">
                                                     <label>Tiêu đề</label>
@@ -167,9 +166,9 @@ export function NewsCreate() {
                                                          inputImg.current.click()
                                                      }}
                                                 ></div>
-                                                <div>
+                                                <div className="text-center">
                                                     <button type="submit"
-                                                            className="btn btn-outline-primary rounded-0 text-center btn-create-news">Đăng
+                                                            className="btn btn-outline-primary rounded-0 text-center">Đăng
                                                         tin
                                                     </button>
                                                 </div>

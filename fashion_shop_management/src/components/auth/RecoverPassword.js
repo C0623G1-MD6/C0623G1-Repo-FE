@@ -13,8 +13,8 @@ function RecoverPassword(props) {
     }
     const validateRecoverPass = Yup.object({
         emailRecover: Yup.string()
-            .required("Trường email buộc nhập !")
-            .email("Bạn phải nhập đúng định dạng email")
+            .required("Vui lòng nhập email.")
+            .email("Email không hợp lệ.")
     });
     const handleSubmitFormRecover = async (values, {setFieldError}) => {
         setIsLoading(true); // Bắt đầu loading
@@ -63,7 +63,7 @@ function RecoverPassword(props) {
                                         <Field type="email" className="form-control" name="emailRecover"
                                                placeholder="example@gmail.com" id="emailRecover"/>
                                         <ErrorMessage name="emailRecover" className="text-danger"
-                                                      component="p"/>
+                                                      component="small"/>
                                     </div>
                                     {loading()}
                                     <button disabled={isLoading} type="submit"
