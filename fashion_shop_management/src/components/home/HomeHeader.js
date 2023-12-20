@@ -7,8 +7,12 @@ const HomeHeader = () => {
   const navigate = useNavigate();
   const [seachName, setSeachName] = useState("");
   const handleSearch = (value) => {
-    setSeachName(value.target.value);
-    console.log(value.target.value);
+    let inputSearchName = value.target.value.trim();
+    if (inputSearchName === "_") {
+      setSeachName("");
+    } else {
+      setSeachName(inputSearchName);
+    }
   };
 
   const onSearch = () => {
@@ -17,7 +21,7 @@ const HomeHeader = () => {
 
   return (
     <>
-      <div className="container">
+      <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
           <div className="container-fluid">
             <a className="navbar-brand" href="/">

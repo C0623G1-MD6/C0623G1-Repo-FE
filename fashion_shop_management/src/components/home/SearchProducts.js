@@ -6,6 +6,7 @@ import {
   searchProduct,
   searchProductForMen,
   searchProductForWomen,
+  getListSizeByProductCode,
 } from "../../services/home/homeService";
 import { Modal } from "react-bootstrap";
 import ImageGallery from "./ImageGallery/ImageGallery";
@@ -19,29 +20,59 @@ const SearchProducts = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(3);
+  const [sizes, setSizes] = useState([]);
+  const [productCode, setProductCode] = useState("");
+
+  // paganation
+  const prePage = () => {
+    setCurrentPage((currentPage) => currentPage - 1);
+  };
+
+  const nextPage = () => {
+    setCurrentPage((currentPage) => currentPage + 1);
+  };
+
   useEffect(() => {
     keyword && findProductByName();
-  }, [keyword]);
+  }, [keyword, currentPage]);
   const findProductByName = async () => {
-    let res = await searchProduct(keyword);
+    let res = await searchProduct(keyword, currentPage);
     setSearchList(res?.content ?? []);
+    setTotalPages(res.totalPages);
   };
   const getProductsForGender = async (gender) => {
     let res = null;
     if (gender == 0) {
-      res = await searchProductForMen();
+      res = await searchProductForMen(currentPage);
       setSearchList(res?.content ?? []);
+      setTotalPages(res.totalPages);
     } else if (gender == 1) {
-      res = await searchProductForWomen();
+      res = await searchProductForWomen(currentPage);
       setSearchList(res?.content ?? []);
+      setTotalPages(res.totalPages);
     }
   };
   useEffect(() => {
     getProductsForGender(gender);
-  }, [gender]);
+  }, [gender, currentPage]);
+  // get sizes for product
+  useEffect(() => {
+    getAllSizeProduct();
+  }, [productCode]);
+  const getAllSizeProduct = async () => {
+    if (productCode !== "") {
+      const res = await getListSizeByProductCode(productCode);
+      console.log(res);
+      setSizes(res.data);
+    }
+  };
   const handleSelectProductView = (product) => {
     handleShowModal();
     setProductModal(product);
+    setProductCode(product.productCode);
+    console.log(productModal.prdDescription);
   };
   return (
     <>
@@ -85,12 +116,12 @@ const SearchProducts = () => {
                     src={item.productImage.split(",")[0]}
                     height="333px"
                     className="card-img-top"
-                    alt="..."
+                    alt={item.productName}
                   />
                   <div className="card-body px-0">
                     <h5 className="card-title">{item.productName}</h5>
                     <p class="card-text">
-                      Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải gân.
+                      {/* Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải gân. */}
                     </p>
                     <hr />
                     <p className="size-product">XS - S - M - L - XL - XXL</p>
@@ -159,9 +190,12 @@ const SearchProducts = () => {
             </div>
             <div className="col-lg-6">
               <h5 className="card-title">{productModal.productName}</h5>
-              <p className="card-text">
-                Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải gân.
-              </p>
+              <p className="card-text-code">{productModal.productCode}</p>
+              {sizes.map((size, index) => (
+                <span key={index} className="size-product">
+                  {size.name}{" "}
+                </span>
+              ))}
               <p className="size-product">XS - S - M - L - XL - XXL</p>
               <div className="row price-product justify-content-between">
                 {productModal.price !== undefined ? (
@@ -194,19 +228,50 @@ const SearchProducts = () => {
                 )}
               </div>
               <div className="chat-lieu">
-                <p>
-                  <span>Chất liệu:</span> Chúng tôi đang triển khai các chương
-                  trình giám sát nhằm đảm bảo sự tuân thủ các tiêu chuẩn của
-                  chúng tôi về xã hội, môi trường, cũng như về độ an toàn và
-                  tính lành mạnh của các sản phẩm. Nhằm đánh giá sự tuân thủ các
-                  tiêu chuẩn này, chúng tôi đã phát triển một chương trình kiểm
-                  toán và các kế hoạch cải thiện liên tục.
-                </p>
+                <div>
+                  <span className="description-title">Mô tả: </span>
+                  <br />
+                  <span className="mt-3 modal-description">
+                    {productModal.prdDescription}{" "}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </Modal.Body>
       </Modal>
+
+      {/* pagation */}
+      <nav aria-label="Page navigation example">
+        <ul className="pagination" style={{ marginLeft: "44%" }}>
+          <li className="page-item">
+            <button
+              className="page-link  text-secondary"
+              aria-label="Previous"
+              onClick={() => prePage()}
+              tabIndex={-1}
+              disabled={currentPage + 1 <= 1}
+            >
+              <span aria-hidden="true">Trước</span>
+            </button>
+          </li>
+          <li className="page-item">
+            <button className="page-link  text-secondary">
+              {currentPage + 1}-{totalPages}
+            </button>
+          </li>
+          <li className="page-item">
+            <button
+              className="page-link text-secondary"
+              aria-label="Next"
+              disabled={currentPage + 1 >= totalPages}
+              onClick={() => nextPage()}
+            >
+              <span aria-hidden="true">Sau</span>
+            </button>
+          </li>
+        </ul>
+      </nav>
       <HomeFooter></HomeFooter>
     </>
   );
