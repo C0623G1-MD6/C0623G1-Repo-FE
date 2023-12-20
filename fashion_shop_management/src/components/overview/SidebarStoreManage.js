@@ -40,7 +40,7 @@ function SidebarStoreManage(props){
                         </NavLink>
                     </div>
                     <div className="btn-test">
-                        <button onClick={handleShow} className="btn text-dark mt-2">
+                        <button onClick={handleShow} className="btn mt-2">
                             <i className="bi bi-list"></i>
                         </button>
                     </div>
