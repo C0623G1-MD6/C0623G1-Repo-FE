@@ -6,6 +6,7 @@
 
 .hlptitle {
     text-align: center;
+    margin-bottom: 50px;
 }
 
 .hlpcurrentnews {
@@ -97,7 +98,7 @@
 
 .hlpnews-content {
     grid-area: content;
-    background-color: antiquewhite;
+    background-color: ghostwhite;
     padding: 10px;
 }
 
@@ -159,7 +160,7 @@
     grid-template-areas: "img content content" "img logo date";
     cursor: pointer;
     grid-area: content;
-    background-color: antiquewhite;
+    background-color: ghostwhite;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
@@ -197,7 +198,7 @@
 .hlpdetail-content {
 
     grid-area: content;
-    background-color: antiquewhite;
+    background-color: ghostwhite;
 }
 
 .hlpdetail-content h4 {
@@ -360,6 +361,26 @@ button.btn-create-news {
         position: relative;
         width: 100%;
     }
+}
+
+#myBtn {
+
+    position: fixed;
+    display: none;
+    bottom: 50px;
+    right: 50px;
+    z-index: 99;
+    font-size: 18px;
+    border: none;
+    background-color: gray;
+    color: white;
+    cursor: pointer;
+    padding: 15px;
+    border-radius: 4px;
+}
+
+#myBtn:hover {
+    background-color: red;
 }
 
 

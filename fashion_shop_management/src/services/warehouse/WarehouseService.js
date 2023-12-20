@@ -24,7 +24,7 @@ export const getCode = async () => {
 
 export const getAllSizeProduct = async (productName) => {
     try {
-        let response = await axios.get(`http://localhost:8080/api/warehouses/size/${productName}`,{headers: authHeader()});
+        let response = await axios.get(`http://localhost:8080/api/warehouses/sizes/${productName}`,{headers: authHeader()});
         return response.data;
     } catch (e) {
         return undefined;
@@ -46,9 +46,9 @@ export const getProduct = async (productName) => {
 
 
 
-export const saveWarehouse = async (warehouseReceiptDetailDto) => {
+export const saveWarehouse = async (warehouseReceiptDto) => {
     try {
-        await axios.post(`http://localhost:8080/api/warehouses/inputWarehouseDetail`,warehouseReceiptDetailDto,{headers: authHeader()});
+        await axios.post("http://localhost:8080/api/warehouses/inputWarehouseDetail",warehouseReceiptDto,{headers: authHeader()});
     } catch (e) {
         return undefined;
     }

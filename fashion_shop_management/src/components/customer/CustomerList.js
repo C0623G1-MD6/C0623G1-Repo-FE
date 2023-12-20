@@ -50,25 +50,26 @@ export function CustomerList() {
         const res = await getAllCustomer(nameCustomer, typeSearch, page);
         console.log(nameCustomer);
         if (res.status === 204) {
-            setCustomer([]);
+            setCustomer([])
+            setTotalPage(0);
         } else if (res.status === 200) {
             setTotalPage(res.data.totalPages);
             setCustomer(res.data.content);
-        }
 
-    }
-
-    const nextPage = () => {
-        if (page + 1 < totalPage) {
-            setPage((prev) => prev + 1);
         }
     }
 
-    const prevPage = () => {
-        if (page > 0) {
-            setPage((prev) => prev - 1);
-        }
-    }
+    // const nextPage = () => {
+    //     if (page + 1 < totalPage) {
+    //         setPage((prev) => prev + 1);
+    //     }
+    // }
+    //
+    // const prevPage = () => {
+    //     if (page > 0) {
+    //         setPage((prev) => prev - 1);
+    //     }
+    // }
 
     const handleModal = (value) => {
         setStatus(true);

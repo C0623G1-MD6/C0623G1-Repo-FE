@@ -15,14 +15,18 @@ export function WarehouseCreate() {
     const [sizeId, setSizeId] = useState(null);
     const [sizeName, setSizeName] = useState(null);
     const [status, setStatus] = useState(null);
-    const [selectedProduct, setSelectedProduct] = useState([]);
+    const [warehouseDetailSet, setWarehouseDetailSet] = useState([]);
+    const [detailList, setDetailSet] = useState([]);
     const [productId, setProductId] = useState(null);
     const [product, setProduct] = useState(null);
+    const [detail, setDetail] = useState(null);
     const vnd = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND'
     })
-
+    useEffect(() => {
+       getCode()
+    }, []);
 
     useEffect(() => {
         if (productName !== "") {
@@ -37,25 +41,72 @@ export function WarehouseCreate() {
         setProducts(products);
     };
 
+    const initValue = {
+        productName: "",
+        sizeName: "",
+        inputPrice: 0,
+        inputQuantity: 1
+    }
+    const getCode = async () =>{
+        const res = await WarehouseReceiptService.getCode();
+        setCode(res)
+    }
+
     const getAllSizeProduct = async () => {
-        if (productName!==""){
+        if (productName!== "" && product){
             const sizes = await WarehouseReceiptService.getAllSizeProduct(productName);
             setSizes(sizes);
         }
 
     };
+    function handleDetail(e) {
+        const {name, value} = e.target
+        setDetail({
+            ...detail,
+            [name]: value
+        })
+    }
 
-    const add = async (warehouseReceiptDetailDto) => {
-        try {
-            let isSuccess = await WarehouseReceiptService.saveWarehouse(warehouseReceiptDetailDto);
-            if (isSuccess) {
+    const addTable = (values) => {
+        createWarehouseDetail(values)
+        setDetailSet(prevState => {
+            return [
+                ...prevState, {...values}]
+    })
+    }
+    const createWarehouseDetail = (item) => {
+            setWarehouseDetailSet(prevState => {
+                return [...prevState, {
+                    productName : item.productName,
+                    inputQuantity: item.inputQuantity,
+                    inputPrice: item.inputPrice,
+                    sizeName: item.sizeName
+                }]
+            })
+
+    }
+    const handelReset = () =>{
+        setDetailSet([]);
+        setDetail(initValue);
+        setSizes([]);
+        setProducts([])
+
+    }
+    const add = async () => {
+            const warehouse = {
+                receiptCode : code,
+                warehouseDetailSet : warehouseDetailSet
+            }
+        console.log(warehouseDetailSet)
+
+            let isSuccess = await WarehouseReceiptService.saveWarehouse(warehouse);
+            console.log(detailList)
+            if (!isSuccess) {
                 toast(`Thêm mới đơn hàng thành công!`)
+                handelReset()
             } else {
                 toast(`Thêm mới đơn hàng không thành công!`)
             }
-        } catch (error) {
-            console.log(error);
-        }
     }
 
 
@@ -65,36 +116,23 @@ export function WarehouseCreate() {
     }, []);
 
     useEffect(() => {
-        if (productName !== "") {
+        if (productName !== "" && product!==null) {
             getAllSizeProduct();
         }
-    }, [productName]);
+        setSizes([])
+        setProduct(null)
+    }, [productId]);
 
-    // const handleChange = (event) => {
-    //     const {name, value} = event.target;
-    //     setInputValues((prevValues) => ({
-    //         ...prevValues,
-    //         [name]: value,
-    //     }));
-    // };
-    // console.log(productId)
-    //
-    // const handleSubmit = (event) => {
-    //     event.preventDefault();
-    //     setItems((prevItems) => [...prevItems, inputValues]);
-    //     setInputValues({});
-    // };
     const getProduct = async () => {
-        if(productName!== null){
-            const data = await WarehouseReceiptService.getProduct(productName);
-            setProduct(data);
-            setProductId(data.id);
+        for (let i = 0; i < products.length; i++) {
+            if(productName!== "" && productName!==products.at(i).name){
+                const data = await WarehouseReceiptService.getProduct(productName);
+                setProduct(data);
+                setProductId(data.id);
+            }
         }
-
     }
-    console.log(
-        productId
-    )
+
     if (!products || !sizes ) return null;
 
     return (
@@ -127,15 +165,11 @@ export function WarehouseCreate() {
 
                                 <Formik initialValues={
                                     {
-                                        productId: "",
-                                        sizeId: "",
-                                        inputPrice: 0,
-                                        inputQuantity: 1
+                                               initValue
                                     }
                                 }
-                                        onSubmit={(values) => {
-                                            add(values)
-                                        }
+                                        onSubmit={(values) =>
+                                            (addTable(values))
                                         }
                                         validationSchema={Yup.object({
                                             inputPrice: Yup.number()
@@ -148,20 +182,24 @@ export function WarehouseCreate() {
                                                 .integer("Số lượng phải là số nguyên")
                                                 .required("Vui lòng bổ sung thông tin số lượng.")
                                                 .min(1, "Số lượng không được là số âm.")
-                                                .max(2000, "Số lượng không quá 2000")
+                                                .max(2000, "Số lượng không quá 2000"),
+                                            productName : Yup.string()
+                                                .required("Vui lòng chọn sản phẩm."),
+                                            sizeName : Yup.string()
+                                                .required("Vui lòng chọn size.")
                                         })}>{
                                     ({setFieldValue})=>(
                                         <Form>
                                             <div className="mb-3">
                                                 <label htmlFor="exampleDataList1">Tên sản phẩm</label>
                                                 <Field
-                                                    name="productId"
+                                                    name="productName"
                                                     list="datalistOptions"
                                                     id="exampleDataList1"
                                                     placeholder=""
                                                     className="form-control"
                                                     onChange={e => {setProductName(e.target.value)
-                                                        setFieldValue("productId",productId)}}
+                                                        setFieldValue("productName",e.target.value)}}
                                                 />
                                                 <datalist id="datalistOptions">
                                                     {products.map((product) => (
@@ -171,36 +209,51 @@ export function WarehouseCreate() {
                                                     ))}
                                                 </datalist>
                                                 <ErrorMessage
-                                                    name="productId"
+                                                    name="productName"
                                                     component="span"
                                                     className="err-name"
+                                                    style={{color: "red"}}
                                                 ></ErrorMessage>
                                             </div>
                                             <div className="mb-3">
                                                 <label htmlFor="exampleDataList">Size</label>
-                                                <Field
-                                                    name="sizeId"
-                                                    list="datalistOptions2"
-                                                    id="exampleDataList"
-                                                    placeholder=""
-                                                    className="form-control"
-                                                    onChange={event => {
-                                                        setSizeName(event.target.value)
-                                                        setFieldValue("sizeId",sizeId)
-                                                    }}
-                                                />
-                                                <datalist id="datalistOptions2">
-                                                    {sizes.map((size) => (
-                                                        <option key={size.id} value={size.id}>
-                                                            {size.name}
+                                                {sizes.length === 0 ? (
+                                                    <input
+                                                        className="form-control"
+                                                        disabled={true}
+                                                        placeholder="Hãy chọn sản phẩm"
+                                                        style={{color: "red"}}
+                                                    />
+                                                ) : (
+                                                    <Field
+                                                        name="sizeName"
+                                                        as="select"
+                                                        id="exampleDataList"
+                                                        placeholder=""
+                                                        className="form-select"
+                                                        onChange={event => {
+                                                            setSizeName(event.target.value)
+                                                            setFieldValue("sizeName", event.target.value)
+                                                        }}
+                                                    >
+                                                        <option value="">
+                                                            Chọn Size
                                                         </option>
-                                                    ))}
-                                                </datalist>
-                                                <ErrorMessage
-                                                    name="productId"
-                                                    component="span"
-                                                    className="err-name"
-                                                ></ErrorMessage>
+                                                        {sizes.map((size) => (
+
+                                                            <option key={size.id} value={size.id}>
+                                                                {size.name}
+                                                            </option>
+                                                        ))}
+                                                    </Field>
+
+                                                )} <ErrorMessage
+                                                name="sizeName"
+                                                component="span"
+                                                className="err-name"
+                                                style={{color: "red"}}
+                                            ></ErrorMessage>
+
                                             </div>
                                             <div className="mb-3">
                                                 <label>Số lượng</label>
@@ -219,7 +272,7 @@ export function WarehouseCreate() {
 
                                             <div>
                                                 <button type="submit"
-                                                        className="btn btn-outline-primary rounded-0 text-center btn-create-news mb-2">Thêm
+                                                        className="btn btn-outline-primary rounded-0 text-center mb-2">Thêm
                                                     vào bảng
                                                 </button>
                                             </div>
@@ -244,42 +297,24 @@ export function WarehouseCreate() {
                                         </tr>
                                         </thead>
                                         <tbody className="table-group-divider">
-                                        <tr role="button" data-bs-toggle="modal"
-                                            data-bs-target="#staticBackdrop">
-                                            <td className="text-center">01</td>
-                                            <td className="text-center">H001</td>
-                                            <td>Quần bò</td>
-                                            <td className="text-center">L</td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value="01"/></td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value="200.000"/></td>
-                                            <td className="p-1"><input
-                                                className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                value=""/></td>
-                                            <td className="text-end">200.000</td>
-                                        </tr>
+                                        {detailList.map((detail,index)=>(
+                                            <tr key={index} className="text-center">
+                                                <td>{index+1}</td>
+                                                <td>{detail.productName}</td>
+                                                <td>{detail.sizeName}</td>
+                                                <td>{detail.inputQuantity}</td>
+                                                <td>{detail.inputPrice}</td>
+                                                <td>{detail.inputPrice * detail.inputQuantity}</td>
+                                            </tr>
+                                        ))}
 
-                                        <tr className="fst-italic">
-                                            <th colSpan="7" className="">Tổng</th>
-                                            <th className="text-end">400.000</th>
-                                        </tr>
-                                        <tr>
-                                            <td colSpan="7" className="fst-italic">Chiết khấu 10%</td>
-                                            <td className="text-end fst-italic">10%</td>
-                                        </tr>
-                                        <tr className="text-danger fst-italic">
-                                            <th colSpan="7" className="">Thành tiền</th>
-                                            <th className="text-end">360.000</th>
-                                        </tr>
+
                                         </tbody>
                                     </table>
                                 </div>
                                 <div className="text-center">
-                                    <button className="btn btn-outline-secondary btn-sm rounded-0 ms-3">Hủy</button>
-                                    <button className="btn btn-outline-primary btn-sm rounded-0 ms-3">Xác nhận
+                                    <button onClick={handelReset} className="btn btn-outline-secondary btn-sm rounded-0 ms-3">Hủy</button>
+                                    <button onClick={add} className="btn btn-outline-primary btn-sm rounded-0 ms-3">Xác nhận
                                     </button>
                                 </div>
                             </div>
@@ -288,168 +323,5 @@ export function WarehouseCreate() {
                 </div>
             </div>
         </>
-
-        // <>
-        //   <div class="container  mt-3 p-5">
-        //     <div class="d-flex justify-content-center">
-        //       <div class="input-card form-control shadow-lg ">
-        //         <h2 class="input-title">Nhập Kho</h2>
-        //         <Formik
-        //             initialValues={initValue}
-        //             onSubmit={() => {
-        //               handleSubmit();
-        //             }}
-        //             validationSchema={Yup.object({
-        //               inputQuantity: Yup.number()
-        //                   .typeError('Vui lòng chỉ nhập số')
-        //                   .integer("Vui lòng nhập số nguyên dương")
-        //                   .required("Vui lòng không để trống trường này")
-        //                   .min(1, "Vui lòng nhập số lớn hơn 0")
-        //                   .max(2000, "Vui lòng không nhập số lớn hơn 2000"),
-        //               inputPrice: Yup.number()
-        //                   .required("Vui lòng không để trống trường này")
-        //                   .min(1, "Vui lòng nhập số lớn hơn 0")
-        //                   .max(1000000000, "Vui lòng không nhập số lớn hơn 10000000"),
-        //             })}
-        //         >
-        //           <Form class="input-form">
-        //             <div class="input-group">
-        //               <Field
-        //                   placeholder=""
-        //                   type="text"
-        //                   name="receiptCode"
-        //                   id="validationDefault01"
-        //                   disabled
-        //                   onChange={handleChange}
-        //               />
-        //               <label for="validationDefault01">Mã phiếu</label>
-        //             </div>
-        //             <div class="input-group">
-        //               <Field
-        //                   placeholder=""
-        //                   type="text"
-        //                   name="receiptDate"
-        //                   id="validationDefault01"
-        //                   onChange={handleChange}
-        //                   disabled
-        //               />
-        //               <label for="validationDefault01">Ngày nhập kho</label>
-        //             </div>
-        //             <div class="input-group">
-        //               <Field
-        //                   name="productId"
-        //                   list="datalistOptions"
-        //                   id="exampleDataList"
-        //                   placeholder=""
-        //                   value={inputValues.productId}
-        //                   onChange={handleChange}
-        //               />
-        //               <label for="exampleDataList">Tên sản phẩm</label>
-        //               <datalist id="datalistOptions">
-        //                 {products.map((product) => (
-        //                     <option key={product.id} value={product.productName}>
-        //
-        //                     </option>
-        //                 ))}
-        //               </datalist>
-        //               <ErrorMessage
-        //                   name="productId"
-        //                   component="span"
-        //                   className="err-name"
-        //               ></ErrorMessage>
-        //             </div>
-        //             <div class="input-group">
-        //               <Field
-        //                   placeholder=""
-        //                   type="text"
-        //                   name="sizeId"
-        //                   id="validationDefault01"
-        //               />
-        //               <label for="validationDefault01">Size</label>
-        //             </div>
-        //             <div class="input-group">
-        //               <Field
-        //                   placeholder=""
-        //                   type="number"
-        //                   name="inputQuantity"
-        //                   id="validationDefault01"
-        //                   value={inputValues.inputQuantity}
-        //                   onChange={handleChange}
-        //               />
-        //               <label for="validationDefault01">Số lượng</label>
-        //               <ErrorMessage
-        //                   name="inputQuantity"
-        //                   component="span"
-        //                   className="err-name"
-        //               ></ErrorMessage>
-        //             </div>
-        //             <div class="input-group">
-        //               <Field
-        //                   placeholder=""
-        //                   type="number"
-        //                   name="inputPrice"
-        //                   id="validationDefault01"
-        //                   value={inputValues.inputPrice}
-        //                   onChange={handleChange}
-        //               />
-        //               <label for="validationDefault01">Đơn giá</label>
-        //               <ErrorMessage
-        //                   name="inputPrice"
-        //                   component="span"
-        //                   className="err-name"
-        //               ></ErrorMessage>
-        //             </div>
-        //
-        //             <div class="mt-5 confirm d-flex justify-content-md-center">
-        //               <div>
-        //                 <button
-        //                     type="button"
-        //                     class="btn btn-outline-primary rounded-0"
-        //                 >
-        //                   Thêm vào bảng
-        //                 </button>
-        //               </div>
-        //             </div>
-        //           </Form>
-        //         </Formik>
-        //
-        //         <div class="mt-5 d-flex justify-content-evenly ">
-        //           <table class="table">
-        //             <thead class="table-secondary">
-        //             <tr>
-        //               <th>STT</th>
-        //               <th>Mã Hàng</th>
-        //               <th>Tên</th>
-        //               <th>Số Lượng</th>
-        //               <th>Size</th>
-        //               <th>Đơn Giá</th>
-        //             </tr>
-        //             </thead>
-        //             <tbody>
-        //             {items.map((item, index) => (
-        //                 <tr key={index}>
-        //                   <td>{index + 1}</td>
-        //                   <td>{item.productId}</td>
-        //                   <td>{item.productId}</td>
-        //                   <td>{item.inputQuantity}</td>
-        //                   <td>{item.inputQuantity}</td>
-        //                   <td>{item.inputPrice}</td>
-        //                 </tr>
-        //             ))}
-        //             </tbody>
-        //           </table>
-        //         </div>
-        //         <div class="mt-5 confirm d-flex justify-content-md-center">
-        //           <div>
-        //             <a class="btn btn-outline-secondary me-3 rounded-0">Hủy</a>
-        //           </div>
-        //           <div>
-        //             <a class="btn btn-outline-primary rounded-0">Xác Nhận</a>
-        //           </div>
-        //         </div>
-        //       </div>
-        //     </div>
-        //   </div>
-        // </>
-    );
+    )
 }
