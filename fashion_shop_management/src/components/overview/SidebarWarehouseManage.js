@@ -1,22 +1,48 @@
 import {NavLink} from "react-router-dom";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import ModalLogout from "../auth/modal/ModalLogout";
 
 function SidebarWarehouseManage(props) {
     let selectedItem=props.item;
-    return (
+    const [show,setShow]=useState(true);
+    const handleShow=()=>{
+        if(show) {
+            setShow(false);
+        } else {
+            setShow(true);
+        }
+    }
+    const checkScreenSize = () => {
+        const screenWidth = window.innerWidth || document.documentElement.clientWidth;
+        if (screenWidth > 767) {
+            setShow(true);
+        } else {
+            setShow(false);
+        }
+    };
+    useEffect(() => {
+        checkScreenSize();
+        window.addEventListener('resize', checkScreenSize);
+        return () => {
+            window.removeEventListener('resize', checkScreenSize);
+        };
+    }, []);
+    return(
         <>
-            <div className="sidebar" id="side_nav">
-                <div className="menu">
+            <div className={`sidebar ${show === true ? 'active' : ''}`}  id="side_nav">
+
+                <div className="menu mx-3">
                     <div className="d-flex logo-sidebar">
                         <div className="header-box px-2 pt-3 pb-4">
-                            <button className="btn d-md-none d-block close-btn px-1 py-0 text-dark mt-2"><i
-                                className="bi bi-list"></i>
-                            </button>
                         </div>
-                        <NavLink to="/" className="logo-img ms-2 mb-4">
+                        <NavLink to="/"  className="logo-img ms-2 mb-4">
                             <img src="/images/logo-1-header.png"/>
                         </NavLink>
+                    </div>
+                    <div className="btn-test">
+                        <button onClick={handleShow} className="btn text-dark mt-2">
+                            <i className="bi bi-list"></i>
+                        </button>
                     </div>
                     <hr/>
                     <ul>
@@ -33,7 +59,7 @@ function SidebarWarehouseManage(props) {
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item3' ? 'active' : ''}`}>
-                            <NavLink>
+                            <NavLink to="/warehouse/create">
                                 <i className="bi bi-file-plus"></i>
                                 <span className="text">Nhập liệu</span>
                             </NavLink>

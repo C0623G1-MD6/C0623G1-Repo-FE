@@ -2,7 +2,6 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import {NavLink, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
-import data from "bootstrap/js/src/dom/data";
 
 export function Payment() {
     const initProduct = {
@@ -12,23 +11,39 @@ export function Payment() {
         productCode: ""
     }
 
-    const [detailList, setDetailList] = useState([]);
+    const initValue = {
+        productCode: "",
+        name: "",
+        size: "",
+        amount: "",
+        price: 0,
+        promotion: 0,
+        totalDetail: 0,
+        sizeDetailId: ""
+    }
+
+    const [invoiceDetailSet, setInvoiceDetailSet] = useState([])
+    const [detailLists, setDetailLists] = useState([]);
+    const [detail, setDetail] = useState(initValue)
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [productCode, setProductCode] = useState("");
     const [sizeName, setSizeName] = useState("");
     const [keyword, setKeyword] = useState("");
-    const [quantity, setQuantity] = useState(0);
+    const [sizeDetail, setSizeDetail] = useState({})
     const [sellingQuantity, setSellingQuantity] = useState(0);
     const [customer, setCustomer] = useState({});
     const [customerId, setCustomerId] = useState(0);
     const [product, setProduct] = useState({initProduct});
     const [productId, setProductId] = useState();
-    const [total, setTotal] = useState(0);
+    const [totalDetail, setTotalDetail] = useState(0);
+    const [total, setTotal] = useState(0)
+    const [totalPayment, setTotalPayment] = useState(0);
     const location = useLocation();
-    const {cus} = location.state || {cus: null};
+    const {cus} = location.state || {cus: {}};
 
-    console.log(detailList);
+    console.log(customer);
+
     useEffect(() => {
         getAllProduct();
     }, [keyword])
@@ -54,7 +69,7 @@ export function Payment() {
 
     useEffect(() => {
         if (productId > 0) {
-            getQuantityProduct();
+            getSizeDetail();
         }
     }, [productCode, sizeName]);
 
@@ -66,12 +81,13 @@ export function Payment() {
     const getAllSizeProduct = async () => {
         const res = await paymentService.getListSizeByProductCode(productCode);
         setSizes(res.data);
+        setSizeName(res.data[0].name)
     }
 
-    const getQuantityProduct = async () => {
+    const getSizeDetail = async () => {
         if (productCode !== "" && sizeName !== "") {
             const res = await paymentService.getQuantityByProductCodeAndSizeName(productCode, sizeName);
-            setQuantity(res.data.quantity);
+            setSizeDetail(res.data);
         }
     }
 
@@ -80,9 +96,9 @@ export function Payment() {
         setProduct(data);
         setProductId(data.id);
         if (!sellingQuantity || !data) {
-            setTotal(0);
+            setTotalDetail(0);
         } else {
-            setTotal((data.price * sellingQuantity * (1 - data.percent)));
+            setTotalDetail((data.price * sellingQuantity * (1 - data.percent)));
         }
 
     }
@@ -90,9 +106,9 @@ export function Payment() {
     const handleTotal = (e) => {
         setSellingQuantity(e);
         if (!product.price) {
-            setTotal(0)
+            setTotalDetail(0)
         } else {
-            setTotal((product.price * e * (1 - product.percent)));
+            setTotalDetail((product.price * e * (1 - product.percent)));
         }
 
     }
@@ -102,24 +118,65 @@ export function Payment() {
         setSizes([]);
     }
 
-    const initValue = {
-        productCode: "",
-        name: "",
-        size: "",
-        amount: 0,
-        price: 0,
-        promotion: 0,
-        total: 0
-    }
-
     const enter = (values) => {
         values.name = product.name;
         values.price = product.price;
         values.promotion = product.percent;
-        values.total = total;
-        setDetailList(prevState => {
+        values.totalDetail = totalDetail;
+        values.size = sizeName;
+        values.sizeDetailId = sizeDetail.id;
+        createInvoiceDetail(values);
+        setTotal(values.price * values.amount * (1 - values.promotion) + total);
+        setTotalPayment((values.price * values.amount * (1 - values.promotion) + total) * (100 - customer.discount_percent) / 100);
+        setDetailLists(prevState => {
             return [...prevState, values]
         })
+        setProduct(initProduct);
+        setDetail(initValue);
+        setSizes([])
+    }
+
+
+    const handelReset = () => {
+        setDetailLists([]);
+        setCustomer({});
+        setProduct(initProduct);
+        setDetail(initValue);
+        setSizes([]);
+        setTotal(0);
+        setTotalPayment(0);
+        setTotalDetail(0);
+        setCustomer({});
+    }
+    const createInvoiceDetail = (item) => {
+        // detailLists.map(item => {
+            setInvoiceDetailSet(prevState => {
+                return [...prevState, {
+                    sellingPrice: item.price * (1 - item.promotion) * (1-customer.discount_percent/100),
+                    sellingQuantity: item.amount,
+                    sizeDetailId: item.sizeDetailId
+                }]
+            })
+        // })
+    }
+
+    function handleDetail(e) {
+        const {name, value} = e.target
+        setDetail({
+            ...detail,
+            [name]: value
+        })
+    }
+
+    const saveInvoice = async ()=>{
+        const invoice = {
+            customerId: customerId,
+            invoiceDetailDtoSet: invoiceDetailSet
+        }
+        const res = await paymentService.saveInvoice(invoice);
+        if(res.status===200){
+
+        }
     }
 
     return (
@@ -157,7 +214,8 @@ export function Payment() {
                                     <label className="col-2 col-form-label">Mã khách hàng</label>
                                     <div className="col-2 p-0 d-flex align-items-center">
                                         <input className="form-control form-control-sm rounded-0 border-dark fw-bold"
-                                               readOnly defaultValue={customer.customer_code}/>
+                                               readOnly defaultValue={customer.customer_code}
+                                        />
                                     </div>
                                     <div className="col-2 ms-3 d-flex align-items-center">
                                         <NavLink to="/look-up-customer" role="button" href="look_up_customers.html"
@@ -171,7 +229,7 @@ export function Payment() {
                                         enter(values);
                                     }}>
                                     {
-                                        ({setFieldValue})=>(
+                                        ({setFieldValue}) => (
                                             <Form>
                                                 <div>
                                                     <table className="table table-bordered mb-0">
@@ -179,7 +237,7 @@ export function Payment() {
                                                         <tr>
                                                             <td className="p-1 col-1">
                                                                 <button type="submit"
-                                                                    className="btn btn-sm btn-outline-primary rounded-0 w-100">Nhập
+                                                                        className="btn btn-sm btn-outline-primary rounded-0 w-100">Nhập
                                                                 </button>
                                                             </td>
                                                             <th className="p-1 col-1"><Field
@@ -187,9 +245,11 @@ export function Payment() {
                                                                 list="datalistOptions"
                                                                 onChange={event => {
                                                                     setProductCode(event.target.value);
-                                                                    setFieldValue("productCode",event.target.value);
+                                                                    handleDetail(event);
+                                                                    setFieldValue("productCode", event.target.value);
                                                                 }}
                                                                 name="productCode"
+                                                                value={detail.productCode}
                                                             />
                                                                 <datalist id="datalistOptions">
                                                                     {
@@ -204,60 +264,72 @@ export function Payment() {
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
                                                                     value={product.name}
-                                                                    onChange={event=> setFieldValue("name",event.target.value)}
+                                                                    onChange={event => setFieldValue("name", event.target.value)}
                                                                     name="name"
                                                                     readOnly/>
                                                             </td>
                                                             <td className="p-1 col-1">
-                                                                <Field as="select"
-                                                                       className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
-                                                                       onChange={event => {
-                                                                           setSizeName(event.target.value)
-                                                                           setFieldValue("size",event.target.value)
-                                                                       }}
-                                                                       name="size"
-                                                                >
-                                                                    {
-                                                                        sizes.map(size => (
-                                                                            <option key={size.name}
-                                                                                    value={size.name}>{size.name}</option>
-                                                                        ))
-                                                                    }
-                                                                </Field>
+                                                                {
+                                                                    sizes.length > 0 ?
+                                                                        <Field
+                                                                            as="select"
+                                                                            className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
+                                                                            onChange={event => {
+                                                                                setSizeName(event.target.value);
+                                                                                handleDetail(event)
+                                                                                setFieldValue("size", event.target.value)
+                                                                            }}
+                                                                            name="size"
+                                                                            value={detail.size}
+                                                                        >
+                                                                            {
+                                                                                sizes.map(size => (
+                                                                                    <option key={size.name}
+                                                                                            value={size.name}>{size.name}</option>
+                                                                                ))
+                                                                            }
+                                                                        </Field>
+                                                                        :
+                                                                        <input
+                                                                            className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
+                                                                            readOnly/>
+                                                                }
                                                             </td>
                                                             <td className="p-1 col-1">
                                                                 <Field type="number"
                                                                        className="p-1 form-control form-control-sm rounded-0 border-dark text-end"
                                                                        onChange={event => {
                                                                            handleTotal(event.target.value);
+                                                                           handleDetail(event)
                                                                            setFieldValue("amount", event.target.value)
                                                                        }}
-                                                                       max={quantity} min="0"
+                                                                       max={sizeDetail.quantity} min="0"
                                                                        name="amount"
+                                                                       value={detail.amount}
                                                                 />
                                                             </td>
                                                             <td className="p-1 col-1">
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
                                                                     value={!product.price ? product.price : parseFloat(product.price).toLocaleString('vi-VN')}
-                                                                    onChange={event=> setFieldValue("price",event.target.value)}
+                                                                    onChange={event => setFieldValue("price", event.target.value)}
                                                                     name="price"
                                                                     readOnly/>
                                                             </td>
                                                             <td className="p-1 col-1">
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                                    defaultValue={product.percent}
-                                                                    onChange={event=> setFieldValue("promotion",event.target.value)}
+                                                                    value={!product.percent?"":`${product.percent*100}%`}
+                                                                    onChange={event => setFieldValue("promotion", event.target.value)}
                                                                     name="promotion"
                                                                     readOnly/>
                                                             </td>
                                                             <td className="p-1 col-2">
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                                    value={total !== 0 ? total.toLocaleString("vi-VN") : ""}
-                                                                    onChange={event=> setFieldValue("total",event.target.value)}
-                                                                    name="total"
+                                                                    value={totalDetail !== 0 ? totalDetail.toLocaleString("vi-VN") : ""}
+                                                                    onChange={event => setFieldValue("totalDetail", event.target.value)}
+                                                                    name="totalDetail"
                                                                     readOnly/>
                                                             </td>
                                                         </tr>
@@ -284,46 +356,52 @@ export function Payment() {
                                         </thead>
                                         <tbody className="table-group-divider">
                                         {
-                                            detailList.map((detail,index)=>(
+                                            detailLists.map((detail, index) => (
                                                 <tr key={detail.productCode}>
                                                     <td role="button" data-bs-toggle="modal"
-                                                        data-bs-target="#staticBackdrop" className="text-center">{index+1}</td>
+                                                        data-bs-target="#staticBackdrop"
+                                                        className="text-center">{index + 1}</td>
                                                     <td role="button" data-bs-toggle="modal"
-                                                        data-bs-target="#staticBackdrop" className="text-center">{detail.productCode}</td>
+                                                        data-bs-target="#staticBackdrop"
+                                                        className="text-center">{detail.productCode}</td>
                                                     <td role="button" data-bs-toggle="modal"
                                                         data-bs-target="#staticBackdrop">{detail.name}</td>
                                                     <td className="text-center">{detail.size}</td>
                                                     <td className="p-1"><input type="number"
-                                                        className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
-                                                        value={detail.amount}/></td>
-                                                    <td className="text-end">{detail.price}</td>
-                                                    <td className="text-end">{detail.promotion}</td>
-                                                    <td className="text-end">{detail.total}</td>
+                                                                               className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
+                                                                               value={detail.amount}/></td>
+                                                    <td className="text-end">{detail.price !== 0 ? detail.price.toLocaleString("vi-VN") : 0}</td>
+                                                    <td className="text-end">{detail.promotion > 0 ? `${detail.promotion * 100}%` : 0}</td>
+                                                    <td className="text-end">{detail.totalDetail !== 0 ? detail.totalDetail.toLocaleString("vi-VN") : 0}</td>
 
                                                 </tr>
                                             ))
                                         }
 
-                                        {/*<tr className="fst-italic">*/}
-                                        {/*    <th colSpan="7" className="">Tổng</th>*/}
-                                        {/*    <th className="text-end">400.000</th>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                        {/*    <td colSpan="7" className="fst-italic">Chiết khấu 10%</td>*/}
-                                        {/*    <td className="text-end fst-italic">10%</td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr className="text-danger fst-italic">*/}
-                                        {/*    <th colSpan="7" className="">Thành tiền</th>*/}
-                                        {/*    <th className="text-end">360.000</th>*/}
-                                        {/*</tr>*/}
+                                        <tr className="fst-italic">
+                                            <th colSpan="7" className="ps-3">Tổng</th>
+                                            <th className="text-end">{total !== 0 ? total.toLocaleString("vi-VN") : 0}</th>
+                                        </tr>
+                                        <tr className="fst-italic">
+                                            <td colSpan="7" className="ps-3">Chiết khấu</td>
+                                            <td className="text-end">{customer.discount_percent}%</td>
+                                        </tr>
+                                        <tr className="text-danger fst-italic">
+                                            <th colSpan="7" className="ps-3">Thành tiền</th>
+                                            <th className="text-end">{totalPayment !== 0 ? totalPayment.toLocaleString("vi-VN") : 0}</th>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div className="text-center">
                                     <button className="btn btn-light btn-sm rounded-0 fs-3 py-0"><i
                                         className="bi bi-qr-code-scan"></i></button>
-                                    <button className="btn btn-outline-secondary btn-sm rounded-0 ms-3">Hủy</button>
-                                    <button className="btn btn-outline-primary btn-sm rounded-0 ms-3">In hóa đơn
+                                    <button className="btn btn-outline-secondary btn-sm rounded-0 ms-3"
+                                            onClick={handelReset}
+                                    >Hủy
+                                    </button>
+                                    <button className="btn btn-outline-primary btn-sm rounded-0 ms-3"
+                                            onClick={() => saveInvoice()}>In hóa đơn
                                     </button>
                                 </div>
                             </div>
@@ -336,8 +414,10 @@ export function Payment() {
                 <div className="modal-dialog">
                     <div className="modal-content text-center">
                         <div className="modal-body">
-                            <i className="bi bi-exclamation-triangle text-danger" style={{fontSize:"60px"}} id="icon-warning"></i>
-                            <h5>Bạn chắn chắn muốn xóa sản phẩm <span className="text-danger">......</span> này khỏi đơn hàng?</h5>
+                            <i className="bi bi-exclamation-triangle text-danger" style={{fontSize: "60px"}}
+                               id="icon-warning"></i>
+                            <h5>Bạn chắn chắn muốn xóa sản phẩm <span className="text-danger">......</span> này khỏi đơn
+                                hàng?</h5>
                             Hành động này không thể hoàn tác!
                         </div>
                         <div className="modal-footer justify-content-center">

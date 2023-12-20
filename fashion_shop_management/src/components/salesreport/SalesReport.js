@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from "react";
+import {Bar} from "react-chartjs-2";
 import {Chart, registerables} from "chart.js";
-// import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import * as SalesReportService from "../../services/salesreport/SalesReportService";
-import {DatePicker} from "antd";
 
 
 Chart.register(...registerables);
@@ -10,7 +11,8 @@ Chart.register(...registerables);
 function formatDateString(date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
-  return `${day}/${month}`;
+  const year = date.getFullYear() ;
+  return `${day}/ ${month}/${year}`;
 }
 
 function SalesReport() {
@@ -58,51 +60,84 @@ function SalesReport() {
     labels: labels,
     datasets: [
       {
-        type: "bar",
+        type: "line",
         label: "Tổng Chi",
-        backgroundColor: "rgba(255, 99, 132, 1.0)",
+        bac: "rgba(108, 117, 125, 0.5)",
         data: dataSpend,
-        yAxisID: "y1",
+        pointRadius: dataSpend.map(value => value !== 0 ? 4 : 0),
+        backgroundColor: 'rgba(108, 117, 125, 1.0)',
       },
       {
         type: "line",
-        label: "Doanh thu (VND)",
-        backgroundColor: "rgba(75, 192, 192, 1.0)",
-        borderWidth: 2,
-        fill: false,
+        label: "Doanh thu",
+        borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
-        yAxisID: "y2",
+        pointRadius: dataRevenue.map(value => value !== 0 ? 4 : 0),
+        backgroundColor: 'rgba(32, 201, 151, 1.0)',
       },
     ],
   };
 
   const options = {
+    interaction: {
+      mode: 'index',
+      intersect: false,
+    },
     responsive: true,
     scales: {
       x: {
-        scaleLabel: {
+        title: {
           display: true,
-          labelString: "Ngày",
+          text: 'Ngày'
+        },
+        ticks: {
+          font: {
+            family: "Verdana",
+            size: 14,
+            weight: "normal",
+          },
         },
       },
-      y1: {
-        beginAtZero: true,
-        min: 0,
-        scaleLabel: {
+      y: {
+        stacked: true,
+        title: {
           display: true,
-          labelString: "Tổng chi",
+          text: 'VNĐ'
         },
-      },
-      y2: {
-        beginAtZero: true,
-        min: 0,
-        position: "right",
-        scaleLabel: {
-          display: true,
-          labelString: "Doanh thu (VND)",
+        ticks: {
+          font: {
+            family: "Verdana",
+            size: 14,
+            weight: "normal",
+          },
         },
-      },
+      }
     },
+    plugins: {
+      title: {
+        display: true,
+        text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
+        font: {
+          size: 12,
+          family: 'tahoma',
+          weight: 'normal',
+        },
+      },
+      subtitle: {
+        display: true,
+        text: 'City 6 Fashion',
+        color: 'blue',
+        font: {
+          size: 12,
+          family: 'tahoma',
+          weight: 'normal',
+          style: 'italic'
+        },
+        padding: {
+          bottom: 10
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -111,7 +146,7 @@ function SalesReport() {
 
   return (
       <>
-        <div className="container pt-5 pb-5">
+        <div className="container pt-5 pb-5 form-control">
           <h2 className="text-center mt-5 text-primary">Thống Kê Doanh Thu</h2>
           <div className="row mt-5">
             <div className="col-md-4"></div>
@@ -142,7 +177,7 @@ function SalesReport() {
           </div>
           <div className="row mt-5">
             <div className="col-lg-12">
-              {/*<Bar data={chartData} options={options} id="myChart" style={{width: "80%", margin: "0 auto"}}/>*/}
+              <Bar data={chartData} options={options} id="myChart" style={{width: "100%", margin: "0 auto"}}/>
             </div>
           </div>
         </div>

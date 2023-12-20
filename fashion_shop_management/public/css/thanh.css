@@ -60,7 +60,7 @@
     text-align: center;
 }
 
-#change-password .btn-submit .btn, .create-noti .btn-add-noti {
+#change-password .btn-submit .btn, .create-noti .btn-add-noti,#information .btn.btn-submit {
     background: #151515;
     color: #fff;
     border: 0;
@@ -154,6 +154,10 @@ section#login .form-check-input {
 }
 section#information .content {
     min-height: unset;
+}
+
+#drowdown-notification {
+    width: 500px;
 }
 @media only screen and (max-width: 768px) {
     .img-login {

@@ -4,7 +4,16 @@ import React from "react";
 import {Payment} from "./Payment";
 
 function PaymentOverview() {
-    let item="item3";
+    const user = JSON.parse(localStorage.getItem('user'));
+    let item;
+    switch (user.roles[0]){
+        case "ROLE_MANAGER":
+            item="item10";
+            break;
+        case "ROLE_SALES":
+            item="item3";
+            break;
+    }
     return(
         <>
             <div className="main-container d-flex">

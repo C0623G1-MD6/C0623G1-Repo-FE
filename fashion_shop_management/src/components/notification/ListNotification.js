@@ -1,44 +1,31 @@
 import "../notification/form_css.css"
 import {useEffect, useState} from "react";
-import {getAll, readNotification} from "../../services/notification/notificationService";
-import {Field} from "formik";
+import {useDispatch, useSelector} from "react-redux";
+import {getAllNotificationById, readNotificationMiddleware} from "../../redux/middlewares/NotificationMiddleware";
+import Pagination from "../pagination/Pagination";
 
 export function ListNotification() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user.roles)
-    const [notification, setNotification] = useState([]);
+    const dispatch = useDispatch();
+    const notificationRedux = useSelector((store) => store.notification.notifications);
+    const notification = notificationRedux.content;
+    const notificationNotView = useSelector((store) => store.notification.notificationNotView);
     const [page, setPage] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
-
 
     useEffect(() => {
-        display()
-
-    }, [page]);
-
-    const display = async () => {
-        const res = await getAll(page,user.roles);
-        setTotalPage(res.data.totalPages);
-        setNotification(res.data.content);
+        getAllNoti()
+    }, [dispatch,page]);
+    //
+    const getAllNoti = async () => {
+        await dispatch(getAllNotificationById(page, user.id));
     }
-
-    const handleDelete = async (notificationId) => {
-        await readNotification(notificationId);
-        display();
+    const handlePageChange = async (pageNumber) => {
+        setPage(pageNumber);
     };
 
-
-    const nextPage = () => {
-        if (page + 1 < totalPage) {
-            setPage((prev) => prev + 1)
-        }
-    }
-    const prevPage = () => {
-        if (page > 0) {
-            setPage((prev) => prev - 1)
-        }
-    }
-
+    const readNotification = async (notificationId) => {
+       await dispatch(readNotificationMiddleware(notificationId));
+    };
 
     function formatDateTime(dateTime) {
         let formattedDate = new Date(dateTime);
@@ -51,6 +38,11 @@ export function ListNotification() {
         return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
     }
 
+    if (!notification || !notificationNotView) {
+        return undefined;
+    }
+
+
     return (
 
         <>
@@ -59,7 +51,8 @@ export function ListNotification() {
             </div>
             <div className="box-body p-0 bg-light" style={{height: "32rem"}}>
                 {notification.map((notifi) => (
-                    <div key={notifi.id} className="p-3 d-flex  bg-light border-bottom osahan-post-header justify-content-between">
+                    <div key={notifi.id}
+                         className="p-3 d-flex  bg-light border-bottom osahan-post-header justify-content-between">
                         <div className="font-weight-bold mr-3 ">
                             <div>
                                 <div
@@ -69,11 +62,7 @@ export function ListNotification() {
                                 <div className="small fw-normal">{notifi.content}</div>
                             </div>
                         </div>
-                        {!notifi.deleted ? (
-                            <div>
-                                <i className="bi bi-check2-circle"></i> Đã đọc
-                            </div>
-                        ) : (
+                        {notificationNotView.some((notView) => notView.id === notifi.id) ? (
                             <div className="form-check">
                                 <label className="form-check-label" htmlFor={`flexSwitchCheckChecked-${notifi.id}`}>
                                     Đánh dấu đã đọc
@@ -81,34 +70,20 @@ export function ListNotification() {
                                 <input
                                     className="form-check-input"
                                     type="checkbox"
-                                    role="switch"
                                     id={`flexSwitchCheckChecked-${notifi.id}`}
-                                    onChange={() => handleDelete(notifi.id)}
+                                    onChange={() => readNotification(notifi.id)}
                                 />
+                            </div>
+                        ) : (
+                            <div>
+                                <i className="bi bi-check2-circle"></i> Đã đọc
                             </div>
                         )}
                     </div>
                 ))}
             </div>
-            <div className="d-flex justify-content-end bg-light  osahan-post-header pt-3">
-                <div className="font-weight-bold mr-3 ">
-                    <div>
-                        {notification && notification.length !== 0 ? (
-                            <div className="col-md-6 d-flex justify-content-between  mb-3">
-                                <button className="btn btn-outline-secondary "
-                                        onClick={() => prevPage()}>
-                                    <i className="bi bi-skip-backward"></i>
-                                </button>
-                                <span className="btn btn-outline-secondary ">
-                                     {page + 1}/{totalPage}
-                                 </span>
-                                <button className="btn btn-outline-secondary " onClick={() => nextPage()}>
-                                    <span> <i className="bi bi-skip-forward"></i></span>
-                                </button>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
+            <div className="my-3">
+                <Pagination totalPages={notificationRedux.totalPages} page={notificationRedux.number} onPageChange={handlePageChange}/>
             </div>
         </>
     )

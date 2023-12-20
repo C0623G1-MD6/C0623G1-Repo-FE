@@ -22,10 +22,33 @@ export const getCode = async () => {
 
 };
 
-
-export const saveWarehouse = async (warehouse) => {
+export const getAllSizeProduct = async (productName) => {
     try {
-        await axios.post(`http://localhost:8080/api/warehouses/inputWarehouseDetail`,warehouse,{headers: authHeader()});
+        let response = await axios.get(`http://localhost:8080/api/warehouses/sizes/${productName}`,{headers: authHeader()});
+        return response.data;
+    } catch (e) {
+        return undefined;
+    }
+
+
+};
+
+export const getProduct = async (productName) => {
+    try {
+        let response = await axios.get(`http://localhost:8080/api/warehouses/product/${productName}`,{headers: authHeader()});
+        return response.data;
+    } catch (e) {
+        return undefined;
+    }
+
+
+};
+
+
+
+export const saveWarehouse = async (warehouseReceiptDto) => {
+    try {
+        await axios.post("http://localhost:8080/api/warehouses/inputWarehouseDetail",warehouseReceiptDto,{headers: authHeader()});
     } catch (e) {
         return undefined;
     }
