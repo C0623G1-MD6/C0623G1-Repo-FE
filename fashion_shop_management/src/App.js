@@ -66,7 +66,7 @@ function App() {
                         <Route path="/dashboard/sales" element={<SalesReportMain/>}/>
                         <Route path="/customer/create" element={<Create/>}/>
                         <Route path="/customer/edit/:id" element={<Edit/>}/>
-                        <Route path="/warehouse/create" element={<WarehouseCreate/>}/>
+                        <Route path="/warehouse/create" element={<WarehouseCreateMain/>}/>
                         <Route path="/dashboard/sales" element={<SalesReportMain/>}/>
                         <Route path="/search" element={<SearchProducts />}></Route>
                         <Route path="/news" element={<NewsList/>}></Route>
