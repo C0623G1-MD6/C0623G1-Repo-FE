@@ -2,7 +2,6 @@ import {Formik, Form, Field, ErrorMessage} from "formik";
 import {NavLink, useLocation} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
-import data from "bootstrap/js/src/dom/data";
 
 export function Payment() {
     const initProduct = {
@@ -12,23 +11,29 @@ export function Payment() {
         productCode: ""
     }
 
-    const [detailList, setDetailList] = useState([]);
+    const [invoiceDetailSet, setInvoiceDetailSet] = useState([{}])
+    const [detailLists, setDetailLists] = useState([]);
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [productCode, setProductCode] = useState("");
     const [sizeName, setSizeName] = useState("");
     const [keyword, setKeyword] = useState("");
-    const [quantity, setQuantity] = useState(0);
+    const [sizeDetail, setSizeDetail] = useState({})
     const [sellingQuantity, setSellingQuantity] = useState(0);
     const [customer, setCustomer] = useState({});
     const [customerId, setCustomerId] = useState(0);
     const [product, setProduct] = useState({initProduct});
     const [productId, setProductId] = useState();
-    const [total, setTotal] = useState(0);
+    const [totalDetail, setTotalDetail] = useState(0);
+    const [total, setTotal] = useState(0)
+    const [totalPayment, setTotalPayment] = useState(0);
     const location = useLocation();
     const {cus} = location.state || {cus: null};
 
-    console.log(detailList);
+    console.log(invoiceDetailSet);
+
+    console.log(detailLists);
+    // console.log(customer)
     useEffect(() => {
         getAllProduct();
     }, [keyword])
@@ -54,7 +59,7 @@ export function Payment() {
 
     useEffect(() => {
         if (productId > 0) {
-            getQuantityProduct();
+            getSizeDetail();
         }
     }, [productCode, sizeName]);
 
@@ -66,12 +71,14 @@ export function Payment() {
     const getAllSizeProduct = async () => {
         const res = await paymentService.getListSizeByProductCode(productCode);
         setSizes(res.data);
+        // console.log(res.data[0].name)
+        setSizeName(res.data[0].name)
     }
 
-    const getQuantityProduct = async () => {
+    const getSizeDetail = async () => {
         if (productCode !== "" && sizeName !== "") {
             const res = await paymentService.getQuantityByProductCodeAndSizeName(productCode, sizeName);
-            setQuantity(res.data.quantity);
+            setSizeDetail(res.data);
         }
     }
 
@@ -80,9 +87,9 @@ export function Payment() {
         setProduct(data);
         setProductId(data.id);
         if (!sellingQuantity || !data) {
-            setTotal(0);
+            setTotalDetail(0);
         } else {
-            setTotal((data.price * sellingQuantity * (1 - data.percent)));
+            setTotalDetail((data.price * sellingQuantity * (1 - data.percent)));
         }
 
     }
@@ -90,9 +97,9 @@ export function Payment() {
     const handleTotal = (e) => {
         setSellingQuantity(e);
         if (!product.price) {
-            setTotal(0)
+            setTotalDetail(0)
         } else {
-            setTotal((product.price * e * (1 - product.percent)));
+            setTotalDetail((product.price * e * (1 - product.percent)));
         }
 
     }
@@ -109,16 +116,38 @@ export function Payment() {
         amount: 0,
         price: 0,
         promotion: 0,
-        total: 0
+        totalDetail: 0
     }
 
     const enter = (values) => {
         values.name = product.name;
         values.price = product.price;
         values.promotion = product.percent;
-        values.total = total;
-        setDetailList(prevState => {
+        values.totalDetail = totalDetail;
+        values.size = sizeName;
+        setTotal(values.price*values.amount*(1-values.promotion)+total);
+        setTotalPayment((values.price*values.amount*(1-values.promotion)+total)*(100-customer.discount_percent)/100);
+        setDetailLists(prevState => {
             return [...prevState, values]
+        })
+        setProduct(initProduct);
+    }
+
+
+    const handelReset = () =>{
+        setDetailLists([]);
+        setCustomer({});
+        setProduct(initProduct);
+    }
+    const createInvoiceDetail = () => {
+        detailLists.map(item=>{
+            setInvoiceDetailSet(prevState => {
+                return [...prevState, {
+                    sellingPrice: item.price*(1-item.promotion-customer.discount_percent),
+                    sellingQuantity: item.amount,
+                    sizeDetailId: sizeDetail.id
+                }]
+            })
         })
     }
 
@@ -211,6 +240,7 @@ export function Payment() {
                                                             <td className="p-1 col-1">
                                                                 <Field as="select"
                                                                        className="p-1 form-select form-select-sm rounded-0 border-dark text-center"
+                                                                       // value={sizes[0]}
                                                                        onChange={event => {
                                                                            setSizeName(event.target.value)
                                                                            setFieldValue("size",event.target.value)
@@ -232,7 +262,7 @@ export function Payment() {
                                                                            handleTotal(event.target.value);
                                                                            setFieldValue("amount", event.target.value)
                                                                        }}
-                                                                       max={quantity} min="0"
+                                                                       max={sizeDetail.quantity} min="0"
                                                                        name="amount"
                                                                 />
                                                             </td>
@@ -255,9 +285,9 @@ export function Payment() {
                                                             <td className="p-1 col-2">
                                                                 <Field
                                                                     className="p-1 form-control form-control-sm rounded-0 text-end"
-                                                                    value={total !== 0 ? total.toLocaleString("vi-VN") : ""}
-                                                                    onChange={event=> setFieldValue("total",event.target.value)}
-                                                                    name="total"
+                                                                    value={totalDetail !== 0 ? totalDetail.toLocaleString("vi-VN") : ""}
+                                                                    onChange={event=> setFieldValue("totalDetail",event.target.value)}
+                                                                    name="totalDetail"
                                                                     readOnly/>
                                                             </td>
                                                         </tr>
@@ -284,7 +314,7 @@ export function Payment() {
                                         </thead>
                                         <tbody className="table-group-divider">
                                         {
-                                            detailList.map((detail,index)=>(
+                                            detailLists.map((detail,index)=>(
                                                 <tr key={detail.productCode}>
                                                     <td role="button" data-bs-toggle="modal"
                                                         data-bs-target="#staticBackdrop" className="text-center">{index+1}</td>
@@ -296,34 +326,37 @@ export function Payment() {
                                                     <td className="p-1"><input type="number"
                                                         className="form-control form-control-sm border-0 rounded-0 p-1 text-end"
                                                         value={detail.amount}/></td>
-                                                    <td className="text-end">{detail.price}</td>
-                                                    <td className="text-end">{detail.promotion}</td>
-                                                    <td className="text-end">{detail.total}</td>
+                                                    <td className="text-end">{detail.price !== 0 ? detail.price.toLocaleString("vi-VN") : 0}</td>
+                                                    <td className="text-end">{detail.promotion!== 0 ? `${detail.promotion*100}%` : 0}</td>
+                                                    <td className="text-end">{detail.totalDetail!== 0 ? detail.totalDetail.toLocaleString("vi-VN") : 0}</td>
 
                                                 </tr>
                                             ))
                                         }
 
-                                        {/*<tr className="fst-italic">*/}
-                                        {/*    <th colSpan="7" className="">Tổng</th>*/}
-                                        {/*    <th className="text-end">400.000</th>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr>*/}
-                                        {/*    <td colSpan="7" className="fst-italic">Chiết khấu 10%</td>*/}
-                                        {/*    <td className="text-end fst-italic">10%</td>*/}
-                                        {/*</tr>*/}
-                                        {/*<tr className="text-danger fst-italic">*/}
-                                        {/*    <th colSpan="7" className="">Thành tiền</th>*/}
-                                        {/*    <th className="text-end">360.000</th>*/}
-                                        {/*</tr>*/}
+                                        <tr className="fst-italic">
+                                            <th colSpan="7" className="ps-3">Tổng</th>
+                                            <th className="text-end">{total !== 0 ? total.toLocaleString("vi-VN") : 0}</th>
+                                        </tr>
+                                        <tr className="fst-italic">
+                                            <td colSpan="7" className="ps-3">Chiết khấu</td>
+                                            <td className="text-end">{customer.discount_percent}%</td>
+                                        </tr>
+                                        <tr className="text-danger fst-italic">
+                                            <th colSpan="7" className="ps-3">Thành tiền</th>
+                                            <th className="text-end">{totalPayment!== 0 ? totalPayment.toLocaleString("vi-VN") : 0}</th>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div>
                                 <div className="text-center">
                                     <button className="btn btn-light btn-sm rounded-0 fs-3 py-0"><i
                                         className="bi bi-qr-code-scan"></i></button>
-                                    <button className="btn btn-outline-secondary btn-sm rounded-0 ms-3">Hủy</button>
-                                    <button className="btn btn-outline-primary btn-sm rounded-0 ms-3">In hóa đơn
+                                    <button className="btn btn-outline-secondary btn-sm rounded-0 ms-3"
+                                    onClick={handelReset}
+                                    >Hủy</button>
+                                    <button className="btn btn-outline-primary btn-sm rounded-0 ms-3"
+                                    onClick={()=>createInvoiceDetail()}>In hóa đơn
                                     </button>
                                 </div>
                             </div>

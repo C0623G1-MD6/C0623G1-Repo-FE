@@ -59,7 +59,7 @@ function SidebarWarehouseManage(props) {
                             </NavLink>
                         </li>
                         <li className={`sidebar-item ${selectedItem === 'item3' ? 'active' : ''}`}>
-                            <NavLink>
+                            <NavLink to="/warehouse/create">
                                 <i className="bi bi-file-plus"></i>
                                 <span className="text">Nhập liệu</span>
                             </NavLink>

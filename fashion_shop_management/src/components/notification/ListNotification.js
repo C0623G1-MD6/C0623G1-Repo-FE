@@ -1,30 +1,40 @@
 import "../notification/form_css.css"
 import {useEffect, useState} from "react";
-import {getAll, readNotification} from "../../services/notification/notificationService";
+import {
+    getAll,
+    getAllNotificationIsView,
+    readNotification,
+    readNotificationById
+} from "../../services/notification/notificationService";
 import {Field} from "formik";
 
 export function ListNotification() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user.roles)
     const [notification, setNotification] = useState([]);
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
-
+    const [listNotificationIsView,setListNotificationIsView] = useState([]);
 
     useEffect(() => {
-        display()
+        getNotiHasAccountId()
+        getNotiIsView();
+    }, []);
 
-    }, [page]);
-
-    const display = async () => {
-        const res = await getAll(page,user.roles);
-        setTotalPage(res.data.totalPages);
-        setNotification(res.data.content);
+    const getNotiHasAccountId = async () => {
+        const res = await getAll(page,user.id);
+        setNotification(res.data)
     }
 
-    const handleDelete = async (notificationId) => {
-        await readNotification(notificationId);
-        display();
+    const getNotiIsView = async () => {
+        const res = await getAllNotificationIsView(user.id);
+        let data = res.data.map(item => item.notification.id);
+        setListNotificationIsView(data);
+    }
+
+    const readNotification = async (notificationId) => {
+        await readNotificationById(notificationId);
+        getNotiHasAccountId()
+        getNotiIsView();
     };
 
 
@@ -69,7 +79,7 @@ export function ListNotification() {
                                 <div className="small fw-normal">{notifi.content}</div>
                             </div>
                         </div>
-                        {!notifi.deleted ? (
+                        {listNotificationIsView.includes(notifi.id) ? (
                             <div>
                                 <i className="bi bi-check2-circle"></i> Đã đọc
                             </div>
@@ -83,7 +93,7 @@ export function ListNotification() {
                                     type="checkbox"
                                     role="switch"
                                     id={`flexSwitchCheckChecked-${notifi.id}`}
-                                    onChange={() => handleDelete(notifi.id)}
+                                    onChange={() => readNotification(notifi.id)}
                                 />
                             </div>
                         )}

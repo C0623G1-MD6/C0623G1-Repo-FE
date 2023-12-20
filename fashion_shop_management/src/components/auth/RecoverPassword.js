@@ -13,7 +13,7 @@ function RecoverPassword(props) {
     }
     const validateRecoverPass = Yup.object({
         emailRecover: Yup.string()
-            .required("Trường username buộc nhập !")
+            .required("Trường email buộc nhập !")
             .email("Bạn phải nhập đúng định dạng email")
     });
     const handleSubmitFormRecover = async (values, {setFieldError}) => {
