@@ -2,6 +2,7 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import {WarehouseCreate} from "./WarehouseCreate";
+import CreateWarehouse from "./CreateWarehouse";
 
 function WarehouseCreateMain() {
 
@@ -15,7 +16,7 @@ function WarehouseCreateMain() {
                     <div className="dashboard-content">
                         <div className="py-5 px-5">
                             {/*Đặt component của mọi người ở đây nhé*/}
-                            <WarehouseCreate/>
+                            <CreateWarehouse/>
                         </div>
                     </div>
                 </div>
