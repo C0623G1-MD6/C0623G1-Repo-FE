@@ -1,7 +1,8 @@
 import {Formik, Form, Field, ErrorMessage} from "formik";
-import {NavLink, useLocation} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
+import {toast} from "react-toastify";
 
 export function Payment() {
     const initProduct = {
@@ -22,6 +23,7 @@ export function Payment() {
         sizeDetailId: ""
     }
 
+    const navigate = useNavigate();
     const [invoiceDetailSet, setInvoiceDetailSet] = useState([])
     const [detailLists, setDetailLists] = useState([]);
     const [detail, setDetail] = useState(initValue)
@@ -175,7 +177,10 @@ export function Payment() {
         }
         const res = await paymentService.saveInvoice(invoice);
         if(res.status===200){
-
+            toast.success("Lưu hóa đơn thành công!");
+            navigate("/payment")
+        } else {
+            toast.error("Lưu hóa đơn thất bại!");
         }
     }
 
