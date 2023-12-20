@@ -1,9 +1,11 @@
-import {GET_INFO_EMPLOYEE} from "../constant";
+import {GET_INFO_EMPLOYEE, UPDATE_INFO_EMPLOYEE} from "../constant";
 
 export const employeeReducer = (employee = {}, action) => {
-    const { type, payload } = action;
+    const {type, payload} = action;
     switch (type) {
         case GET_INFO_EMPLOYEE:
+            return payload;
+        case UPDATE_INFO_EMPLOYEE:
             return payload;
         default:
             return employee;

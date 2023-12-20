@@ -1,7 +1,7 @@
 import {GET_ALL_NOTIFICATION, GET_NOTIFICATION_NOT_VIEW_BY_ID, VIEW_NOTIFICATION_ID} from "../constant";
 
 const initValue = {
-    notifications: [],
+    notifications: {},
     notificationNotView: []
 };
 

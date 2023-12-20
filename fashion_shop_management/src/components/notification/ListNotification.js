@@ -6,8 +6,9 @@ import {getAllNotificationById, readNotificationMiddleware} from "../../redux/mi
 export function ListNotification() {
     const user = JSON.parse(localStorage.getItem('user'));
     const dispatch = useDispatch();
+    const notificationRedux = useSelector((store) => store.notification.notifications);
+    const notification = notificationRedux.content;
     const notificationNotView = useSelector((store) => store.notification.notificationNotView);
-    const notification = useSelector((store) => store.notification.notifications);
     const [page, setPage] = useState(0);
     const [totalPage, setTotalPage] = useState(0);
 
@@ -20,19 +21,21 @@ export function ListNotification() {
     }
 
     const readNotification = async (notificationId) => {
-        let isRead = await dispatch(readNotificationMiddleware(notificationId));
+       await dispatch(readNotificationMiddleware(notificationId));
     };
 
 
-    const nextPage = () => {
-        if (page + 1 < totalPage) {
-            setPage((prev) => prev + 1)
+    const nextPage = async () => {
+        if (page < notificationRedux.totalPages - 1) {
+            setPage(page + 1);
         }
+        await dispatch(getAllNotificationById(page, user.id));
     }
-    const prevPage = () => {
+    const prevPage = async () => {
         if (page > 0) {
-            setPage((prev) => prev - 1)
+            setPage(page - 1);
         }
+        await dispatch(getAllNotificationById(page, user.id));
     }
 
 
@@ -94,14 +97,14 @@ export function ListNotification() {
                     <div>
                         {notification && notification.length !== 0 ? (
                             <div className="col-md-6 d-flex justify-content-between  mb-3">
-                                <button className="btn btn-outline-secondary "
+                                <button disabled={notificationRedux.number === 0} className="btn btn-outline-secondary "
                                         onClick={() => prevPage()}>
                                     <i className="bi bi-skip-backward"></i>
                                 </button>
                                 <span className="btn btn-outline-secondary ">
-                                     {page + 1}/{totalPage}
+                                     {notificationRedux.number + 1}/{notificationRedux.totalPages}
                                  </span>
-                                <button className="btn btn-outline-secondary " onClick={() => nextPage()}>
+                                <button disabled={notificationRedux.number === notificationRedux.totalPages - 1} className="btn btn-outline-secondary " onClick={() => nextPage()}>
                                     <span> <i className="bi bi-skip-forward"></i></span>
                                 </button>
                             </div>

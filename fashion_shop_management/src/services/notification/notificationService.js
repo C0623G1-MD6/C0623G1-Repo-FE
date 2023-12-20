@@ -3,7 +3,7 @@ import authHeader from "../AuthService";
 
 export const getAll = async (page, accountId) => {
     try {
-        let res = await axios.get(`http://localhost:8080/api/notification/list?id=${accountId}`, {headers: authHeader()})
+        let res = await axios.get(`http://localhost:8080/api/notification/list?page=${page}&id=${accountId}`, {headers: authHeader()})
         return res.data;
     } catch (e) {
         throw e

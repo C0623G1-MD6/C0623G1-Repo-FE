@@ -15,10 +15,9 @@ export function CreateNotification() {
         role: []
     }
     const validationSchema = Yup.object().shape({
-        noticePostingDate: Yup.string().required('Ngày đăng là bắt buộc'),
-        title: Yup.string().required('Tiêu đề là bắt buộc'),
-        content: Yup.string().required('Nội dung là bắt buộc'),
-        role: Yup.array().min(1, 'Bạn phải chọn ít nhất một đối tượng nhận thông báo')
+        title: Yup.string().required('Vui lòng nhập tiêu đề.'),
+        content: Yup.string().required('Vui lòng nhập nội dung.'),
+        role: Yup.array().min(1, 'Vui lòng chọn ít nhất một đối tượng nhận thông báo.')
     });
     const RoleCheckboxes = () => {
         const {values, setFieldValue} = useFormikContext();
