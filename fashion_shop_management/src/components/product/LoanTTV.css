@@ -157,7 +157,18 @@
 
 #loan-products .form-input:not(:placeholder-shown) + .form-label,
 
+#loan-products .form-control:not(:placeholder-shown) + .form-label,
+
 #loan-products .form-input:focus + .form-label {
+    top: 0;
+    left: 10px;
+    padding: 0 5px;
+    display: inline-block;
+    background-color: white;
+    color: #575757;
+}
+
+#loan-products .form-control:focus + .form-label {
     top: 0;
     left: 10px;
     padding: 0 5px;
