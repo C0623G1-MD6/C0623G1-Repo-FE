@@ -133,7 +133,7 @@ export function WarehouseCreate() {
         }
     }
 
-    if (!products || !sizes || !code || !detailList) return null;
+    if (!products || !sizes ) return null;
 
     return (
         <>
