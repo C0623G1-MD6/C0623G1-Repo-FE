@@ -74,6 +74,13 @@ const SearchProducts = () => {
     setProductCode(product.productCode);
     console.log(productModal.prdDescription);
   };
+  const limitCharacters = (text, limit) => {
+    if (text.length <= limit) {
+      return text;
+    } else {
+      return text.slice(0, limit) + "...";
+    }
+  };
   return (
     <>
       <HomeHeader></HomeHeader>
@@ -120,11 +127,12 @@ const SearchProducts = () => {
                   />
                   <div className="card-body px-0">
                     <h5 className="card-title">{item.productName}</h5>
-                    <p class="card-text">
-                      {/* Áo gi lê cổ chữ V, tay sát nách. Bo viền bằng vải gân. */}
-                    </p>
+
                     <hr />
-                    <p className="size-product">XS - S - M - L - XL - XXL</p>
+                    <p className="card-description">
+                      {limitCharacters(item.prdDescription, 200)}
+                    </p>
+
                     {item.percent > 0 && (
                       <div className="row price-product justify-content-between">
                         <div className="col-auto">
@@ -196,7 +204,7 @@ const SearchProducts = () => {
                   {size.name}{" "}
                 </span>
               ))}
-              <p className="size-product">XS - S - M - L - XL - XXL</p>
+
               <div className="row price-product justify-content-between">
                 {productModal.price !== undefined ? (
                   <>
