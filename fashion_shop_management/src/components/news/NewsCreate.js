@@ -26,7 +26,7 @@ export function NewsCreate() {
     const create = async (news) => {
         console.log(news)
         if (image === "") {
-            toast.error("chưa upload ảnh cho tin tức");
+            toast.error("Chưa upload ảnh cho tin tức");
         } else {
             let cateId = news.newsCategoryId
             if (cateId !== null) {
@@ -35,16 +35,15 @@ export function NewsCreate() {
                     image: image,
                     newsCategoryId: cateId,
                     deleted: false,
-                    dateCreate: new Date()
                 }
                 console.log(news)
                 // const data = {...news, category: JSON.parse(news.category)}
                 const status = await service.createNews(news)
                 if (status === 201) {
-                    toast.success("Create Successfully");
+                    toast.success("Đăng tin tức thành công");
                     navigate("/")
                 } else {
-                    toast.error("Create Fail")
+                    toast.error("Đăng tin lỗi")
 
                 }
             }

@@ -19,7 +19,7 @@ export function formatLocalDateTime(dateTimeString, timeZone) {
     const timeZoneString = `GMT${timeZoneSign}${timeZoneOffsetHours}:${timeZoneOffsetMinutes}`;
 
     // In ra console
-    return (`${dayOfWeek}, ngày ${day}/${month}/${year}  ${hours}:${minutes} ${hours >= 12 ? 'PM' : 'AM'} `);
+    return (`${dayOfWeek}, ngày ${day}/${month}/${year}`);
 }
 export const TextWithNewLines = ({ text }) => {
     // Kiểm tra xem text có tồn tại không
