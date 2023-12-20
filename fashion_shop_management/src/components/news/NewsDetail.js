@@ -1,5 +1,5 @@
 import {useNavigate, useParams} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import './content.css';
 import * as service from "../../services/news/service";
 import {formatLocalDateTime, TextWithNewLines} from "../../services/news/currentDate";
@@ -12,6 +12,30 @@ function NewsDetail() {
     const [detail, setDetail] = useState({});
     const [another, setAnother] = useState([]);
     const navigate = useNavigate();
+    const myBtn = useRef();
+    const [scrollPosition, setScrollPosition] = useState(0);
+
+    const handleScroll = () => {
+        setScrollPosition(window.scrollY);
+    };
+    const topFunction = () => {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useEffect(() => {
+        if (scrollPosition > 20) {
+            myBtn.current.style.display = "block";
+        } else {
+            myBtn.current.style.display = "none";
+        }
+    }, [scrollPosition]);
 
     const goDetailsPage = (id) => {
         navigate(`/newsdetail/${id}`);
@@ -103,6 +127,7 @@ function NewsDetail() {
                     </div>
                 </div>
             </div>
+            <button ref={myBtn} onClick={topFunction} id="myBtn" title="Go to top">TOP</button>
             <HomeFooter/>
         </>
     )

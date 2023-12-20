@@ -6,7 +6,7 @@ export const findAll = async (newsCategoryId, roleId,currentPage) => {
         let res = await axios.get(`http://localhost:8080/api/news/${newsCategoryId}/${roleId}/${currentPage}`)
         return res
     } catch (e) {
-        alert("Access denied")
+        console.log(e)
     }
 
 }
@@ -16,7 +16,6 @@ export const createNews = async (value) => {
         let res = await axios.post("http://localhost:8080/api/news/create", value)
         return res.status
     } catch (e) {
-        alert("Access denied")
         console.log(e)
     }
 }
