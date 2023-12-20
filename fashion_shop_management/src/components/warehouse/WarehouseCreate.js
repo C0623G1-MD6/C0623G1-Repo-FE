@@ -36,6 +36,8 @@ export function WarehouseCreate() {
 
     const getAllProducts = async () => {
         const products = await WarehouseReceiptService.getAllProducts();
+        let res = await WarehouseReceiptService.getCode();
+        setCode(res);
         setProducts(products);
     };
 
@@ -285,10 +287,12 @@ export function WarehouseCreate() {
                                         <thead className="table-secondary">
                                         <tr className="text-center">
                                             <th scope="col" className="col-1">STT</th>
+                                            <th scope="col" className="col-1">Mã hàng</th>
                                             <th scope="col" className="col-4">Tên hàng</th>
                                             <th scope="col" className="col-1">Size</th>
                                             <th scope="col" className="col-1">Số lượng</th>
                                             <th scope="col" className="col-1">Đơn giá</th>
+                                            <th scope="col" className="col-1">Khuyến mãi</th>
                                             <th scope="col" className="col-2">Tổng tiền</th>
                                         </tr>
                                         </thead>

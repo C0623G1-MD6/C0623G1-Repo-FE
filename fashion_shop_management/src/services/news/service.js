@@ -1,9 +1,14 @@
 import axios from "axios";
 
 
-export const findAll = async (newsCategoryId, roleId) => {
-    let res = await axios.get(`http://localhost:8080/api/news/${newsCategoryId}/${roleId}`)
-    return res
+export const findAll = async (newsCategoryId, roleId,currentPage) => {
+    try {
+        let res = await axios.get(`http://localhost:8080/api/news/${newsCategoryId}/${roleId}/${currentPage}`)
+        return res
+    } catch (e) {
+        console.log(e)
+    }
+
 }
 
 export const createNews = async (value) => {
@@ -11,7 +16,6 @@ export const createNews = async (value) => {
         let res = await axios.post("http://localhost:8080/api/news/create", value)
         return res.status
     } catch (e) {
-        alert("Access denied")
         console.log(e)
     }
 }
