@@ -177,7 +177,7 @@ function SalesReport() {
           </div>
           <div className="row mt-5">
             <div className="col-lg-12">
-              <Bar data={chartData} options={options} id="myChart" style={{width: "80%", margin: "0 auto"}}/>
+              <Bar data={chartData} options={options} id="myChart" style={{width: "100%", margin: "0 auto"}}/>
             </div>
           </div>
         </div>
