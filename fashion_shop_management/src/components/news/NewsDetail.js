@@ -110,7 +110,7 @@ function NewsDetail() {
                     <div className="more-news mt-5 mb-3">
                         Tin tức khác
                     </div>
-                    <div style={{overflow: "scroll",maxHeight:"630px"}}>
+                    <div style={{overflow: "scroll",maxHeight:"500px"}}>
                         {another &&
                             another.map((item, index) =>
                                 (

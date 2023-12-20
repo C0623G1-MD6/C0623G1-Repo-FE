@@ -8,7 +8,7 @@ import AccessDenied from "../auth/AccessDenied";
 import {NewsCreate} from "../news/NewsCreate";
 import DashboardManager from "../DashboardManager";
 
-function WarehouseCreateMain() {
+function SalesReportMain() {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
@@ -54,4 +54,4 @@ function WarehouseCreateMain() {
     )
 }
 
-export default WarehouseCreateMain;
+export default SalesReportMain;
