@@ -96,7 +96,7 @@ export function CreateNotification() {
             >
                 {({resetForm}) => (
                     <>
-                        <div className="create-noti">
+                        <div className="create-noti shadow">
                             <Form>
                                 <h2 className="mb-4 text-center fw-bold text-primary mt-3">ĐĂNG THÔNG BÁO</h2>
                                 <div className="mb-3">

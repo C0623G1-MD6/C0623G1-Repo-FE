@@ -1,44 +1,50 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
-import {getAllProducts, getAllSizes} from "../../services/product/ProductService";
-import Pagination from "antd/es/pagination";
+import {getAllProducts, getAllSizes, showMsgWarning} from "../../services/product/ProductService";
 import AccessDenied from "../auth/AccessDenied";
 import DashboardManager from "../DashboardManager";
 import DashboardWarehouse from "../DashboardWarehouse";
 import DashboardSale from "../DashboardSale";
+import Pagination from "../pagination/Pagination";
 
 
 function ProductList() {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user)
-    console.log(user)
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
-        currentPage: 1,
-        totalPages: "",
+        currentPage: 0,
+        totalPage: "",
         productName: "",
         sizeName: "",
         minPrice: 100000,
         maxPrice: 100000000,
-        sortDirection: "asc"
+        sortDirection: "desc",
+        sortBy: "createdDate"
     });
-
-    const getAll = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
-        let data = await getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection);
-        console.log(data)
-        setProducts(data.content);
-        setPageable({
-            ...pageable,
-            totalPages: data.totalElements,
-            currentPage: currentPage
+    console.log(pageable)
+    const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
+        getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy).then((res) => {
+            setProducts(res.content);
+            setPageable(prevState => {
+                return {...prevState, totalPage: res.totalPages, currentPage: currentPage}
+            });
         });
+
     };
 
     useEffect(() => {
-        getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+        getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
     }, [pageable.sortDirection]);
 
+    const handlePageChange = (pageNumber) => {
+        setPageable(prevState => (
+            {
+            ...prevState,
+                currentPage: pageNumber
+            }
+        ));
+    };
 
     // show item size dropdown
     const getAllSize = () => {
@@ -95,23 +101,27 @@ function ProductList() {
     };
 
     const searching = () => {
-        getAll(1, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+        if (dontContainsSpecialCharacters(pageable.productName)) {
+            getAll(1, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
+        } else {
+            showMsgWarning("Tên sản phẩm không hợp lệ!")
+        }
     };
 
-    const sortByQuantity = async () => {
+    const sortBy = (e) => {
+        console.log(e)
         const newSortDirection = pageable.sortDirection === "asc" ? "desc" : "asc";
         setPageable({
             ...pageable,
-            sortDirection: newSortDirection
+            sortDirection: newSortDirection,
+            sortBy: e
         });
-        console.log(pageable.sortDirection);
-        // getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
     };
 
 
     //pagination
     const handleChange = (page) => {
-        getAll(page, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection);
+        getAll(page, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
     };
 
     const itemRender = (_, type, originalElement) => {
@@ -124,24 +134,29 @@ function ProductList() {
         return originalElement;
     };
 
+    const dontContainsSpecialCharacters = (string) => {
+        const regex = /^[^!@#$%^&*()_+={}\[\]:;,<.>?\\\/'"]*$/;
+        return regex.test(string);
+    };
+
     if (!products) return null;
 
     // if (!sizes) return null
     return (
         <>
-            <div className="col-lg-12 container">
+            <div className="col-lg-12">
                 <div id="loan-products">
-                    <div className="product-list shadow-lg border border-light p-3">
+                    <div className="product-list shadow border border-light p-3">
                         <div className="text-center text-primary my-3">
-                            <h2>Danh sách hàng hóa</h2>
+                            <h2 className="fw-bold">DANH SÁCH SẢN PHẨM</h2>
                         </div>
                         <div className="row">
                             <div className="col-lg-3 title">
                                 {user.roles[0] === "ROLE_WAREHOUSE" ? (
-                                    <Link to={"/product/create"}>
-                                        <i className="bi bi-plus-lg"/><span> Thêm sản phẩm mới</span>
-                                    </Link>
-                                ) :
+                                        <Link to={"/product/create"}>
+                                            <i className="bi bi-plus-lg"/><span> Thêm sản phẩm mới</span>
+                                        </Link>
+                                    ) :
                                     ("")
                                 }
                             </div>
@@ -180,49 +195,76 @@ function ProductList() {
                             </div>
                         </div>
 
-                        <table className="table table-hover text-center">
+                        <table className="table table-hover table-bordered text-center mb-3">
                             <thead>
                             <tr>
                                 <th scope="col">STT</th>
-                                <th scope="col">Mã sản phẩm</th>
-                                <th scope="col">Tên sản phẩm</th>
-                                <th scope="col">Số lượng
-                                    <button onClick={sortByQuantity} className="btn btn-border-none"><i
-                                        className="bi bi-sort-down"/></button>
+                                <th scope="col">Mã sản phẩm
+                                    <span onClick={() => sortBy("productCode")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
                                 </th>
-                                <th scope="col">Kích thước</th>
-                                <th scope="col">Đơn giá</th>
+                                <th scope="col">Tên sản phẩm
+                                    <span onClick={() => sortBy("productName")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">
+                                    Số lượng
+                                    <span onClick={() => sortBy("productQuantity")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">Kích thước
+                                    <span onClick={() => sortBy("sizeName")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">Đơn giá
+                                    <span onClick={() => sortBy("productPrice")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
                             </tr>
                             </thead>
-                            <tbody className="table-group-divider">
-                            {products.map((item, index) =>
-                                <tr key={item.id}>
-                                    <td>{index + 1}</td>
-                                    <td>{item.productCode}</td>
-                                    <td className="text-lg-start">
-                                        {/*<td className="product-img">*/}
-                                        {/*<div className="col-lg-auto">*/}
-                                        {/*    <img*/}
-                                        {/*        src={item.productImage.split(",")[0]}*/}
-                                        {/*        alt="product image"/>*/}
-                                        {/*</div>*/}
-                                        {/*<div className="col-lg-auto">*/}
-                                        <span>{item.productName}</span>
-                                        {/*</div>*/}
-                                    </td>
-                                    <td className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
-                                    <td>{item.sizeName}</td>
-                                    <td>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
-                                </tr>
-                            )}
+                            {!products.length ?
+                            <tbody>
+                            <tr>
+                                <td>
+                                    Sản phẩm không tồn tại
+                                </td>
+                            </tr>
                             </tbody>
+                            :
+                                <>
+                                    <tbody className="table-group-divider">
+                                    {products.map((item, index) =>
+                                        <tr key={item.id}>
+                                            <td style={{width: "5%"}}>{index + 1}</td>
+                                            <td style={{width: "15%"}}>{item.productCode}</td>
+                                            <td className="text-lg-start" style={{width: "40%"}}>
+                                                {/*<td className="product-img">*/}
+                                                {/*<div className="col-lg-auto">*/}
+                                                {/*    <img*/}
+                                                {/*        src={item.productImage.split(",")[0]}*/}
+                                                {/*        alt="product image"/>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="col-lg-auto">*/}
+                                                {item.productName}
+                                                {/*</div>*/}
+                                            </td>
+                                            <td style={{width: "10%"}} className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
+                                            <td style={{width: "15%"}}>{item.sizeName}</td>
+                                            <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
+                                        </tr>
+                                    )}
+                                    </tbody>
+                                </>
+                            }
+
                         </table>
 
-                        <div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>
-                            <Pagination current={pageable.currentPage} hideOnSinglePage={true}
-                                        total={pageable.totalPages} pageSize={5} onChange={handleChange}
-                                        itemRender={itemRender}/>
-                        </div>
+                        {/*<div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>*/}
+                        {/*        <Pagination  current={pageable.currentPage} hideOnSinglePage={true}*/}
+                        {/*                     total={pageable.totalPage} pageSize={5} onChange={handleChange}*/}
+                        {/*                     itemRender={itemRender} showSizeChanger={false} />*/}
+                        {/*</div>*/}
+                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handlePageChange} />
                     </div>
                 </div>
             </div>

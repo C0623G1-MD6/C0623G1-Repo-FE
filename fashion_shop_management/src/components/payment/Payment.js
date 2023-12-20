@@ -191,10 +191,10 @@ export function Payment() {
         <>
             <div className="">
                 <div className="row">
-                    <div className="side-right bg-light">
-                        <div className="tabs bg-light">
+                    <div className="side-right">
+                        <div className="tabs">
                         </div>
-                        <div className="p-3">
+                        <div className="p-0">
                             <div className="form-control rounded-0 shadow p-3">
                                 <ul className="nav nav-tabs">
                                     <li className="nav-item">

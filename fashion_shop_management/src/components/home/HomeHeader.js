@@ -7,7 +7,12 @@ const HomeHeader = () => {
   const navigate = useNavigate();
   const [seachName, setSeachName] = useState("");
   const handleSearch = (value) => {
-    setSeachName(value.target.value);
+    let inputSearchName = value.target.value.trim();
+    if (inputSearchName === "_") {
+      setSeachName("");
+    } else {
+      setSeachName(inputSearchName);
+    }
   };
 
   const onSearch = () => {
@@ -16,7 +21,7 @@ const HomeHeader = () => {
 
   return (
     <>
-      <div className="container">
+      <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
           <div className="container-fluid">
             <a className="navbar-brand" href="/">
@@ -68,7 +73,7 @@ const HomeHeader = () => {
                 <button
                   onClick={onSearch}
                   className="btn btn-outline-dark"
-                  type="submit"
+                  type="button"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

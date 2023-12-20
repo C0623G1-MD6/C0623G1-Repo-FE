@@ -331,6 +331,11 @@ a.btn-dashboard.btn-primary {
   font-weight: 400;
   line-height: normal;
 }
+.card-text-code {
+  color: #a5a5a5;
+  font-size: 14px;
+  opacity: 60%;
+}
 
 #product-home .card {
   border: 0;
@@ -367,13 +372,13 @@ a.btn-dashboard.btn-primary {
   line-height: normal;
 }
 
-.modal-view-product .chat-lieu span {
+/* .modal-view-product .chat-lieu span {
   color: #1d1d1d;
   font-size: 18px;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 700;
   line-height: normal;
-}
+} */
 
 .modal-view-product .chat-lieu {
   margin-top: 20px;
@@ -407,3 +412,24 @@ del {
   font-weight: 400;
   line-height: normal;
 }
+.card-description {
+  color: #2d2d2d;
+  font-size: 15px;
+  opacity: 70%;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.description-title {
+  color: #000;
+  font-weight: 600;
+  opacity: 90%;
+}
+.modal-description {
+  color: #000;
+  font-weight: 400;
+  opacity: 70%;
+  margin-top: 50px;
+}
+

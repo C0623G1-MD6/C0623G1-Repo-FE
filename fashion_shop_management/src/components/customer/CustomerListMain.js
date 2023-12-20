@@ -12,8 +12,8 @@ function CustomerListMain() {
                 <Sidebar item={item}/>
                 <div className="content">
                     <HeaderAdmin/>
-                    <div className="dashboard-content px-3 py-3 pt-4">
-                        <div className="m-5">
+                    <div className="dashboard-content">
+                        <div className="p-5">
                             <CustomerList/>
                         </div>
                     </div>
