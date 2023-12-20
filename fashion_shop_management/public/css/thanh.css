@@ -60,7 +60,7 @@
     text-align: center;
 }
 
-#change-password .btn-submit .btn, .create-noti .btn-add-noti {
+#change-password .btn-submit .btn, .create-noti .btn-add-noti,#information .btn.btn-submit {
     background: #151515;
     color: #fff;
     border: 0;
