@@ -2,6 +2,7 @@ import "../notification/form_css.css"
 import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {getAllNotificationById, readNotificationMiddleware} from "../../redux/middlewares/NotificationMiddleware";
+import Pagination from "../pagination/Pagination";
 
 export function ListNotification() {
     const user = JSON.parse(localStorage.getItem('user'));
@@ -10,34 +11,21 @@ export function ListNotification() {
     const notification = notificationRedux.content;
     const notificationNotView = useSelector((store) => store.notification.notificationNotView);
     const [page, setPage] = useState(0);
-    const [totalPage, setTotalPage] = useState(0);
 
     useEffect(() => {
         getAllNoti()
-    }, [dispatch]);
+    }, [dispatch,page]);
     //
     const getAllNoti = async () => {
         await dispatch(getAllNotificationById(page, user.id));
     }
+    const handlePageChange = async (pageNumber) => {
+        setPage(pageNumber);
+    };
 
     const readNotification = async (notificationId) => {
        await dispatch(readNotificationMiddleware(notificationId));
     };
-
-
-    const nextPage = async () => {
-        if (page < notificationRedux.totalPages - 1) {
-            setPage(page + 1);
-        }
-        await dispatch(getAllNotificationById(page, user.id));
-    }
-    const prevPage = async () => {
-        if (page > 0) {
-            setPage(page - 1);
-        }
-        await dispatch(getAllNotificationById(page, user.id));
-    }
-
 
     function formatDateTime(dateTime) {
         let formattedDate = new Date(dateTime);
@@ -53,6 +41,8 @@ export function ListNotification() {
     if (!notification || !notificationNotView) {
         return undefined;
     }
+
+
     return (
 
         <>
@@ -92,25 +82,8 @@ export function ListNotification() {
                     </div>
                 ))}
             </div>
-            <div className="d-flex justify-content-end bg-light  osahan-post-header pt-3">
-                <div className="font-weight-bold mr-3 ">
-                    <div>
-                        {notification && notification.length !== 0 ? (
-                            <div className="col-md-6 d-flex justify-content-between  mb-3">
-                                <button disabled={notificationRedux.number === 0} className="btn btn-outline-secondary "
-                                        onClick={() => prevPage()}>
-                                    <i className="bi bi-skip-backward"></i>
-                                </button>
-                                <span className="btn btn-outline-secondary ">
-                                     {notificationRedux.number + 1}/{notificationRedux.totalPages}
-                                 </span>
-                                <button disabled={notificationRedux.number === notificationRedux.totalPages - 1} className="btn btn-outline-secondary " onClick={() => nextPage()}>
-                                    <span> <i className="bi bi-skip-forward"></i></span>
-                                </button>
-                            </div>
-                        ) : null}
-                    </div>
-                </div>
+            <div className="my-3">
+                <Pagination totalPages={notificationRedux.totalPages} page={notificationRedux.number} onPageChange={handlePageChange}/>
             </div>
         </>
     )
