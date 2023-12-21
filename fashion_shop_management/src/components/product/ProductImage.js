@@ -38,6 +38,7 @@ function ProductImage(props) {
             }
             setFilesUpload(files);
         }
+        console.log(filesUpload);
     };
 
     const upload = (file) => {

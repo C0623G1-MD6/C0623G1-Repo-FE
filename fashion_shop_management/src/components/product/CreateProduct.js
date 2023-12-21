@@ -83,12 +83,12 @@ function CreateProduct() {
         getAllPromotion();
     }, []);
 
-    const downloadQRCode = () => {
+    const downloadQRCode = (code,name) => {
         const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
         if (canvas) {
             const url = canvas.toDataURL();
             const a = document.createElement('a');
-            a.download = 'QRCode.png';
+            a.download = `${code}-${name}`;
             a.href = url;
             document.body.appendChild(a);
             a.click();
@@ -99,6 +99,7 @@ function CreateProduct() {
     const saveProduct = (data) => {
         data.gender = +data.gender === 1;
         data.name = data.name.trim();
+        data.description = data.description.trim();
         data = {
             ...data,
             qrCode: qrCode.current.querySelector('canvas').toDataURL(),
@@ -109,7 +110,7 @@ function CreateProduct() {
                 console.log(res.data);
                 setBeError(res.data);
             } else {
-                downloadQRCode();
+                downloadQRCode(data.productCode, data.name);
                 navigate("/dashboard/product/list");
                 toast.success("Thêm mới thành công!");
             }
@@ -147,7 +148,7 @@ function CreateProduct() {
                 <div id="loan-products">
                     <div className="product-list shadow-lg border border-light mx-3">
                         <div className="text-center text-primary mt-4">
-                            <h2>Thêm sản phẩm mới</h2>
+                            <h2>THÊM SẢN PHẨM MỚI</h2>
                         </div>
                         <form onSubmit={handleSubmit(saveProduct)} className="create-product p-4">
                             {/*<div className="d-flex justify-content-between">*/}
