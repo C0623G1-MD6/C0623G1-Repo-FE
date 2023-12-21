@@ -42,3 +42,11 @@ export const TextWithNewLines = ({ text }) => {
     return <div>{renderedParagraphs}</div>;
 };
 
+
+export function truncateString(str, maxLength) {
+    if (str.length > maxLength) {
+        return str.substring(0, maxLength) + '...';
+    }
+    return str;
+}
+

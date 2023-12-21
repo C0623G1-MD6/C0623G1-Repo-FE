@@ -10,7 +10,6 @@ import 'swiper/css/effect-coverflow';
 import {EffectCoverflow} from 'swiper/modules';
 import {useNavigate} from "react-router-dom";
 import {TextWithNewLines} from "../../services/news/currentDate";
-import Header from "../Header";
 import HomeHeader from "../home/HomeHeader";
 import HomeFooter from "../home/HomeFooter";
 
@@ -22,7 +21,7 @@ export function NewsList() {
     const [date, setDate] = useState([]);
     const [role, setRole] = useState(1);
     const [currentPage, setCurrentPage] = useState(0);
-    const [totalPages, setTotalPages] = useState(3);
+    const [totalPages, setTotalPages] = useState(0);
     const navigate = useNavigate();
     const myBtn = useRef();
     const [scrollPosition, setScrollPosition] = useState(0);

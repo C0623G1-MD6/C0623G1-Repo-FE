@@ -9,7 +9,7 @@ import {ErrorMessage, Field, Formik, Form} from "formik";
 
 
 export function NewsCreate() {
-    const [image, setImage] = useState("https://media.istockphoto.com/id/1219543807/ko/%EB%B2%A1%ED%84%B0/%EA%B7%B8%EB%A6%BC-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%A1%9C%EA%B3%A0-%EB%B2%A1%ED%84%B0-%EC%9D%BC%EB%9F%AC%EC%8A%A4%ED%8A%B8%EB%A0%88%EC%9D%B4%EC%85%98-%EC%82%AC%EC%A7%84-%EA%B0%A4%EB%9F%AC%EB%A6%AC-%EC%95%84%EC%9D%B4%EC%BD%98-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%B2%A1%ED%84%B0-%ED%85%9C%ED%94%8C%EB%A6%BF%EC%9E%85%EB%8B%88%EB%8B%A4-%EC%9B%B9-%EC%82%AC%EC%9D%B4%ED%8A%B8-%EA%B8%B0%ED%98%B8-%EB%A1%9C%EA%B3%A0-%EC%95%84%EC%9D%B4%EC%BD%98-%EA%B8%B0%ED%98%B8-%EC%9D%91%EC%9A%A9-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%A8-ui%EC%97%90-%EB%8C%80%ED%95%9C-%EC%B5%9C%EC%8B%A0-%EC%9C%A0%ED%96%89-%EC%82%AC%EC%A7%84-%EA%B0%A4%EB%9F%AC%EB%A6%AC.jpg?s=170667a&w=0&k=20&c=q1q3pEdGVDSXOf46Dua9Dbplh6WZHui_sG2yL_muJfw=");
+    const [image, setImage] = useState("https://t3.ftcdn.net/jpg/01/80/31/10/360_F_180311099_Vlj8ufdHvec4onKSDLxxdrNiP6yX4PnP.jpg");
     const navigate = useNavigate();
     const [category, setCategory] = useState([]);
     const inputImg = useRef();
@@ -81,6 +81,7 @@ export function NewsCreate() {
             .required("Vui lòng nhập trường này.")
             .max(20000, "Vượt quá số lượng kí tự cho phép̣.")
             .min(5, "Vượt quá số lượng kí tự cho phép̣.")
+            .trim("Không đúng định dạng")
     }
 
     if (!category) {
