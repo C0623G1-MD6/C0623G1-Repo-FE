@@ -186,75 +186,76 @@ function ProductList() {
                                 </div>
                             </div>
                         </div>
-
-                        <table className="table table-hover text-center">
-                            <thead>
-                            <tr>
-                                <th scope="col">STT</th>
-                                <th scope="col">Mã sản phẩm
-                                    <span onClick={() => sortBy("productCode")} className="ms-1"><i
-                                        className="bi bi-sort-down"/></span>
-                                </th>
-                                <th scope="col">Tên sản phẩm
-                                    <span onClick={() => sortBy("productName")} className="ms-1"><i
-                                        className="bi bi-sort-down"/></span>
-                                </th>
-                                <th scope="col">
-                                    Số lượng
-                                    <span onClick={() => sortBy("productQuantity")} className="ms-1"><i
-                                        className="bi bi-sort-down"/></span>
-                                </th>
-                                <th scope="col">Kích thước
-                                    <span onClick={() => sortBy("sizeName")} className="ms-1"><i
-                                        className="bi bi-sort-down"/></span>
-                                </th>
-                                <th scope="col">Đơn giá
-                                    <span onClick={() => sortBy("productPrice")} className="ms-1"><i
-                                        className="bi bi-sort-down"/></span>
-                                </th>
-                            </tr>
-                            </thead>
-                            {!products.length ?
-                            <tbody>
-                            <tr className="justify-content-center">
-                                <td colSpan="6" className="text-danger fs-5">
-                                    Sản phẩm không tồn tại
-                                </td>
-                            </tr>
-                            </tbody>
-                            :
-                                <>
-                                    <tbody className="table-group-divider">
-                                    {products.map((item, index) =>
-                                        <tr key={item.id}>
-                                            <td style={{width: "5%"}}>{index + 1}</td>
-                                            <td style={{width: "15%"}}>{item.productCode}</td>
-                                            <td className="text-lg-start" style={{width: "40%"}}>
-                                                {/*<td className="product-img">*/}
-                                                {/*<div className="col-lg-auto">*/}
-                                                {/*    <img*/}
-                                                {/*        src={item.productImage.split(",")[0]}*/}
-                                                {/*        alt="product image"/>*/}
-                                                {/*</div>*/}
-                                                {/*<div className="col-lg-auto">*/}
-                                                {item.productName}
-                                                {/*</div>*/}
-                                            </td>
-                                            <td style={{width: "10%"}} className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
-                                            <td style={{width: "15%"}}>{item.sizeName}</td>
-                                            <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
-                                        </tr>
-                                    )}
+                        <div className="table-responsive">
+                            <table className="table table-hover text-center">
+                                <thead>
+                                <tr>
+                                    <th scope="col">STT</th>
+                                    <th scope="col">Mã sản phẩm
+                                        <span onClick={() => sortBy("productCode")} className="ms-1"><i
+                                            className="bi bi-sort-down"/></span>
+                                    </th>
+                                    <th scope="col">Tên sản phẩm
+                                        <span onClick={() => sortBy("productName")} className="ms-1"><i
+                                            className="bi bi-sort-down"/></span>
+                                    </th>
+                                    <th scope="col">
+                                        Số lượng
+                                        <span onClick={() => sortBy("productQuantity")} className="ms-1"><i
+                                            className="bi bi-sort-down"/></span>
+                                    </th>
+                                    <th scope="col">Kích thước
+                                        <span onClick={() => sortBy("sizeName")} className="ms-1"><i
+                                            className="bi bi-sort-down"/></span>
+                                    </th>
+                                    <th scope="col">Đơn giá
+                                        <span onClick={() => sortBy("productPrice")} className="ms-1"><i
+                                            className="bi bi-sort-down"/></span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                {!products.length ?
+                                    <tbody>
+                                    <tr className="justify-content-center">
+                                        <td colSpan="6" className="text-danger fs-5">
+                                            Sản phẩm không tồn tại
+                                        </td>
+                                    </tr>
                                     </tbody>
-                                </>
-                            }
+                                    :
+                                    <>
+                                        <tbody className="table-group-divider">
+                                        {products.map((item, index) =>
+                                            <tr key={item.id}>
+                                                <td style={{width: "5%"}}>{index + 1}</td>
+                                                <td style={{width: "15%"}}>{item.productCode}</td>
+                                                <td className="text-lg-start" style={{width: "40%"}}>
+                                                    {/*<td className="product-img">*/}
+                                                    {/*<div className="col-lg-auto">*/}
+                                                    {/*    <img*/}
+                                                    {/*        src={item.productImage.split(",")[0]}*/}
+                                                    {/*        alt="product image"/>*/}
+                                                    {/*</div>*/}
+                                                    {/*<div className="col-lg-auto">*/}
+                                                    {item.productName}
+                                                    {/*</div>*/}
+                                                </td>
+                                                <td style={{width: "10%"}} className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
+                                                <td style={{width: "15%"}}>{item.sizeName}</td>
+                                                <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
+                                            </tr>
+                                        )}
+                                        </tbody>
+                                    </>
+                                }
 
-                        </table>
+                            </table>
 
-                        <div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>
+                            <div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>
                                 <Pagination  current={pageable.currentPage} hideOnSinglePage={true}
                                              total={pageable.totalPage} pageSize={5} onChange={handleChange}
                                              itemRender={itemRender} showSizeChanger={false} />
+                            </div>
                         </div>
                     </div>
                 </div>

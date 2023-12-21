@@ -151,7 +151,6 @@ function ProductImage(props) {
                         >
                             <Card.Body>
                                 <button
-
                                     style={{textAlign: "right", border: "none",position:"absolute"}}
                                     className="btn"
                                     onClick={() => handleDeleteFile(file.name)}
