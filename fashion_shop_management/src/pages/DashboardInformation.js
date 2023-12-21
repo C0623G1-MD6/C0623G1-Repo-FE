@@ -7,11 +7,12 @@ import HeaderAdmin from "../components/overview/HeaderAdmin";
 import SidebarStoreManage from "../components/overview/SidebarStoreManage";
 import Sidebar from "../components/Sidebar";
 import {NotFound} from "../components/NotFound";
+import AccessDenied from "../components/auth/AccessDenied";
 
 function DashboardInformation() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
-        return <NotFound/>
+        return <AccessDenied/>
     }
     let item="item2";
     return (
