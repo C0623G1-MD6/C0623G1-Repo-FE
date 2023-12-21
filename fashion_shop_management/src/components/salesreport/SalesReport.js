@@ -69,15 +69,15 @@ function SalesReport() {
 
 
   const handleSearch = () => {
-    getSalesReport();
-    getSpend();
     getRevenue()
-    if (endDate === "" ||startDate === ""){
-      toast("Vui lòng nhập ngày thống kê")
-    }
-    if (spendSalesReport.length === 0 && revenueSalesReport.length===0 ){
+    if (spendSalesReport.length === 0 && revenueSalesReport.length === 0) {
       toast("Vui lòng thu ngắn khoảng tìm kiếm")
+    } else {
+      getSalesReport();
+      getSpend();
+
     }
+
   };
 
   const handleStartDateChange = (date) => {
@@ -205,7 +205,7 @@ function SalesReport() {
             </div>
 
             <div className="col-md-2 d-flex align-items-end">
-              <button className="btn btn-outline-primary me-2 text-center" onClick={handleSearch}>
+              <button className="btn btn-outline-primary me-2 text-center rounded-0" onClick={handleSearch}>
                 Tìm kiếm
               </button>
             </div>

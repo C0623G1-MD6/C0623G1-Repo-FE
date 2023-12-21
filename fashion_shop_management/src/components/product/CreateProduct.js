@@ -83,12 +83,12 @@ function CreateProduct() {
         getAllPromotion();
     }, []);
 
-    const downloadQRCode = () => {
+    const downloadQRCode = (code, name) => {
         const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
         if (canvas) {
             const url = canvas.toDataURL();
             const a = document.createElement('a');
-            a.download = 'QRCode.png';
+            a.download = `${code}-${name}`;
             a.href = url;
             document.body.appendChild(a);
             a.click();
@@ -109,7 +109,7 @@ function CreateProduct() {
                 console.log(res.data);
                 setBeError(res.data);
             } else {
-                downloadQRCode();
+                downloadQRCode(data.productCode, data.name);
                 navigate("/dashboard/product/list");
                 toast.success("Thêm mới thành công!");
             }

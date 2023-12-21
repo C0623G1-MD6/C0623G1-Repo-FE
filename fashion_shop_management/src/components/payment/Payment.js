@@ -133,7 +133,7 @@ export function Payment() {
     }
 
     const enter = (values) => {
-        values.productCode = product.productCode;
+        // values.productCode = product.productCode;
         values.name = product.name;
         values.price = product.price;
         values.promotion = product.percent;
@@ -213,20 +213,20 @@ export function Payment() {
                     </div>
                     <div className="p-0">
                         <div className="form-control rounded-0 shadow p-3">
-                            <ul className="nav nav-tabs">
-                                <li className="nav-item">
-                                    <a className="nav-link text-dark" aria-current="page" href="#">Hóa đơn 1</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link text-dark" href="#">Hóa đơn 2</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a className="nav-link text-dark" href="#">Hóa đơn 3</a>
-                                </li>
-                                <li className="nav-item">
-                                    <a role="button" className="nav-link disabled"><i className="bi bi-plus-lg"></i></a>
-                                </li>
-                            </ul>
+                            {/*<ul className="nav nav-tabs">*/}
+                            {/*    <li className="nav-item">*/}
+                            {/*        <a className="nav-link text-dark" aria-current="page" href="#">Hóa đơn 1</a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="nav-item">*/}
+                            {/*        <a className="nav-link text-dark" href="#">Hóa đơn 2</a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="nav-item">*/}
+                            {/*        <a className="nav-link text-dark" href="#">Hóa đơn 3</a>*/}
+                            {/*    </li>*/}
+                            {/*    <li className="nav-item">*/}
+                            {/*        <a role="button" className="nav-link disabled"><i className="bi bi-plus-lg"></i></a>*/}
+                            {/*    </li>*/}
+                            {/*</ul>*/}
                             <div className="text-center">
                                 <h2 className="fw-bold text-primary pt-3">THANH TOÁN</h2>
                             </div>
