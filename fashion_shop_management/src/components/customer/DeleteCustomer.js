@@ -30,14 +30,14 @@ export function DeleteCustomer(props) {
                                     {/* eslint-disable-next-line react/prop-types */}
                                     <i className="bi bi-exclamation-triangle text-danger" style={{fontSize: "60px"}} id="icon-warning"/>
                                     <h5>Bạn chắn chắn muốn xóa khách hàng <span className="text-danger">{selected.name}</span> này khỏi danh sách ?</h5>
-                                                  Hành động này không thể hoàn tác!
+                                                  <b style={{color:"red"}}>Lưu ý: </b>Hành động này không thể hoàn tác!
                                 </div>
                                 <div className="modal-footer justify-content-center">
                                     <button type="button" className="btn btn-sm btn-outline-secondary rounded-0" data-bs-dismiss="modal"
-                                            onClick={close}>Close
+                                            onClick={close}>Hủy
                                     </button>
                                     <button type="button" className="btn btn-sm btn-outline-danger rounded-0 ms-3"
-                                            onClick={() => handleDelete(selected)}>Delete
+                                            onClick={() => handleDelete(selected)}>Xác Nhận
                                     </button>
                                 </div>
                             </div>
