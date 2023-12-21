@@ -43,6 +43,7 @@ export function LookUpCustomer() {
                     <div className="d-flex">
                         <input className="form-control form-control-sm rounded-0 border-dark"
                                placeholder="Nhập mã khách hàng, tên khách hàng hoặc số diện thoại"
+                               value={keyword} type="text"
                                onChange={event => setKeyword(event.target.value)}
                         />
                         <button className="btn btn-outline-dark btn-sm rounded-0 ms-3"><span className="text-center"><i

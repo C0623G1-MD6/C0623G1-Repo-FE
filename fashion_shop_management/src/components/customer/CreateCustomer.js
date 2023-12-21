@@ -13,9 +13,9 @@ function CreateCustomer() {
             const res = await createCustomerService(values)
             if (res.status === 200) {
                 navigate("/customer/list")
-                toast(" Create Successfully")
+                toast(" Tạo mới khách hàng thành công.")
             } else if (res.status === 201)
-                toast(" Create failed")
+                toast(" Tạo mới khách hàng không thành công.")
             setErrors(res.data)
 
         } catch (e) {
