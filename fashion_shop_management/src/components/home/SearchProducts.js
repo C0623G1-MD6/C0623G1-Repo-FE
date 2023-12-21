@@ -21,7 +21,7 @@ const SearchProducts = () => {
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(3);
+  const [totalPages, setTotalPages] = useState(0);
   const [sizes, setSizes] = useState([]);
   const [productCode, setProductCode] = useState("");
 
@@ -73,13 +73,13 @@ const SearchProducts = () => {
     setProductModal(product);
     setProductCode(product.productCode);
   };
-  const limitCharacters = (text, limit) => {
-    if (text.length <= limit) {
-      return text;
-    } else {
-      return text.slice(0, limit) + "...";
-    }
-  };
+  // const limitCharacters = (text, limit) => {
+  //   if (text.length <= limit) {
+  //     return text;
+  //   } else {
+  //     return text.slice(0, limit) + "...";
+  //   }
+  // };
   return (
     <>
       <HomeHeader></HomeHeader>
@@ -129,7 +129,7 @@ const SearchProducts = () => {
 
                     <hr />
                     <p className="card-description">
-                      {limitCharacters(item.prdDescription, 200)}
+                      {item.prdDescription}
                     </p>
 
                     {item.percent > 0 && (

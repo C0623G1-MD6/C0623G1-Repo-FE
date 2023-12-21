@@ -62,9 +62,9 @@ const HomeHeader = () => {
                   <Dropdown.Item href="/search?gender=0">Nam</Dropdown.Item>
                 </DropdownButton>
               </ul>
-              <form className="form-search-header d-flex mx-5" role="search">
+              <form className="form-search-header d-flex mx-2" role="search">
                 <input
-                  className="form-control me-2"
+                  className="form-control me-3"
                   type="search"
                   placeholder="Nhập tên sản phẩm"
                   aria-label="Search"

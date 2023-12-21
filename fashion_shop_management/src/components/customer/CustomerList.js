@@ -102,14 +102,14 @@ export function CustomerList() {
     }
     return (
         customer && (
-            <div className="row" style={{width: "100%"}}>
-                <div className="col-lg-12">
-                    <div className="row pt-5">
-                        <div className="col-lg-12">
-                            <div className="card mb-4" name="customer-table" style={{borderRadius: "0"}}>
-                                <div className="shadow container card-header" name="customer-table">
+            <div>
+              {/*<div className="col-lg-12">*/}
+                    <div className="">
+                        {/*<div className="col-lg-12">*/}
+                            {/*<div className="card mb-4" name="customer-table" style={{borderRadius: "0"}}>*/}
+                                <div className="shadow p-3">
                                     <div className="title_customer" style={{textAlign: "center"}}>
-                                        <h2 className="fw-bold text-primary p-3">Danh Sách Khách Hàng</h2>
+                                        <h2 className="fw-bold text-primary p-3">DANH SÁCH KHÁCH HÀNG</h2>
                                     </div>
                                     <div className="input-group"
                                          style={{
@@ -139,7 +139,7 @@ export function CustomerList() {
                                                 </select>
                                             </div>
                                             <div className="input-search me-1">
-                                                <input type="text" className="form-control-sm rounded-0"
+                                                <input type="text" className="form-control form-control-sm rounded-0"
                                                        name="table-search"
                                                        id="table-search"
                                                        onChange={(event) => setNameCustomer(event.target.value)}
@@ -218,10 +218,10 @@ export function CustomerList() {
                                     }
 
                                 </div>
-                            </div>
-                        </div>
+                            {/*</div>*/}
+                        {/*</div>*/}
                     </div>
-                </div>
+                 {/*</div>*/}
                 <DeleteCustomer
                     show={status}
                     selected={selectCustomer}

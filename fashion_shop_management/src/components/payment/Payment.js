@@ -1,7 +1,10 @@
 import {Formik, Form, Field, ErrorMessage} from "formik";
-import {NavLink, useLocation} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
+import React, {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
+import {toast} from "react-toastify";
+import {NotFound} from "../NotFound";
+import AccessDenied from "../auth/AccessDenied";
 
 export function Payment() {
     const initProduct = {
@@ -21,7 +24,8 @@ export function Payment() {
         totalDetail: 0,
         sizeDetailId: ""
     }
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    const navigate = useNavigate();
     const [invoiceDetailSet, setInvoiceDetailSet] = useState([])
     const [detailLists, setDetailLists] = useState([]);
     const [detail, setDetail] = useState(initValue)
@@ -42,10 +46,11 @@ export function Payment() {
     const location = useLocation();
     const {cus} = location.state || {cus: {}};
 
-    console.log(customer);
-
     useEffect(() => {
         getAllProduct();
+        if (!user) {
+            return <AccessDenied/>
+        }
     }, [keyword])
 
     useEffect(() => {
@@ -174,8 +179,14 @@ export function Payment() {
             invoiceDetailDtoSet: invoiceDetailSet
         }
         const res = await paymentService.saveInvoice(invoice);
-        if(res.status===200){
-
+        console.log(res);
+        if(!res){
+            toast.error("Lưu hóa đơn thất bại!");
+        } else if (res.status===200) {
+            toast.success("Lưu hóa đơn thành công!");
+            navigate("/payment");
+        } else {
+            toast.error("Lưu hóa đơn thất bại!");
         }
     }
 
@@ -183,10 +194,10 @@ export function Payment() {
         <>
             <div className="">
                 <div className="row">
-                    <div className="side-right bg-light">
-                        <div className="tabs bg-light">
+                    <div className="side-right">
+                        <div className="tabs">
                         </div>
-                        <div className="p-3">
+                        <div className="p-0">
                             <div className="form-control rounded-0 shadow p-3">
                                 <ul className="nav nav-tabs">
                                     <li className="nav-item">
