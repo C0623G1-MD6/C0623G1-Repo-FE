@@ -1,11 +1,11 @@
 import {Link} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {getAllProducts, getAllSizes, showMsgWarning} from "../../services/product/ProductService";
-import {Pagination,ConfigProvider} from "antd";
 import AccessDenied from "../auth/AccessDenied";
 import DashboardManager from "../DashboardManager";
 import DashboardWarehouse from "../DashboardWarehouse";
 import DashboardSale from "../DashboardSale";
+import Pagination from "../pagination/Pagination";
 
 
 function ProductList() {
@@ -13,7 +13,7 @@ function ProductList() {
     const [products, setProducts] = useState([]);
     const [sizes, setSizes] = useState([]);
     const [pageable, setPageable] = useState({
-        currentPage: 1,
+        currentPage: 0,
         totalPage: "",
         productName: "",
         sizeName: "",
@@ -22,12 +22,12 @@ function ProductList() {
         sortDirection: "desc",
         sortBy: "createdDate"
     });
-
+    console.log(pageable)
     const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
         getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy).then((res) => {
             setProducts(res.content);
             setPageable(prevState => {
-                return {...prevState, totalPage: res.totalElements, currentPage: currentPage}
+                return {...prevState, totalPage: res.totalPages, currentPage: currentPage}
             });
         });
 
@@ -37,6 +37,14 @@ function ProductList() {
         getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
     }, [pageable.sortDirection]);
 
+    const handlePageChange = (pageNumber) => {
+        setPageable(prevState => (
+            {
+            ...prevState,
+                currentPage: pageNumber
+            }
+        ));
+    };
 
     // show item size dropdown
     const getAllSize = () => {
@@ -136,11 +144,11 @@ function ProductList() {
     // if (!sizes) return null
     return (
         <>
-            <div className="col-lg-12 container">
+            <div className="col-lg-12">
                 <div id="loan-products">
-                    <div className="product-list shadow-lg border border-light p-3">
+                    <div className="product-list shadow border border-light p-3">
                         <div className="text-center text-primary my-3">
-                            <h2>Danh sách hàng hóa</h2>
+                            <h2 className="fw-bold">DANH SÁCH SẢN PHẨM</h2>
                         </div>
                         <div className="row">
                             <div className="col-lg-3 title">
@@ -186,77 +194,76 @@ function ProductList() {
                                 </div>
                             </div>
                         </div>
-                        <div className="table-responsive">
-                            <table className="table table-hover text-center">
-                                <thead>
-                                <tr>
-                                    <th scope="col">STT</th>
-                                    <th scope="col">Mã sản phẩm
-                                        <span onClick={() => sortBy("productCode")} className="ms-1"><i
-                                            className="bi bi-sort-down"/></span>
-                                    </th>
-                                    <th scope="col">Tên sản phẩm
-                                        <span onClick={() => sortBy("productName")} className="ms-1"><i
-                                            className="bi bi-sort-down"/></span>
-                                    </th>
-                                    <th scope="col">
-                                        Số lượng
-                                        <span onClick={() => sortBy("productQuantity")} className="ms-1"><i
-                                            className="bi bi-sort-down"/></span>
-                                    </th>
-                                    <th scope="col">Kích thước
-                                        <span onClick={() => sortBy("sizeName")} className="ms-1"><i
-                                            className="bi bi-sort-down"/></span>
-                                    </th>
-                                    <th scope="col">Đơn giá
-                                        <span onClick={() => sortBy("productPrice")} className="ms-1"><i
-                                            className="bi bi-sort-down"/></span>
-                                    </th>
-                                </tr>
-                                </thead>
-                                {!products.length ?
-                                    <tbody>
-                                    <tr className="justify-content-center">
+                        <table className="table table-hover table-bordered text-center mb-3">
+                            <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã sản phẩm
+                                    <span onClick={() => sortBy("productCode")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">Tên sản phẩm
+                                    <span onClick={() => sortBy("productName")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">
+                                    Số lượng
+                                    <span onClick={() => sortBy("productQuantity")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">Kích thước
+                                    <span onClick={() => sortBy("sizeName")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                                <th scope="col">Đơn giá
+                                    <span onClick={() => sortBy("productPrice")} className="ms-1"><i
+                                        className="bi bi-sort-down"/></span>
+                                </th>
+                            </tr>
+                            </thead>
+                            {!products.length ?
+                            <tbody>
+                            <tr className="justify-content-center">
                                         <td colSpan="6" className="text-danger fs-5">
-                                            Sản phẩm không tồn tại
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                    :
-                                    <>
-                                        <tbody className="table-group-divider">
-                                        {products.map((item, index) =>
-                                            <tr key={item.id}>
-                                                <td style={{width: "5%"}}>{index + 1}</td>
-                                                <td style={{width: "15%"}}>{item.productCode}</td>
-                                                <td className="text-lg-start" style={{width: "40%"}}>
-                                                    {/*<td className="product-img">*/}
-                                                    {/*<div className="col-lg-auto">*/}
-                                                    {/*    <img*/}
-                                                    {/*        src={item.productImage.split(",")[0]}*/}
-                                                    {/*        alt="product image"/>*/}
-                                                    {/*</div>*/}
-                                                    {/*<div className="col-lg-auto">*/}
-                                                    {item.productName}
-                                                    {/*</div>*/}
-                                                </td>
-                                                <td style={{width: "10%"}} className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
-                                                <td style={{width: "15%"}}>{item.sizeName}</td>
-                                                <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
-                                            </tr>
-                                        )}
+                                    Sản phẩm không tồn tại
+                                </td>
+                            </tr>
+                            </tbody>
+                            :
+                                <>
+                                    <tbody className="table-group-divider">
+                                    {products.map((item, index) =>
+                                        <tr key={item.id}>
+                                            <td style={{width: "5%"}}>{index + 1}</td>
+                                            <td style={{width: "15%"}}>{item.productCode}</td>
+                                            <td className="text-lg-start" style={{width: "40%"}}>
+                                                {/*<td className="product-img">*/}
+                                                {/*<div className="col-lg-auto">*/}
+                                                {/*    <img*/}
+                                                {/*        src={item.productImage.split(",")[0]}*/}
+                                                {/*        alt="product image"/>*/}
+                                                {/*</div>*/}
+                                                {/*<div className="col-lg-auto">*/}
+                                                {item.productName}
+                                                {/*</div>*/}
+                                            </td>
+                                            <td style={{width: "10%"}} className={item.productQuantity <= 5 ? 'text-danger' : 'text-dark'}>{item.productQuantity}</td>
+                                            <td style={{width: "15%"}}>{item.sizeName}</td>
+                                            <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
+                                        </tr>
+                                    )}
                                         </tbody>
                                     </>
                                 }
 
                             </table>
 
-                            <div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>
-                                <Pagination  current={pageable.currentPage} hideOnSinglePage={true}
-                                             total={pageable.totalPage} pageSize={5} onChange={handleChange}
-                                             itemRender={itemRender} showSizeChanger={false} />
-                            </div>
-                        </div>
+                        {/*<div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>*/}
+                        {/*        <Pagination  current={pageable.currentPage} hideOnSinglePage={true}*/}
+                        {/*                     total={pageable.totalPage} pageSize={5} onChange={handleChange}*/}
+                        {/*                     itemRender={itemRender} showSizeChanger={false} />*/}
+                        {/*</div>*/}
+                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handlePageChange} />
                     </div>
                 </div>
             </div>

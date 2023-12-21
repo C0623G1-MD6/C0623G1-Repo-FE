@@ -29,7 +29,7 @@ function ChangePasswordPage() {
                 <div className="content">
                     <HeaderAdmin/>
                     <div className="dashboard-content">
-                        <div className="py-2 px-5">
+                        <div className="p-5">
                             <ChangePassword/>
                         </div>
                     </div>

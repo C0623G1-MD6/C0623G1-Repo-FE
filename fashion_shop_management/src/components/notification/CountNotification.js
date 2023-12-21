@@ -29,8 +29,8 @@ export function CountNotification() {
         <>
             <div>
                 <Dropdown as={ButtonGroup}>
-                    <Dropdown.Toggle id="dropdown-custom-1">
-                        <i className="bi bi-bell"></i>
+                    <Dropdown.Toggle id="dropdown-custom-1" className="bg-white border-0">
+                        <i className="bi bi-bell text-dark"></i>
                         <span
                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{count}</span>
                     </Dropdown.Toggle>

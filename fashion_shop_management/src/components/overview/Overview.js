@@ -73,6 +73,19 @@ function Overview() {
     return (
         <>
             <div>
+                <div className="d-flex justify-content-end">
+                    <div className="mt-2 me-2">
+                        <h6>Thống kê theo</h6>
+                    </div>
+                    <div className="mb-4">
+                        <select value={time} onChange={handleSelectChange} className="form-select"
+                                aria-label="Default select example">
+                            <option value="week">Tuần này</option>
+                            <option value="month">Tháng này</option>
+                            <option value="year">Năm này</option>
+                        </select>
+                    </div>
+                </div>
                 <div className="mb-4">
                     <div className="row">
 
@@ -83,7 +96,7 @@ function Overview() {
                                         <i className="bi bi-cart-fill"></i>
                                     </div>
                                     <div className="d-flex justify-content-center">
-                                        <h4>Đơn hàng</h4>
+                                        <h4>Tổng đơn hàng</h4>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                         <h2>{new Intl.NumberFormat().format(totalOrder)}</h2>
@@ -100,40 +113,28 @@ function Overview() {
                                         <i className="bi bi-bag-fill"></i>
                                     </div>
                                     <div className="d-flex justify-content-center">
-                                        <h4>Đã bán</h4>
+                                        <h4>Sản phẩm đã bán</h4>
                                     </div>
                                     <div className="d-flex justify-content-center">
                                         <h2>{new Intl.NumberFormat().format(totalProductsSold)}</h2>
-                                    </div>
-                                    <div className="d-flex justify-content-center">
-                                        {/*<h6>Sản phẩm</h6>*/}
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div className="col-lg-4">
                             <div className="statistical d-flex justify-content-center">
-                                <div className="mt-4 mx-3 item-two">
-                                    <div className="row item-three">
-                                        <div className="col-5">
-                                            <h5>Doanh thu</h5>
-                                        </div>
-                                        <div className="col-7">
-                                            <select value={time} onChange={handleSelectChange} className="form-select"
-                                                    aria-label="Default select example">
-                                                <option value="week">Tuần</option>
-                                                <option value="month">Tháng</option>
-                                                <option value="year">Năm</option>
-                                            </select>
-                                        </div>
+                                <div className="mt-3 item-three">
+                                    <div className="d-flex justify-content-center">
+                                        <i className="bi bi-wallet-fill"></i>
                                     </div>
-                                    <div className="d-flex justify-content-center mt-4">
+                                    <div className="d-flex justify-content-center">
+                                        <h4>Doanh thu</h4>
+                                    </div>
+                                    <div className="d-flex justify-content-center">
                                         <h2>{totalRevenue.toLocaleString('vi', {
                                             style: 'currency',
                                             currency: 'VND'
                                         })}</h2>
-                                    </div>
-                                    <div className="d-flex justify-content-center">
                                     </div>
                                 </div>
                             </div>
@@ -166,7 +167,7 @@ function Overview() {
                                         </thead>
                                         <tbody>
                                         {topFiveSeller.map((item, index) => (
-                                            <tr key={index}>
+                                            <tr key={item.id}>
                                                 <td scope="row">{index + 1}</td>
                                                 <td>{item.name}</td>
                                                 <td className="table-one">{new Intl.NumberFormat().format(item.quantity)}</td>

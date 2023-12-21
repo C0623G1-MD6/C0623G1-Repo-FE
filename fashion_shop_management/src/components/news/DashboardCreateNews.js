@@ -12,7 +12,7 @@ function DashboardCreateNews(props) {
     const user = JSON.parse(localStorage.getItem('user'));
     const employeeInfo = useSelector((store) => store.employee);
     const dispatch = useDispatch();
-    let item="item3"
+    let item="item4"
 
     useEffect(() => {
         if (user) {
@@ -35,7 +35,7 @@ function DashboardCreateNews(props) {
                         <div className="content">
                             <HeaderAdmin/>
                             <div className="dashboard-content">
-                                <div className="px-5">
+                                <div className="p-5">
                                     {/*Đặt component của mọi người ở đây nhé*/}
                                     <NewsCreate/>
                                 </div>

@@ -75,7 +75,7 @@ function ModalLogin() {
                                                     <Field type="text" className="form-control" name="username"
                                                            id="username"/>
                                                     <ErrorMessage name="username" className="text-danger"
-                                                                  component="p"/>
+                                                                  component="small"/>
                                                 </div>
                                                 <div className="mb-3">
                                                     <label htmlFor="password" className="form-label">Mật
@@ -83,7 +83,7 @@ function ModalLogin() {
                                                     <Field type="password" className="form-control" name="password"
                                                            id="password"/>
                                                     <ErrorMessage name="password" className="text-danger"
-                                                                  component="p"/>
+                                                                  component="small"/>
                                                 </div>
                                                 <div className="mb-3 form-check d-flex justify-content-between">
                                                     <div>
@@ -124,12 +124,12 @@ function ModalLogin() {
         }
     }
     if (user !== null) {
-        return <><Link to="/dashboard" className="btn-dashboard btn-primary">{user.username}</Link> </>
+        return <><Link to="/dashboard" className="btn-dashboard btn-primary ">{user.username}</Link> </>
     }
     return (
         <>
 
-            <Button className="btn-login" onClick={handleShow}>
+            <Button className="btn-login bg-white text-secondary" onClick={handleShow}>
                 <svg xmlns="http://www.w3.org/2000/svg" width={35} height={35} fill="currentColor"
                      className="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
