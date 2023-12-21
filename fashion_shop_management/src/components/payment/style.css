@@ -1,0 +1,55 @@
+#qr-code{
+    height: 500px;
+    width: 500px;
+    z-index: 5;
+}
+
+#qr-code .position{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 5;
+}
+
+#qr-code .button{
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%,-70%);
+    z-index: 5;
+}
+
+#qr-code .scanner {
+    width: 300px;
+    height: 300px;
+    border: 2px solid #fff;
+    z-index: 5;
+    overflow: hidden;
+}
+
+#qr-code .scanner-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #00ff00;
+    animation: scanner-line-animation 2s infinite;
+}
+
+#backdrop{
+    z-index: 2;
+}
+
+@keyframes scanner-line-animation {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(300px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
