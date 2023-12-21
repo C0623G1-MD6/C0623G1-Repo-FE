@@ -7,7 +7,12 @@ const HomeHeader = () => {
   const navigate = useNavigate();
   const [seachName, setSeachName] = useState("");
   const handleSearch = (value) => {
-    setSeachName(value.target.value);
+    let inputSearchName = value.target.value.trim();
+    if (inputSearchName === "_") {
+      setSeachName("");
+    } else {
+      setSeachName(inputSearchName);
+    }
   };
 
   const onSearch = () => {
@@ -16,7 +21,7 @@ const HomeHeader = () => {
 
   return (
     <>
-      <div className="container">
+      <div>
         <nav className="navbar navbar-expand-lg bg-body-tertiary" id="fsnav">
           <div className="container-fluid">
             <a className="navbar-brand" href="/">
@@ -57,9 +62,9 @@ const HomeHeader = () => {
                   <Dropdown.Item href="/search?gender=0">Nam</Dropdown.Item>
                 </DropdownButton>
               </ul>
-              <form className="form-search-header d-flex mx-5" role="search">
+              <form className="form-search-header d-flex mx-2" role="search">
                 <input
-                  className="form-control me-2"
+                  className="form-control me-3"
                   type="search"
                   placeholder="Nhập tên sản phẩm"
                   aria-label="Search"
@@ -68,7 +73,7 @@ const HomeHeader = () => {
                 <button
                   onClick={onSearch}
                   className="btn btn-outline-dark"
-                  type="submit"
+                  type="button"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

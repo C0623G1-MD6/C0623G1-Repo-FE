@@ -102,10 +102,9 @@ export function WarehouseCreate() {
         console.log(warehouseDetailSet)
             let isSuccess = await WarehouseReceiptService.saveWarehouse(warehouse);
             console.log(detailList)
-        if (!isSuccess) {
-                setDisableSubmit(true);
+            if (!isSuccess) {
                 toast(`Thêm mới đơn hàng thành công!`)
-                setDetailSet([])
+                handelReset()
             } else {
                 setDisableSubmit(false);
                 toast(`Thêm mới đơn hàng không thành công!`)
@@ -290,11 +289,13 @@ export function WarehouseCreate() {
                                         <thead className="table-secondary">
                                         <tr className="text-center">
                                             <th scope="col" className="col-1">STT</th>
+                                            <th scope="col" className="col-1">Mã hàng</th>
                                             <th scope="col" className="col-4">Tên hàng</th>
                                             <th scope="col" className="col-1">Size</th>
                                             <th scope="col" className="col-1">Số lượng</th>
                                             <th scope="col" className="col-1">Đơn giá</th>
 
+                                            {/*<th scope="col" className="col-1">Khuyến mãi</th>*/}
                                             <th scope="col" className="col-2">Tổng tiền</th>
                                         </tr>
                                         </thead>

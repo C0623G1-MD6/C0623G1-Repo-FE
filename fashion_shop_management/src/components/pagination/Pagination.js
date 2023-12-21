@@ -28,7 +28,7 @@ const Pagination = ({page, totalPages, onPageChange}) => {
             </button>
         );
 
-        if (totalPages <= 7) {
+      if (totalPages <= 7||!totalPages) {
             for (let i = 1; i <= totalPages - 2; i++) {
                 tempPagination.push(
                     <button className={`btn btn-sm btn-outline-primary rounded-0 ${page === i ? "active" : ""}`} key={i}
@@ -76,13 +76,15 @@ const Pagination = ({page, totalPages, onPageChange}) => {
             }
         }
 
-        tempPagination.push(
-            <button className={`btn btn-sm btn-outline-primary rounded-0 ${page === totalPages-1? "active" : ""}`}
-                    key={totalPages}
-                    onClick={() => onPageChange(totalPages - 1)}>
-                {totalPages}
-            </button>
-        );
+        if(totalPages>1){
+            tempPagination.push(
+                <button className={`btn btn-sm btn-outline-primary rounded-0 ${page === totalPages-1? "active" : ""}`}
+                        key={totalPages}
+                        onClick={() => onPageChange(totalPages - 1)}>
+                    {totalPages}
+                </button>
+            );
+        }
 
         tempPagination.push(
             <button className="btn btn-sm btn-outline-primary rounded-0"

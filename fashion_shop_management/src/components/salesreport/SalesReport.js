@@ -88,7 +88,7 @@ function SalesReport() {
       },
       {
         type: "line",
-        label: "Doanh Thu",
+        label: "Doanh thu",
         borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
         pointRadius: dataRevenue.map(value => value !== 0 ? 4 : 0),
@@ -126,7 +126,7 @@ function SalesReport() {
         ticks: {
           font: {
             family: "Verdana",
-            size: 14,
+            size: 16,
             weight: "normal",
           },
         },
@@ -135,21 +135,22 @@ function SalesReport() {
     plugins: {
       title: {
         display: true,
+        text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
         font: {
-          size: 12,
+          size: 16,
           family: 'tahoma',
           weight: 'normal',
         },
       },
       subtitle: {
         display: true,
-        text: 'City 6 Fashion',
+        text: 'CITY 6 FSHOP',
         color: 'blue',
         font: {
-          size: 12,
+          size: 16,
           family: 'tahoma',
           weight: 'normal',
-          style: 'italic'
+          style: 'bold'
         },
         padding: {
           bottom: 10

@@ -36,12 +36,13 @@ export function CreateNotification() {
                         <Field
                             name="role"
                             className="form-check-input"
+                            id={`checkbox${item.id}`}
                             type="checkbox"
                             value={item.id}
                             checked={values.role.includes(item.id)}
                             onChange={(e) => handleChangeCheckbox(item.id, e.target.checked)}
                         />
-                        <label className="form-check-label">{renderRole(item.name)}</label>
+                        <label className="form-check-label" htmlFor={`checkbox${item.id}`}>{renderRole(item.name)}</label>
                     </div>
                 ))}
                 <ErrorMessage name="role" className="text-danger" component="p"/>
@@ -53,8 +54,11 @@ export function CreateNotification() {
         displayRole()
     }, []);
     const add = async (values, {resetForm}) => {
-        values.noticePostingDate = convertDate(values.noticePostingDate);
-        let res = await createNotification(values);
+        let valuesConvert = {
+            ...values,
+            noticePostingDate: convertDate(values.noticePostingDate)
+        }
+        let res = await createNotification(valuesConvert);
         if (res) {
             toast('Thêm mới thành công');
             resetForm();
@@ -92,9 +96,9 @@ export function CreateNotification() {
             >
                 {({resetForm}) => (
                     <>
-                        <div className="create-noti">
+                        <div className="create-noti shadow">
                             <Form>
-                                <h3 className="mb-4">Đăng thông báo</h3>
+                                <h2 className="mb-4 text-center fw-bold text-primary mt-3">ĐĂNG THÔNG BÁO</h2>
                                 <div className="mb-3">
                                     <label htmlFor="noticePostingDate" className="form-label">Ngày đăng</label>
                                     <Field type="text" className="form-control" name="noticePostingDate"
@@ -118,7 +122,7 @@ export function CreateNotification() {
                                     <RoleCheckboxes/>
                                 </div>
                                 <div className="btn-submit text-center">
-                                    <button type="submit" className="btn btn-add-noti">Thêm thông báo</button>
+                                    <button type="submit" className="btn btn-outline-primary rounded-0">Thêm thông báo</button>
                                 </div>
                             </Form>
                         </div>

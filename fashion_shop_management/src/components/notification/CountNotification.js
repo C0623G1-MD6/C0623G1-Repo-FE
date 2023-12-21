@@ -29,8 +29,8 @@ export function CountNotification() {
         <>
             <div>
                 <Dropdown as={ButtonGroup}>
-                    <Dropdown.Toggle id="dropdown-custom-1">
-                        <i className="bi bi-bell"></i>
+                    <Dropdown.Toggle id="dropdown-custom-1" className="bg-white border-0">
+                        <i className="bi bi-bell text-dark"></i>
                         <span
                             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">{count}</span>
                     </Dropdown.Toggle>
@@ -44,14 +44,14 @@ export function CountNotification() {
                                 <div className="box-title p-3">
                                     <h6 className="m-0">Thông báo quan trọng cần xem!</h6>
                                 </div>
-                                <div className="box-body p-0 bg-light">
+                                <div id="drowdown-notification" className="box-body p-0 bg-light">
                                     {listNotificationNotView.map((notifi) => (
                                         <div key={notifi.id}
                                              className="p-3 d-flex bg-light border-bottom justify-content-between">
                                             <div className="col-lg-11 mr-3 ">
-                                                <div className="text-truncate fw-bolder">{notifi.title}</div>
+                                                <div className="fw-bolder">{notifi.title}</div>
                                                 <div className="small fw-semibold">{notifi.noticePostingDate}</div>
-                                                <div className="small fw-normal text-truncate">{notifi.content}</div>
+                                                <div className="small fw-normal">{notifi.content}</div>
                                             </div>
                                             <div className="col-lg-1 form-check">
                                                 <input
