@@ -3,8 +3,13 @@ import HeaderAdmin from "../overview/HeaderAdmin";
 import Overview from "../overview/Overview";
 import React from "react";
 import {CustomerList} from "./CustomerList";
+import AccessDenied from "../auth/AccessDenied";
 
 function CustomerListMain() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        return <AccessDenied/>
+    }
     let item="item6";
     return (
         <>

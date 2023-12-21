@@ -2,9 +2,13 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import {Payment} from "./Payment";
+import AccessDenied from "../auth/AccessDenied";
 
 function PaymentOverview() {
     const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        return <AccessDenied/>
+    }
     let item;
     switch (user.roles[0]){
         case "ROLE_MANAGER":

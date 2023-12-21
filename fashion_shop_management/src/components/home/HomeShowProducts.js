@@ -370,9 +370,21 @@ const HomeShowProducts = () => {
             <div className="col-lg-6">
               <h5 className="card-title">{productModal.productName}</h5>
               <p className="card-text-code">{productModal.productCode}</p>
-              {sizes.map((size) => (
-                <span className="size-product">{size.name} </span>
-              ))}
+              <div className="d-flex mb-3">
+              {sizes.length !== 0 ? (
+                  sizes.map((size) => (
+                        <div className="size-product">
+                            <span>
+                              {size.name}
+                            </span>
+                        </div>
+                    ))
+              ) : (
+                  <>
+                    <p>Sản phẩm đang hết hàng !</p>
+                  </>
+              )}
+              </div>
               {/* <p className="size-product">XS - S - M - L - XL - XXL</p> */}
               <div className="row price-product justify-content-between">
                 {productModal.price !== undefined ? (

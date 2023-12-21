@@ -1,9 +1,10 @@
 import axios from "axios";
 import authHeader from "../AuthService";
+import {toast} from "react-toastify";
 
-export const getAllProducts = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection) => {
+export const getAllProducts = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
     try {
-        let response = await axios.get(`http://localhost:8080/api/product/list?page=${currentPage - 1}&productName=${productName}&sizeName=${sizeName}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortDirection=${sortDirection}`,{ headers: authHeader() });
+        let response = await axios.get(`http://localhost:8080/api/product/list?page=${currentPage - 1}&productName=${productName}&sizeName=${sizeName}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortDirection=${sortDirection}&sortBy=${sortBy}`,{ headers: authHeader() });
         return response.data;
     } catch (e) {
         return undefined;
@@ -46,3 +47,9 @@ export const createProduct = async (product) => {
     }
 };
 
+export function showMsgWarning(msg) {
+    toast.warning(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+    });
+}

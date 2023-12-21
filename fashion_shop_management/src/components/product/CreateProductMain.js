@@ -2,9 +2,13 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import CreateProduct from "./CreateProduct";
+import AccessDenied from "../auth/AccessDenied";
 
 function CreateProductMain() {
-
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        return <AccessDenied/>
+    }
     let item="item4";
     return(
         <>
