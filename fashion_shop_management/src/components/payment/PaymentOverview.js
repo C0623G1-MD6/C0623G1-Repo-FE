@@ -1,19 +1,25 @@
 import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
-import React from "react";
+import React, {useEffect} from "react";
 import {Payment} from "./Payment";
+import AccessDenied from "../auth/AccessDenied";
 
 function PaymentOverview() {
     const user = JSON.parse(localStorage.getItem('user'));
     let item;
-    switch (user.roles[0]){
-        case "ROLE_MANAGER":
-            item="item10";
-            break;
-        case "ROLE_SALES":
-            item="item3";
-            break;
+    if (!user) {
+        return <AccessDenied/>
+    } else {
+        switch (user.roles[0]){
+            case "ROLE_MANAGER":
+                item="item10";
+                break;
+            case "ROLE_SALES":
+                item="item3";
+                break;
+        }
     }
+
     return(
         <>
             <div className="main-container d-flex">

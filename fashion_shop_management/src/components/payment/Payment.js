@@ -1,8 +1,10 @@
 import {Formik, Form, Field, ErrorMessage} from "formik";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import * as paymentService from "../../services/payment/paymentService";
 import {toast} from "react-toastify";
+import {NotFound} from "../NotFound";
+import AccessDenied from "../auth/AccessDenied";
 
 export function Payment() {
     const initProduct = {
@@ -22,7 +24,7 @@ export function Payment() {
         totalDetail: 0,
         sizeDetailId: ""
     }
-
+    const user = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
     const [invoiceDetailSet, setInvoiceDetailSet] = useState([])
     const [detailLists, setDetailLists] = useState([]);
@@ -44,10 +46,11 @@ export function Payment() {
     const location = useLocation();
     const {cus} = location.state || {cus: {}};
 
-    console.log(customer);
-
     useEffect(() => {
         getAllProduct();
+        if (!user) {
+            return <AccessDenied/>
+        }
     }, [keyword])
 
     useEffect(() => {
