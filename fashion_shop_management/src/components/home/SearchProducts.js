@@ -72,7 +72,6 @@ const SearchProducts = () => {
     handleShowModal();
     setProductModal(product);
     setProductCode(product.productCode);
-    console.log(productModal.prdDescription);
   };
   // const limitCharacters = (text, limit) => {
   //   if (text.length <= limit) {
@@ -199,11 +198,21 @@ const SearchProducts = () => {
             <div className="col-lg-6">
               <h5 className="card-title">{productModal.productName}</h5>
               <p className="card-text-code">{productModal.productCode}</p>
-              {sizes.map((size, index) => (
-                <span key={index} className="size-product">
-                  {size.name}{" "}
-                </span>
-              ))}
+              <div className="d-flex mb-3">
+                {sizes.length !== 0 ? (
+                    sizes.map((size) => (
+                        <div className="size-product">
+                            <span>
+                              {size.name}
+                            </span>
+                        </div>
+                    ))
+                ) : (
+                    <>
+                      <p>Sản phẩm đang hết hàng !</p>
+                    </>
+                )}
+              </div>
 
               <div className="row price-product justify-content-between">
                 {productModal.price !== undefined ? (

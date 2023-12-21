@@ -2,8 +2,21 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import {LookUpCustomer} from "./LookUpCustomer";
+import AccessDenied from "../auth/AccessDenied";
 
 function LookUpCustomerOverview() {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        return <AccessDenied/>
+    }
+    switch (user.roles[0]){
+        case "ROLE_MANAGER":
+            item="item10";
+            break;
+        case "ROLE_SALES":
+            item="item3";
+            break;
+    }
     let item="item4";
     return(
         <>

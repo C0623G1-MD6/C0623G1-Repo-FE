@@ -6,10 +6,10 @@ import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
 import {string} from "yup";
 import Pagination from "../pagination/Pagination";
+import AccessDenied from "../auth/AccessDenied";
 
 export function CustomerList() {
-
-
+    const user = JSON.parse(localStorage.getItem('user'));
     const [customer, setCustomer] = useState([]);
     const [typeCustomer, setTypeCustomer] = useState([]);
 
@@ -40,7 +40,6 @@ export function CustomerList() {
         displayCustomer()
         displayCustomerType()
     }, [page])
-
     const displayCustomerType = async () => {
         const res = await getAllCustomerType();
         setTypeCustomer(res);
@@ -98,7 +97,9 @@ export function CustomerList() {
         setPage(pageNumber);
     };
 
-
+    if (!user) {
+        return <AccessDenied/>;
+    }
     return (
         customer && (
             <div>

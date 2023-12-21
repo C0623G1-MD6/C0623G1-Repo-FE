@@ -2,10 +2,15 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import React from "react";
 import {WarehouseCreate} from "./WarehouseCreate";
+import CreateWarehouse from "./CreateWarehouse";
+import AccessDenied from "../auth/AccessDenied";
 
 function WarehouseCreateMain() {
-
+    const user = JSON.parse(localStorage.getItem('user'));
     let item="item3";
+    if (!user) {
+        return <AccessDenied/>;
+    }
     return(
         <>
             <div className="main-container d-flex">
@@ -15,7 +20,7 @@ function WarehouseCreateMain() {
                     <div className="dashboard-content">
                         <div className="py-5 px-5">
                             {/*Đặt component của mọi người ở đây nhé*/}
-                            <WarehouseCreate/>
+                            <CreateWarehouse/>
                         </div>
                     </div>
                 </div>

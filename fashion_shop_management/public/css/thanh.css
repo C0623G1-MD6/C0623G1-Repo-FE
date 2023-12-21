@@ -60,7 +60,7 @@
     text-align: center;
 }
 
-#change-password .btn-submit .btn, .create-noti .btn-add-noti,#information .btn.btn-submit {
+#change-password .btn-submit .btn, .create-noti .btn-add-noti, #information .btn.btn-submit {
     background: #151515;
     color: #fff;
     border: 0;
@@ -152,6 +152,7 @@ section#login .form-check-input {
     width: 100%;
     border: 0;
 }
+
 section#information .content {
     min-height: unset;
 }
@@ -159,6 +160,20 @@ section#information .content {
 #drowdown-notification {
     width: 500px;
 }
+
+.btn.warehouse {
+    text-decoration: none;
+    border: solid 1px #0d6efd;
+    background-color: transparent;
+    color: #0d6efd;
+    padding: 6px;
+    margin-right: 0;
+    align-items: center;
+    border-radius: 0;
+    display: inline-flex;
+    justify-content: center;
+}
+
 @media only screen and (max-width: 768px) {
     .img-login {
         display: none;

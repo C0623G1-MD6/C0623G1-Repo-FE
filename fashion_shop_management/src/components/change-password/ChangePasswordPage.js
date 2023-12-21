@@ -3,11 +3,12 @@ import Sidebar from "../Sidebar";
 import HeaderAdmin from "../overview/HeaderAdmin";
 import ChangePassword from "./ChangePassword";
 import {NotFound} from "../NotFound";
+import AccessDenied from "../auth/AccessDenied";
 
 function ChangePasswordPage() {
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
-        return <NotFound/>;
+        return <AccessDenied/>;
     }
     let item;
     switch (user.roles[0]){
