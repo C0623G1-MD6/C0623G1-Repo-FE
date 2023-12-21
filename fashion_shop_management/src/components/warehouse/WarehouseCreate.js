@@ -20,6 +20,7 @@ export function WarehouseCreate() {
     const [productId, setProductId] = useState(null);
     const [product, setProduct] = useState(null);
     const [detail, setDetail] = useState(null);
+    const [disableSubmit, setDisableSubmit] = useState(false);
     const vnd = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND'
@@ -73,6 +74,7 @@ export function WarehouseCreate() {
             return [
                 ...prevState, {...values}]
     })
+
     }
     const createWarehouseDetail = (item) => {
             setWarehouseDetailSet(prevState => {
@@ -90,7 +92,7 @@ export function WarehouseCreate() {
         setDetail(initValue);
         setSizes([]);
         setProducts([])
-
+        setWarehouseDetailSet([])
     }
     const add = async () => {
             const warehouse = {
@@ -98,13 +100,13 @@ export function WarehouseCreate() {
                 warehouseDetailSet : warehouseDetailSet
             }
         console.log(warehouseDetailSet)
-
             let isSuccess = await WarehouseReceiptService.saveWarehouse(warehouse);
             console.log(detailList)
             if (!isSuccess) {
-                toast(`Nhập kho thành công!`)
+                toast(`Thêm mới đơn hàng thành công!`)
                 handelReset()
             } else {
+                setDisableSubmit(false);
                 toast(`Thêm mới đơn hàng không thành công!`)
             }
     }
@@ -287,11 +289,12 @@ export function WarehouseCreate() {
                                         <thead className="table-secondary">
                                         <tr className="text-center">
                                             <th scope="col" className="col-1">STT</th>
-                                            {/*<th scope="col" className="col-1">Mã hàng</th>*/}
+                                            <th scope="col" className="col-1">Mã hàng</th>
                                             <th scope="col" className="col-4">Tên hàng</th>
                                             <th scope="col" className="col-1">Size</th>
                                             <th scope="col" className="col-1">Số lượng</th>
                                             <th scope="col" className="col-1">Đơn giá</th>
+
                                             {/*<th scope="col" className="col-1">Khuyến mãi</th>*/}
                                             <th scope="col" className="col-2">Tổng tiền</th>
                                         </tr>
@@ -314,8 +317,11 @@ export function WarehouseCreate() {
                                 </div>
                                 <div className="text-center">
                                     <button onClick={handelReset} className="btn btn-outline-secondary btn-sm rounded-0 ms-3">Hủy</button>
-                                    <button onClick={add} className="btn btn-outline-primary btn-sm rounded-0 ms-3">Xác nhận
-                                    </button>
+
+                                        <button type="submit" onClick={add} disabled={disableSubmit} className="btn btn-outline-primary btn-sm rounded-0 ms-3">Xác nhận
+                                        </button>
+
+
                                 </div>
                             </div>
                         </div>
