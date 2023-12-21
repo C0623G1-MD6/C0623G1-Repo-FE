@@ -216,8 +216,8 @@ function ProductList() {
                             </thead>
                             {!products.length ?
                             <tbody>
-                            <tr>
-                                <td>
+                            <tr className="justify-content-center">
+                                <td colSpan="6" className="text-danger fs-5">
                                     Sản phẩm không tồn tại
                                 </td>
                             </tr>

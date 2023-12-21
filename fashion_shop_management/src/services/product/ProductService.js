@@ -53,3 +53,10 @@ export function showMsgWarning(msg) {
         autoClose: 2000,
     });
 }
+
+export function showMsg(msg) {
+    toast.success(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+    });
+}
