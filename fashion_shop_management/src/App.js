@@ -42,6 +42,7 @@ import {WarehouseCreate} from "./components/warehouse/WarehouseCreate";
 import DashboardCreateNews from "./components/news/DashboardCreateNews";
 import SalesReportMain from "./components/salesreport/SalesReportMain";
 import WarehouseCreateMain from "./components/warehouse/WarehouseCreateMain";
+import ResetPassword from "./components/auth/ResetPassword";
 
 function App() {
     return (
@@ -72,6 +73,7 @@ function App() {
                         <Route path="/news" element={<NewsList/>}></Route>
                         <Route path="/dashboard/news/create" element={<DashboardCreateNews/>}></Route>
                         <Route path="/newsdetail/:id" element={<NewsDetail/>}></Route>
+                        <Route path="/resetPassword/:token" element={<ResetPassword/>}></Route>
                         <Route path="*" element={<NotFound/>}></Route>
                     </Routes>
                 </BrowserRouter>
