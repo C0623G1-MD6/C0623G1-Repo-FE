@@ -49,8 +49,9 @@ export const getProduct = async (productName) => {
 export const saveWarehouse = async (warehouseReceiptDto) => {
     try {
         await axios.post("http://localhost:8080/api/warehouses/inputWarehouseDetail",warehouseReceiptDto,{headers: authHeader()});
+        return true
     } catch (e) {
-        return undefined;
+        return false;
     }
 
 

@@ -32,10 +32,8 @@ export function ListNotification() {
         let year = formattedDate.getFullYear();
         let month = (formattedDate.getMonth() + 1).toString().padStart(2, "0");
         let day = formattedDate.getDate().toString().padStart(2, "0");
-        let hours = formattedDate.getHours().toString().padStart(2, "0");
-        let minutes = formattedDate.getMinutes().toString().padStart(2, "0");
-        let seconds = formattedDate.getSeconds().toString().padStart(2, "0");
-        return `${day}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+
+        return `${day}/${month}/${year}`;
     }
 
     if (!notification || !notificationNotView) {
