@@ -15,13 +15,43 @@ function formatDateString(date) {
   const year = date.getFullYear() ;
   return `${day} thg ${month}`;
 }
+function formatString(date) {
 
+  const month = date.getMonth() + 1;
+
+  return `${month}`;
+}
 function SalesReport() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [salesReport, setSalesReport] = useState([]);
   const [spendSalesReport, setSpendSalesReport] = useState([]);
   const [revenueSalesReport, setRevenueSalesReport] = useState([]);
+  const [month, setMonth] = useState("");
+  const [month1, setMonth1] = useState("");
+  const [year, setYear] = useState("");
+  const [revenueMonthNowSalesReport, setRevenueMonthNowSalesReport] = useState("");
+  const [revenueMonthPreviousSalesReport, setRevenueMonthPreviousSalesReport] = useState("");
+  const [revenueMonthPreviousTooSalesReport, setRevenueMonthPreviousTooSalesReport] = useState("");
+  const vnd = new Intl.NumberFormat('vi-VN', {
+    style: 'currency',
+    currency: 'VND'
+  })
+
+
+  const getRevenueMonth = async () =>{
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth() + 1
+    let currentMonth1 = currentDate.getMonth()
+    let currentMonth2 = currentDate.getMonth() - 1
+    let year = currentDate.getFullYear()
+    setYear(year);
+    setRevenueMonthNowSalesReport(await SalesReportService.getRevenueMonth((currentMonth)));
+    setRevenueMonthPreviousSalesReport(await SalesReportService.getRevenueMonth((currentMonth1)));
+    setRevenueMonthPreviousTooSalesReport(await SalesReportService.getRevenueMonth((currentMonth2)));
+    setMonth(currentMonth1);
+    setMonth1(currentMonth2);
+  }
 
 
   const getSalesReport = async () => {
@@ -42,32 +72,28 @@ function SalesReport() {
     getSalesReport();
     getSpend();
     getRevenue()
-    if (spendSalesReport.length === 0 && revenueSalesReport.length===0){
-      toast("Vui lòng chỉ thống kê 2 năm gần đây")
+    if (endDate === "" ||startDate === ""){
+      toast("Vui lòng nhập ngày thống kê")
+    }
+    if (spendSalesReport.length === 0 && revenueSalesReport.length===0 ){
+      toast("Vui lòng thu ngắn khoảng tìm kiếm")
     }
   };
 
   const handleStartDateChange = (date) => {
     if (date <= endDate) {
       setStartDate(date);
-    }else{
-      toast("Vui lòng nhập ngày bắt đầu trước ngày hiện tại");
     }
   };
 
   const handleEndDateChange = (date) => {
     if (date >= startDate && date <= new Date()) {
       setEndDate(date);
-    }else if((Math.ceil(Math.abs(endDate.getTime()-startDate.getTime()))/(1000*3600*24)) >730){
-      toast("Vui lòng nhập trong khoảng 2 năm gần đây");
-    }else {
-      toast("Vui lòng nhập kết thúc đúng");
     }
   };
 
   const handleChange = (date) => {
     if (date >= startDate && date <= new Date()) {
-      toast("Vui lòng nhập ngày bắt đầu đúng");
       setEndDate(date);
     }
   };
@@ -79,15 +105,7 @@ function SalesReport() {
     labels: labels,
     datasets: [
       {
-        type: "line",
-        label: "Tổng Chi",
-        bac: "rgba(108, 117, 125, 0.5)",
-        data: dataSpend,
-        pointRadius: dataSpend.map(value => value !== 0 ? 4 : 0),
-        backgroundColor: 'rgba(108, 117, 125, 1.0)',
-      },
-      {
-        type: "line",
+        type: "bar",
         label: "Doanh thu",
         borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
@@ -102,20 +120,12 @@ function SalesReport() {
       mode: 'index',
       intersect: false,
     },
-    responsive: true,
     scales: {
       x: {
         title: {
           display: true,
           text: 'Ngày'
-        },
-        ticks: {
-          font: {
-            family: "Verdana",
-            size: 14,
-            weight: "normal",
-          },
-        },
+        }
       },
       y: {
         stacked: true,
@@ -133,19 +143,10 @@ function SalesReport() {
       }
     },
     plugins: {
-      title: {
-        display: true,
-        text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
-        font: {
-          size: 16,
-          family: 'tahoma',
-          weight: 'normal',
-        },
-      },
       subtitle: {
         display: true,
         text: 'CITY 6 FSHOP',
-        color: 'blue',
+        color: 'black',
         font: {
           size: 16,
           family: 'tahoma',
@@ -165,11 +166,17 @@ function SalesReport() {
   useEffect(() => {
     getRevenue();
   }, []);
+  useEffect(() => {
+    getRevenueMonth();
+  }, []);
+
+  if (!revenueMonthNowSalesReport) return  null
+
 
   return (
       <>
         <div className="container pt-5 pb-5 form-control">
-          <h2 className="text-center mt-5 text-primary">Thống Kê Doanh Thu</h2>
+          <h2 className="text-center mt-5 text-primary fw-bold">THỐNG KÊ DOANH THU</h2>
           <div className="row mt-5">
             <div className="col-md-4"></div>
             <div className="col-md-2">
@@ -179,7 +186,6 @@ function SalesReport() {
                   selected={startDate}
                   onChange={handleStartDateChange}
                   maxDate={endDate}
-                  minDate={'2023-01-01'}
               />
             </div>
             <div className="col-md-2">
@@ -198,6 +204,27 @@ function SalesReport() {
               </button>
             </div>
           </div>
+          <div className="bg-light">
+            <h5 className=" fw-bold ms-2 ms-5 text-primary text mt-5">Doanh thu 3 tháng gần đây</h5>
+            <div className="container">
+             <table className="table text-center">
+               <thead>
+               <tr>
+                 <th>Tháng {month1}/{year}</th>
+                 <th>Tháng {month}/{year}</th>
+                 <th>Tháng Này</th>
+               </tr>
+               </thead>
+               <tbody className="text-danger fw-bold">
+                  <td>{vnd.format(revenueMonthPreviousTooSalesReport.revenue)} </td>
+                  <td>{vnd.format(revenueMonthPreviousSalesReport.revenue)} </td>
+                  <td>{vnd.format(revenueMonthNowSalesReport.revenue)} </td>
+               </tbody>
+             </table>
+            </div>
+
+          </div>
+
           <div className="row mt-5">
             <div className="col-lg-12">
               <Bar data={chartData} options={options} id="myChart" style={{width: "100%", margin: "0 auto"}}/>

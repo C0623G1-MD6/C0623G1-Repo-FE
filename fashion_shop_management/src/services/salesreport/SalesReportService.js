@@ -66,3 +66,16 @@ export const getSpend = async (startDate, endDate) => {
         return [];
     }
 };
+
+
+export const getRevenueMonth = async (month) => {
+
+    try {
+        const res = await axios.get(`http://localhost:8080/api/sales-report/revenue/month?month=${month}`,{headers: authHeader()});
+        console.log(res)
+        return res.data;
+    } catch (e) {
+
+        return null;
+    }
+};
