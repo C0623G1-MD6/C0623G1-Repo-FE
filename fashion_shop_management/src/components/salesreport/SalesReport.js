@@ -107,7 +107,7 @@ function SalesReport() {
         ticks: {
           font: {
             family: "Verdana",
-            size: 14,
+            size: 16,
             weight: "normal",
           },
         },
@@ -118,20 +118,20 @@ function SalesReport() {
         display: true,
         text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
         font: {
-          size: 12,
+          size: 16,
           family: 'tahoma',
           weight: 'normal',
         },
       },
       subtitle: {
         display: true,
-        text: 'City 6 Fashion',
+        text: 'CITY 6 FSHOP',
         color: 'blue',
         font: {
-          size: 12,
+          size: 16,
           family: 'tahoma',
           weight: 'normal',
-          style: 'italic'
+          style: 'bold'
         },
         padding: {
           bottom: 10
@@ -146,41 +146,41 @@ function SalesReport() {
 
   return (
       <>
-        <div className="container pt-5 pb-5 form-control">
-          <h2 className="text-center mt-5 text-primary">Thống Kê Doanh Thu</h2>
-          <div className="row mt-5">
-            <div className="col-md-4"></div>
-            <div className="col-md-2">
-              <label htmlFor="startDate">Ngày Bắt Đầu:</label>
-              <DatePicker
-                  className="form-control"
-                  selected={startDate}
-                  onChange={handleStartDateChange}
-                  maxDate={endDate}
-              />
-            </div>
-            <div className="col-md-2">
-              <label htmlFor="endDate">Ngày Kết Thúc:</label>
-              <DatePicker
-                  className="form-control"
-                  selected={endDate}
-                  onChange={handleEndDateChange}
-                  maxDate={new Date()}
-              />
-            </div>
+          <div className="form-control shadow">
+            <h2 className="text-center mt-5 text-primary fw-bold">THỐNG KÊ DOANH THU</h2>
+            <div className="row mt-5">
+              <div className="col-md-4"></div>
+              <div className="col-md-2">
+                <label htmlFor="startDate">Ngày Bắt Đầu:</label>
+                <DatePicker
+                    className="form-control"
+                    selected={startDate}
+                    onChange={handleStartDateChange}
+                    maxDate={endDate}
+                />
+              </div>
+              <div className="col-md-2">
+                <label htmlFor="endDate">Ngày Kết Thúc:</label>
+                <DatePicker
+                    className="form-control"
+                    selected={endDate}
+                    onChange={handleEndDateChange}
+                    maxDate={new Date()}
+                />
+              </div>
 
-            <div className="col-md-2 d-flex align-items-end">
-              <button className="btn btn-outline-primary me-2 text-center" onClick={handleSearch}>
-                Tìm kiếm
-              </button>
+              <div className="col-md-2 d-flex align-items-end">
+                <button className="btn btn-outline-primary me-2 text-center rounded-0" onClick={handleSearch}>
+                  Tìm kiếm
+                </button>
+              </div>
+            </div>
+            <div className="row mt-5">
+              <div className="col-lg-12">
+                <Bar data={chartData} options={options} id="myChart" style={{width: "100%", margin: "0 auto"}}/>
+              </div>
             </div>
           </div>
-          <div className="row mt-5">
-            <div className="col-lg-12">
-              <Bar data={chartData} options={options} id="myChart" style={{width: "100%", margin: "0 auto"}}/>
-            </div>
-          </div>
-        </div>
       </>
   );
 }

@@ -37,7 +37,7 @@ function InformationUser() {
             .max(50, 'Tên không được quá 50 ký tự.'),
         phone: Yup.string()
             .required('Vui lòng nhập số điện thoại.')
-            .matches(/^[0-9]{10,11}$/, 'Số điện thoại không hợp lệ.'),
+            .matches(/^[0-9]{10}$/, 'Số điện thoại không hợp lệ.'),
     });
     const role = [...user.roles];
     useEffect(() => {
@@ -65,9 +65,9 @@ function InformationUser() {
         } else {
             let res = await dispatch(updateInfoEmployee(values));
             if (res) {
-                toast.success("Cập nhật thành công !")
+                toast.success("Cập nhật thành công!")
             } else {
-                toast.success("Cập nhật thất bại !")
+                toast.success("Cập nhật thất bại!")
             }
         }
     };
@@ -103,33 +103,33 @@ function InformationUser() {
                                                             viên</label>
                                                         <Field name="name" type="text" className="form-control"
                                                                id="name"/>
-                                                        <ErrorMessage name="name" className="text-danger" component="p"/>
+                                                        <ErrorMessage name="name" className="text-danger" component="small"/>
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="birthday" className="form-label">Ngày
                                                             sinh</label>
                                                         <Field type="date" className="form-control"
                                                                name="birthday"/>
-                                                        <ErrorMessage name="birthday" className="text-danger" component="p"/>
+                                                        <ErrorMessage name="birthday" className="text-danger" component="small"/>
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="address" className="form-label">Địa chỉ</label>
                                                         <Field type="text" className="form-control" id="address"
                                                                name="address"/>
-                                                        <ErrorMessage name="address" className="text-danger" component="p"/>
+                                                        <ErrorMessage name="address" className="text-danger" component="small"/>
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="phone" className="form-label">Số điện
                                                             thoại</label>
                                                         <Field type="text" className="form-control"
                                                                name="phone"/>
-                                                        <ErrorMessage name="phone" className="text-danger" component="p"/>
+                                                        <ErrorMessage name="phone" className="text-danger" component="small"/>
                                                     </div>
                                                     <div className="mb-3">
                                                         <label htmlFor="phone" className="form-label">Địa chỉ
                                                             email</label>
                                                         <Field type="email" className="form-control" name="email"/>
-                                                        <ErrorMessage name="email" className="text-danger" component="p"/>
+                                                        <ErrorMessage name="email" className="text-danger" component="small"/>
                                                     </div>
                                                     <div className="text-center">
                                                         <button type="submit" className="btn btn-submit" disabled={!dirty}>Cập nhật</button>
