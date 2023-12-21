@@ -22,6 +22,15 @@ export function CountNotification() {
     const readNotification = async (notificationId) => {
         await dispatch(readNotificationMiddleware(notificationId));
     };
+
+    function formatDateTime(dateTime) {
+        let formattedDate = new Date(dateTime);
+        let year = formattedDate.getFullYear();
+        let month = (formattedDate.getMonth() + 1).toString().padStart(2, "0");
+        let day = formattedDate.getDate().toString().padStart(2, "0");
+        return `${day}/${month}/${year}`;
+    }
+
     if (!listNotificationNotView) {
         return undefined;
     }
@@ -50,7 +59,7 @@ export function CountNotification() {
                                              className="p-3 d-flex bg-light border-bottom justify-content-between">
                                             <div className="col-lg-11 mr-3 ">
                                                 <div className="fw-bolder">{notifi.title}</div>
-                                                <div className="small fw-semibold">{notifi.noticePostingDate}</div>
+                                                <div className="small fw-semibold">{formatDateTime(notifi.noticePostingDate)}</div>
                                                 <div className="small fw-normal">{notifi.content}</div>
                                             </div>
                                             <div className="col-lg-1 form-check">

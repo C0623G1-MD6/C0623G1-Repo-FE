@@ -40,7 +40,7 @@ const SearchProducts = () => {
   const findProductByName = async () => {
     let res = await searchProduct(keyword, currentPage);
     setSearchList(res?.content ?? []);
-    setTotalPages(res.totalPages);
+    setTotalPages(res?.totalPages);
   };
   const getProductsForGender = async (gender) => {
     let res = null;
@@ -56,7 +56,7 @@ const SearchProducts = () => {
   };
   useEffect(() => {
     getProductsForGender(gender);
-  }, [gender, currentPage]);
+  }, [gender, currentPage,totalPages]);
   // get sizes for product
   useEffect(() => {
     getAllSizeProduct();
@@ -65,7 +65,7 @@ const SearchProducts = () => {
     if (productCode !== "") {
       const res = await getListSizeByProductCode(productCode);
       console.log(res);
-      setSizes(res.data);
+      setSizes(res?.data);
     }
   };
   const handleSelectProductView = (product) => {
@@ -259,36 +259,38 @@ const SearchProducts = () => {
       </Modal>
 
       {/* pagation */}
-      <nav aria-label="Page navigation example">
-        <ul className="pagination" style={{ marginLeft: "44%" }}>
-          <li className="page-item">
-            <button
-              className="page-link  text-secondary"
-              aria-label="Previous"
-              onClick={() => prePage()}
-              tabIndex={-1}
-              disabled={currentPage + 1 <= 1}
-            >
-              <span aria-hidden="true">Trước</span>
-            </button>
-          </li>
-          <li className="page-item">
-            <button className="page-link  text-secondary">
-              {currentPage + 1}-{totalPages}
-            </button>
-          </li>
-          <li className="page-item">
-            <button
-              className="page-link text-secondary"
-              aria-label="Next"
-              disabled={currentPage + 1 >= totalPages}
-              onClick={() => nextPage()}
-            >
-              <span aria-hidden="true">Sau</span>
-            </button>
-          </li>
-        </ul>
-      </nav>
+      {searchList == 0 ? "" : (
+          <nav aria-label="Page navigation example">
+            <ul className="pagination" style={{ marginLeft: "44%" }}>
+              <li className="page-item">
+                <button
+                    className="page-link  text-secondary"
+                    aria-label="Previous"
+                    onClick={() => prePage()}
+                    tabIndex={-1}
+                    disabled={currentPage + 1 <= 1}
+                >
+                  <span aria-hidden="true">Trước</span>
+                </button>
+              </li>
+              <li className="page-item">
+                <button className="page-link  text-secondary">
+                  {currentPage + 1}-{totalPages}
+                </button>
+              </li>
+              <li className="page-item">
+                <button
+                    className="page-link text-secondary"
+                    aria-label="Next"
+                    disabled={currentPage + 1 >= totalPages}
+                    onClick={() => nextPage()}
+                >
+                  <span aria-hidden="true">Sau</span>
+                </button>
+              </li>
+            </ul>
+          </nav>
+      )}
       <HomeFooter></HomeFooter>
     </>
   );
