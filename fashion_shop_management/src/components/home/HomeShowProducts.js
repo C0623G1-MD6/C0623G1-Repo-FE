@@ -97,13 +97,13 @@ const HomeShowProducts = () => {
       setSizes(res.data);
     }
   };
-  const limitCharacters = (text, limit) => {
-    if (text.length <= limit) {
-      return text;
-    } else {
-      return text.slice(0, limit) + "...";
-    }
-  };
+  // const limitCharacters = (text, limit) => {
+  //   if (text.length <= limit) {
+  //     return text;
+  //   } else {
+  //     return text.slice(0, limit) + "...";
+  //   }
+  // };
 
   return (
     <>
@@ -126,7 +126,7 @@ const HomeShowProducts = () => {
             </div>
           </div>
           <div>
-            {products.length == 0 ? (
+            {products.length === 0 ? (
               <div className="text-center" style={{ height: "50vh" }}>
                 <p style={{ marginTop: "20%" }}>Không có sản phẩm!</p>
               </div>
@@ -182,7 +182,7 @@ const HomeShowProducts = () => {
                         <hr />
 
                         <p className="card-description">
-                          {limitCharacters(item.prdDescription, 200)}
+                          {item.prdDescription}
                         </p>
 
                         {/* <p className="size-product">
@@ -296,7 +296,7 @@ const HomeShowProducts = () => {
 
                         <hr />
                         <p className="card-description">
-                          {limitCharacters(item.prdDescription, 200)}
+                          {item.prdDescription}
                         </p>
                         {item.percent > 0 && (
                           <div className="row price-product justify-content-between">
