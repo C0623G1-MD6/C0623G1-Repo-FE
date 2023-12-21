@@ -2,9 +2,7 @@ import React, {AllHTMLAttributes as input, useEffect, useState} from "react";
 import {getAllCustomerType} from "../../services/customer/typeCustomerService";
 import {getAllCustomer, showMsgWarning} from "../../services/customer/customerService";
 import {Link} from "react-router-dom";
-import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
-import {string} from "yup";
 import Pagination from "../pagination/Pagination";
 
 export function CustomerList() {
@@ -24,17 +22,7 @@ export function CustomerList() {
 
     const [status, setStatus] = useState(false);
     const [selectCustomer, setSelectCustomer] = useState();
-    // const checkNameCustomer = (value) => {
-    //     const rergex = /^[a-zA-Z0-9 ]*$/;
-    //     let check = value.match(rergex);
-    //     if (check) {
-    //         setNameCustomer(value);
-    //     } else if (value === "") {
-    //         setNameCustomer("");
-    //     // } else {
-    //     //     setCustomer([]);
-    //     }
-    // }
+
 
     useEffect(() => {
         displayCustomer()
@@ -57,6 +45,7 @@ export function CustomerList() {
             setCustomer(res.data.content);
         }
     }
+
     const dontContainsSpecialCharacters = (string) => {
         const regex = /^[^!@#$%^&*()_+={}\[\]:;,<.>?\\\/'"`]*$/;
         return regex.test(string);
@@ -69,18 +58,6 @@ export function CustomerList() {
         }
     }
 
-    // const nextPage = () => {
-    //     if (page + 1 < totalPage) {
-    //         setPage((prev) => prev + 1);
-    //     }
-    // }
-    //
-    // const prevPage = () => {
-    //     if (page > 0) {
-    //         setPage((prev) => prev - 1);
-    //     }
-    // }
-
     const handleModal = (value) => {
         setStatus(true);
         setSelectCustomer(value);
@@ -88,7 +65,11 @@ export function CustomerList() {
 
     const closeModal = () => {
         setStatus(false);
-        displayCustomer()
+        if (customer.length === 1 && page > 0) {
+            setPage(page - 1)
+        } else {
+            displayCustomer()
+        }
     }
 
     function formatDateTime(dateTime) {
