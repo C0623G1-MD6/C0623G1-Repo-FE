@@ -11,7 +11,13 @@ function CreateWarehouse() {
     const [productSizes, setProductSizes] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
-    const initValues = {}
+  
+    const initValues = {
+        productWarehouse: "",
+        quantity: 0,
+        price: 0
+
+    }
     useEffect(() => {
         getSizeDetails()
     }, []);
@@ -72,8 +78,9 @@ function CreateWarehouse() {
         });
     }
     const validationSchemaTable = Yup.object({
-        quantity: Yup.number().required('Vui lòng nhập số lượng nhập').positive('Số lượng phải là số dương').integer('Số lượng phải là số nguyên !'),
-        price: Yup.number().required('Vui lòng nhập giá nhập của sản phẩm').positive('Số lượng phải là số dương'),
+        productWarehouse: Yup.mixed().required('Vui lòng chọn sản phẩm.'),
+        quantity: Yup.number().required('Vui lòng nhập số lượng nhập.').positive('Số lượng phải là số dương').integer('Số lượng phải là số nguyên !'),
+        price: Yup.number().required('Vui lòng nhập giá nhập của sản phẩm.').positive('Giá nhập phải là số dương'),
     });
 
     const validationSchemaEdit = Yup.object({
@@ -116,7 +123,7 @@ function CreateWarehouse() {
                                             <ErrorMessage name="quantity" className="text-danger" component="small"/>
                                         </div>
                                         <div className="mb-3">
-                                            <label htmlFor="price" className="form-label">Đơn giá nhập</label>
+                                            <label htmlFor="price" className="form-label">Đơn giá nhập (đ)</label>
                                             <Field type="number" className="form-control" name="price" id="price"/>
                                             <ErrorMessage name="price" className="text-danger" component="small"/>
                                         </div>
@@ -208,7 +215,7 @@ function CreateWarehouse() {
                                                     <ErrorMessage name="inputQuantity" className="text-danger" component="small"/>
                                                 </div>
                                                 <div className="mb-3">
-                                                    <label htmlFor="inputPrice" className="form-label">Giá nhập</label>
+                                                    <label htmlFor="inputPrice" className="form-label">Giá nhập (đ)</label>
                                                     <Field type="number" className="form-control" name="inputPrice"
                                                            id="inputPrice"/>
                                                     <ErrorMessage name="inputPrice" className="text-danger" component="small"/>

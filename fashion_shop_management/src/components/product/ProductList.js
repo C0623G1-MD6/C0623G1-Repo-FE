@@ -22,7 +22,6 @@ function ProductList() {
         sortDirection: "desc",
         sortBy: "createdDate"
     });
-    console.log(pageable)
     const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
         getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy).then((res) => {
             setProducts(res.content);
@@ -35,7 +34,7 @@ function ProductList() {
 
     useEffect(() => {
         getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
-    }, [pageable.sortDirection]);
+    }, []);
 
     const handlePageChange = (pageNumber) => {
         setPageable(prevState => (
@@ -194,7 +193,6 @@ function ProductList() {
                                 </div>
                             </div>
                         </div>
-
                         <table className="table table-hover table-bordered text-center mb-3">
                             <thead>
                             <tr>
@@ -224,8 +222,8 @@ function ProductList() {
                             </thead>
                             {!products.length ?
                             <tbody>
-                            <tr>
-                                <td>
+                            <tr className="justify-content-center">
+                                        <td colSpan="6" className="text-danger fs-5">
                                     Sản phẩm không tồn tại
                                 </td>
                             </tr>
@@ -253,18 +251,18 @@ function ProductList() {
                                             <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
                                         </tr>
                                     )}
-                                    </tbody>
-                                </>
-                            }
+                                        </tbody>
+                                    </>
+                                }
 
-                        </table>
+                            </table>
 
                         {/*<div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>*/}
                         {/*        <Pagination  current={pageable.currentPage} hideOnSinglePage={true}*/}
                         {/*                     total={pageable.totalPage} pageSize={5} onChange={handleChange}*/}
                         {/*                     itemRender={itemRender} showSizeChanger={false} />*/}
                         {/*</div>*/}
-                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handlePageChange} />
+                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handleChange} />
                     </div>
                 </div>
             </div>

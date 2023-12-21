@@ -1,10 +1,8 @@
 import React, {AllHTMLAttributes as input, useEffect, useState} from "react";
 import {getAllCustomerType} from "../../services/customer/typeCustomerService";
-import {getAllCustomer} from "../../services/customer/customerService";
+import {getAllCustomer, showMsgWarning} from "../../services/customer/customerService";
 import {Link} from "react-router-dom";
-import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
-import {string} from "yup";
 import Pagination from "../pagination/Pagination";
 import AccessDenied from "../auth/AccessDenied";
 
@@ -24,17 +22,7 @@ export function CustomerList() {
 
     const [status, setStatus] = useState(false);
     const [selectCustomer, setSelectCustomer] = useState();
-    // const checkNameCustomer = (value) => {
-    //     const rergex = /^[a-zA-Z0-9 ]*$/;
-    //     let check = value.match(rergex);
-    //     if (check) {
-    //         setNameCustomer(value);
-    //     } else if (value === "") {
-    //         setNameCustomer("");
-    //     // } else {
-    //     //     setCustomer([]);
-    //     }
-    // }
+
 
     useEffect(() => {
         displayCustomer()
@@ -54,21 +42,20 @@ export function CustomerList() {
         } else if (res.status === 200) {
             setTotalPage(res.data.totalPages);
             setCustomer(res.data.content);
-
         }
     }
 
-    // const nextPage = () => {
-    //     if (page + 1 < totalPage) {
-    //         setPage((prev) => prev + 1);
-    //     }
-    // }
-    //
-    // const prevPage = () => {
-    //     if (page > 0) {
-    //         setPage((prev) => prev - 1);
-    //     }
-    // }
+    const dontContainsSpecialCharacters = (string) => {
+        const regex = /^[^!@#$%^&*()_+={}\[\]:;,<.>?\\\/'"`]*$/;
+        return regex.test(string);
+    };
+    const search = () => {
+        if (dontContainsSpecialCharacters(nameCustomer)) {
+            displayCustomer().then()
+        } else {
+            showMsgWarning("Tên Tìm Kiếm Không Hợp Lệ")
+        }
+    }
 
     const handleModal = (value) => {
         setStatus(true);
@@ -77,7 +64,11 @@ export function CustomerList() {
 
     const closeModal = () => {
         setStatus(false);
-        displayCustomer()
+        if (customer.length === 1 && page > 0) {
+            setPage(page - 1)
+        } else {
+            displayCustomer()
+        }
     }
 
     function formatDateTime(dateTime) {
@@ -96,6 +87,13 @@ export function CustomerList() {
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
     };
+    const limitCharacter = (text, limit) => {
+        if (text.length <= limit) {
+            return text;
+        } else {
+            return text.slice(0, limit) + "...";
+        }
+    }
 
     if (!user) {
         return <AccessDenied/>;
@@ -119,7 +117,7 @@ export function CustomerList() {
                                          }}>
                                         <div className="col-8" style={{alignItems: "center", gap: "42%", width: "70%"}}>
                                             <div>
-                                                <Link role="button" to="/customer/create"
+                                                <Link role="button" to="/customer/create" style={{zIndex: "0"}}
                                                       className="btn btn-outline-primary btn-sm rounded-0">Thêm
                                                     Mới</Link>
                                             </div>
@@ -142,13 +140,14 @@ export function CustomerList() {
                                                 <input type="text" className="form-control form-control-sm rounded-0"
                                                        name="table-search"
                                                        id="table-search"
-                                                       onChange={(event) => setNameCustomer(event.target.value)}
+                                                       onChange={(event) => setNameCustomer("" + (event.target.value))}
                                                        placeholder="Nhập tên" pattern="[a-z0-9A-Z]+"
-                                                       title="Không Được Nhập Các Kí Tự Đặc Biệt"/>
+                                                />
                                             </div>
                                             <div className="search-button">
-                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0"
-                                                        onClick={() => displayCustomer()}>
+                                                <button style={{zIndex: "0"}}
+                                                        className="form-control btn btn-outline-dark btn-sm rounded-0"
+                                                        onClick={() => search()}>
                                                     <i className="bi bi-search"/>
                                                 </button>
                                             </div>
@@ -164,7 +163,7 @@ export function CustomerList() {
                                             <th style={{width: "10%"}}>Ngày Sinh</th>
                                             <th style={{width: "8%"}}>Giới Tính</th>
                                             <th style={{width: "10%"}}>Điện Thoại</th>
-                                            <th style={{width: "16%"}}>Email</th>
+                                            <th style={{width: "15%"}}>Email</th>
                                             <th style={{width: "6%"}}>Điểm</th>
                                             <th style={{width: "9%"}}>Bậc</th>
                                             {/*<th style={{width: "17%"}}>Địa Chỉ</th>*/}
@@ -179,11 +178,11 @@ export function CustomerList() {
                                                         <tr key={cus.id}>
                                                             <td>{page * 5 + index + 1}</td>
                                                             <td>{cus.customerCode}</td>
-                                                            <td>{cus.name}</td>
+                                                            <td>{limitCharacter(cus.name, 20)}</td>
                                                             <td>{formatDateTime(cus.birthday)}</td>
                                                             <td>{cus.gender ? 'Nữ' : 'Nam'}</td>
                                                             <td>{formatPhone(cus.phone)}</td>
-                                                            <td>{cus.email}</td>
+                                                            <td>{limitCharacter(cus.email, 15)}</td>
                                                             <td>{cus.point}</td>
                                                             <td>
                                                             <span
