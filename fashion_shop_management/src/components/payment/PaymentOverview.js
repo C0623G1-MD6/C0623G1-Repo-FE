@@ -6,6 +6,9 @@ import AccessDenied from "../auth/AccessDenied";
 
 function PaymentOverview() {
     const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        return <AccessDenied/>
+    }
     let item;
     if (!user) {
         return <AccessDenied/>

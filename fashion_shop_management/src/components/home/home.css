@@ -433,3 +433,12 @@ del {
   margin-top: 50px;
 }
 
+.size-product {
+  border: 1px #eee solid;
+  padding: 2px 5px;
+  margin-right: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+

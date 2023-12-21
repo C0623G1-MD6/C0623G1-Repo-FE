@@ -194,7 +194,6 @@ function ProductList() {
                                 </div>
                             </div>
                         </div>
-
                         <table className="table table-hover table-bordered text-center mb-3">
                             <thead>
                             <tr>
@@ -224,8 +223,8 @@ function ProductList() {
                             </thead>
                             {!products.length ?
                             <tbody>
-                            <tr>
-                                <td>
+                            <tr className="justify-content-center">
+                                        <td colSpan="6" className="text-danger fs-5">
                                     Sản phẩm không tồn tại
                                 </td>
                             </tr>
@@ -253,11 +252,11 @@ function ProductList() {
                                             <td style={{width: "15%"}}>{item.productPrice.toLocaleString('vi-VN')} VNĐ</td>
                                         </tr>
                                     )}
-                                    </tbody>
-                                </>
-                            }
+                                        </tbody>
+                                    </>
+                                }
 
-                        </table>
+                            </table>
 
                         {/*<div style={{textAlign: 'right', marginTop: '15px', marginBottom: '15px'}}>*/}
                         {/*        <Pagination  current={pageable.currentPage} hideOnSinglePage={true}*/}
