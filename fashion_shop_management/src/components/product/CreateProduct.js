@@ -83,7 +83,7 @@ function CreateProduct() {
         getAllPromotion();
     }, []);
 
-    const downloadQRCode = (code,name) => {
+    const downloadQRCode = (code, name) => {
         const canvas = document.getElementById('myqrcode')?.querySelector('canvas');
         if (canvas) {
             const url = canvas.toDataURL();
@@ -99,7 +99,6 @@ function CreateProduct() {
     const saveProduct = (data) => {
         data.gender = +data.gender === 1;
         data.name = data.name.trim();
-        data.description = data.description.trim();
         data = {
             ...data,
             qrCode: qrCode.current.querySelector('canvas').toDataURL(),

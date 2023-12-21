@@ -9,6 +9,8 @@ function LookUpCustomerOverview() {
     if (!user) {
         return <AccessDenied/>
     }
+    let item;
+
     switch (user.roles[0]){
         case "ROLE_MANAGER":
             item="item10";
@@ -17,7 +19,6 @@ function LookUpCustomerOverview() {
             item="item3";
             break;
     }
-    let item="item4";
     return(
         <>
             <div className="main-container d-flex">

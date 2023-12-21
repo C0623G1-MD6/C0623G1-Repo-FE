@@ -22,7 +22,6 @@ function ProductList() {
         sortDirection: "desc",
         sortBy: "createdDate"
     });
-    console.log(pageable)
     const getAll = (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
         getAllProducts(currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy).then((res) => {
             setProducts(res.content);
@@ -35,7 +34,7 @@ function ProductList() {
 
     useEffect(() => {
         getAll(pageable.currentPage, pageable.productName, pageable.sizeName, pageable.minPrice, pageable.maxPrice, pageable.sortDirection, pageable.sortBy);
-    }, [pageable.sortDirection]);
+    }, []);
 
     const handlePageChange = (pageNumber) => {
         setPageable(prevState => (
@@ -263,7 +262,7 @@ function ProductList() {
                         {/*                     total={pageable.totalPage} pageSize={5} onChange={handleChange}*/}
                         {/*                     itemRender={itemRender} showSizeChanger={false} />*/}
                         {/*</div>*/}
-                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handlePageChange} />
+                        <Pagination page={pageable.currentPage} totalPages={pageable.totalPage} onPageChange={handleChange} />
                     </div>
                 </div>
             </div>

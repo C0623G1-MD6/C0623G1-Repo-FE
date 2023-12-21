@@ -43,3 +43,25 @@ export const recoverPassword = async (email) => {
         throw e.response;
     }
 };
+
+export const resetPassword = async (token) => {
+    try {
+        await axios.get(`http://localhost:8080/api/resetPassword/${token}`, null, {
+            headers: authHeader()
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+};
+
+export const savePasswordNew = async (token,values) => {
+    try {
+        await axios.post(`http://localhost:8080/api/resetPassword/${token}`, values, {
+            headers: authHeader()
+        });
+        return true;
+    } catch (e) {
+        return false;
+    }
+};

@@ -42,9 +42,9 @@ function EditCustomer() {
             console.log(res)
             if (res.status === 200) {
                 navigate("/customer/list");
-                toast("Edit Successfully")
+                toast("Sửa thành công.")
             } else if (res.status === 201) {
-                toast(" Edit failed")
+                toast(" Sửa không thành công.")
                 setErrors(res.data)
             }
         } catch (e) {
