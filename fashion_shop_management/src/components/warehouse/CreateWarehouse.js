@@ -11,6 +11,7 @@ function CreateWarehouse() {
     const [productSizes, setProductSizes] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [editingProduct, setEditingProduct] = useState(null);
+  
     const initValues = {
         productWarehouse: "",
         quantity: 0,
