@@ -1,0 +1,101 @@
+.trivn-card {
+    background-color: #fff;
+    padding: 20px;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+}
+
+.trivn-table {
+    background-color: #fff;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-bottom: 20%;
+}
+
+.trivn-title {
+    text-align: center;
+    color: blue;
+    font-weight: bold;
+    padding: 3px;
+}
+
+.trivn-form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.trivn-group {
+    position: relative;
+}
+
+.trivn-form .trivn-group label {
+    font-size: 16px;
+    color: rgb(99, 102, 102);
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    transition: all .3s ease;
+}
+
+.trivn-form .trivn-group input,
+.trivn-form .trivn-group textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+    outline: 0;
+    width: 100%;
+    background-color: transparent;
+}
+
+.trivn-form .trivn-group input:placeholder-shown + label, .trivn-form .trivn-group textarea:placeholder-shown + label {
+    top: 10px;
+    background-color: transparent;
+}
+
+.trivn-form .trivn-group input:focus,
+.trivn-form .trivn-group textarea:focus {
+    border-color: #3366cc;
+}
+
+.trivn-form .trivn-group input:focus + label, .trivn-form .trivn-group textarea:focus + label {
+    top: -10px;
+    left: 10px;
+    background-color: #fff;
+    color: black;
+    font-weight: 600;
+}
+
+.trivn-form .trivn-group textarea {
+    resize: none;
+    height: 100px;
+}
+
+
+
+.trivn-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.trivn-body {
+    background-color: lightgray;
+    font-size: 20px;
+    margin-top:20px;
+}
+
+#collapse1 {
+    overflow-y: scroll;
+    height: 300px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+

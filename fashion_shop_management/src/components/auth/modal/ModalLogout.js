@@ -1,8 +1,11 @@
 import React from 'react';
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 
 function ModalLogout() {
     const logOutUser = async () => {
         await localStorage.removeItem('user');
+        toast.success("Đăng xuất thanh công !")
         window.location.href = '/';
     };
 

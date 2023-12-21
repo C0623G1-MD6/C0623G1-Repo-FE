@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ErrorMessage, Field, Form, Formik} from "formik";
 import * as Yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
@@ -6,12 +6,22 @@ import {toast} from "react-toastify";
 import {loginUser} from "../../../redux/middlewares/AuthMiddleware";
 import {useDispatch} from "react-redux";
 import {Button, Modal} from "react-bootstrap";
+import * as PropTypes from "prop-types";
+import RecoverPassword from "../RecoverPassword";
+
+function NewComponent(props) {
+
+}
+
+NewComponent.propTypes = {onClick: PropTypes.func};
 
 function ModalLogin() {
     const user = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [disableSubmit, setDisableSubmit] = useState(false);
+    const [contentModal, setContentModal] = useState("login");
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
     const initValues = {
@@ -21,31 +31,105 @@ function ModalLogin() {
 
     const validateFormLogin = Yup.object({
         username: Yup.string()
-            .required("Trường username buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Tên đăng nhập chỉ được chứa ký tự alphabet, số và dấu gạch dưới."),
+            .required("Vui lòng nhập tên đăng nhập."),
         password: Yup.string()
-            .required("Trường password buộc nhập !")
-            .matches(/^[a-zA-Z0-9_]+$/, "Mật khẩu chỉ được chứa ký tự alphabet, số và dấu gạch dưới."),
+            .required("Vui lòng nhập mật khẩu.")
     });
 
-    const handleSubmitFormLogin = async (values, {setErrors}) => {
+    const handleSubmitFormLogin = async (values, {setFieldError}) => {
         try {
+            setDisableSubmit(true);
             await dispatch(loginUser(values));
             handleClose();
             navigate("/dashboard")
             toast.success("Đăng nhập thành công !");
         } catch (e) {
-            setErrors(e.data);
+            setDisableSubmit(false);
+            setFieldError("password",e.data);
+        }
+    }
+    const setContentRecover = () => {
+        setContentModal("recover");
+    };
+    const setContentLogin = () => {
+        setContentModal("login");
+    };
+    const renderBodyModal = () => {
+        if (contentModal === "login") {
+            return (
+                <>
+                    <section id="login">
+                        <div className="container">
+                            <div className="row">
+                                <div
+                                    className="col-lg-6 col-sm-12 d-flex align-items-center justify-content-center mb-md-4">
+                                    <div className="content w-75">
+                                        <h2>Xin chào,</h2>
+                                        <Formik initialValues={initValues}
+                                                onSubmit={(values, {setFieldError}) => handleSubmitFormLogin(values, {setFieldError})}
+                                                validationSchema={validateFormLogin}>
+                                            <Form>
+                                                <div className="mb-3">
+                                                    <label htmlFor="username" className="form-label">Tên đăng
+                                                        nhập</label>
+                                                    <Field type="text" className="form-control" name="username"
+                                                           id="username"/>
+                                                    <ErrorMessage name="username" className="text-danger"
+                                                                  component="small"/>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label htmlFor="password" className="form-label">Mật
+                                                        khẩu</label>
+                                                    <Field type="password" className="form-control" name="password"
+                                                           id="password"/>
+                                                    <ErrorMessage name="password" className="text-danger"
+                                                                  component="small"/>
+                                                </div>
+                                                <div className="mb-3 form-check d-flex justify-content-between">
+                                                    <div>
+                                                        <Field type="checkbox" className="form-check-input"
+                                                               id="exampleCheck1"/>
+                                                        <p className="recover-pass">Lưu thông tin</p>
+                                                    </div>
+                                                    <div>
+                                                        <p className="recover-pass">
+                                                            <a role="button" onClick={setContentRecover}>Bạn quên mật
+                                                                khẩu ?</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <button type="submit" disabled={disableSubmit}
+                                                            className="btn btn-primary">Đăng nhập
+                                                    </button>
+                                                </div>
+                                            </Form>
+                                        </Formik>
+                                    </div>
+                                </div>
+                                <div className="col-lg-6 img-login">
+                                    <img src="/images/58f77ef98fd15db294aa17d304917b95.jpg"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </>
+            )
+        } else {
+            return (
+                <>
+                    <RecoverPassword onClick={setContentLogin}/>
+                </>
+            )
         }
     }
     if (user !== null) {
-        return <><Link to="/dashboard" className="btn btn-primary">Dashboard</Link> </>
+        return <><Link to="/dashboard" className="btn-dashboard btn-primary ">{user.username}</Link> </>
     }
-
     return (
         <>
 
-            <Button onClick={handleShow}>
+            <Button className="btn-login bg-white text-secondary" onClick={handleShow}>
                 <svg xmlns="http://www.w3.org/2000/svg" width={35} height={35} fill="currentColor"
                      className="bi bi-person-circle" viewBox="0 0 16 16">
                     <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -62,56 +146,7 @@ function ModalLogin() {
             >
                 <Modal.Body>
                     <Modal.Header className="modal-login" closeButton/>
-                    <section id="login">
-                        <div className="container">
-                            <div className="row">
-                                <div className="col-lg-6 d-flex align-items-center justify-content-center">
-                                    <div className="content w-75">
-                                        <h2>Xin chào,</h2>
-                                        <Formik initialValues={initValues}
-                                                onSubmit={(values, {setErrors}) => handleSubmitFormLogin(values, {setErrors})}
-                                                validationSchema={validateFormLogin}>
-                                            <Form>
-                                                <div className="mb-3">
-                                                    <label htmlFor="username" className="form-label">Tên đăng
-                                                        nhập</label>
-                                                    <Field type="text" className="form-control" name="username"
-                                                           id="username"/>
-                                                    <ErrorMessage name="username" className="text-danger"
-                                                                  component="p"/>
-                                                </div>
-                                                <div className="mb-3">
-                                                    <label htmlFor="password" className="form-label">Mật
-                                                        khẩu</label>
-                                                    <Field type="password" className="form-control" name="password"
-                                                           id="password"/>
-                                                    <ErrorMessage name="password" className="text-danger"
-                                                                  component="p"/>
-                                                </div>
-                                                <div className="mb-3 form-check d-flex justify-content-between">
-                                                    <div>
-                                                        <Field type="checkbox" className="form-check-input"
-                                                               id="exampleCheck1"/>
-                                                        <p className="recover-pass">Lưu thông tin</p>
-                                                    </div>
-                                                    <div>
-                                                        <p className="recover-pass">Bạn quên mật khẩu?</p>
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <button type="submit" className="btn btn-primary">Đăng nhập
-                                                    </button>
-                                                </div>
-                                            </Form>
-                                        </Formik>
-                                    </div>
-                                </div>
-                                <div className="col-lg-6 img-login">
-                                    <img src="/images/58f77ef98fd15db294aa17d304917b95.jpg"/>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
+                    {renderBodyModal()}
                 </Modal.Body>
             </Modal>
         </>
