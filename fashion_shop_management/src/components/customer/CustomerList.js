@@ -1,6 +1,6 @@
 import React, {AllHTMLAttributes as input, useEffect, useState} from "react";
 import {getAllCustomerType} from "../../services/customer/typeCustomerService";
-import {getAllCustomer} from "../../services/customer/customerService";
+import {getAllCustomer, showMsgWarning} from "../../services/customer/customerService";
 import {Link} from "react-router-dom";
 import {log10, valueOrDefault} from "chart.js/helpers";
 import {DeleteCustomer} from "./DeleteCustomer";
@@ -55,7 +55,17 @@ export function CustomerList() {
         } else if (res.status === 200) {
             setTotalPage(res.data.totalPages);
             setCustomer(res.data.content);
-
+        }
+    }
+    const dontContainsSpecialCharacters = (string) => {
+        const regex = /^[^!@#$%^&*()_+={}\[\]:;,<.>?\\\/'"`]*$/;
+        return regex.test(string);
+    };
+    const search = () => {
+        if (dontContainsSpecialCharacters(nameCustomer)) {
+            displayCustomer().then()
+        } else {
+            showMsgWarning("Tên Tìm Kiếm Không Hợp Lệ")
         }
     }
 
@@ -104,6 +114,7 @@ export function CustomerList() {
             return text.slice(0, limit) + "...";
         }
     }
+
 
     return (
         customer && (
@@ -154,7 +165,7 @@ export function CustomerList() {
                                             <div className="search-button">
                                                 <button style={{zIndex: "0"}}
                                                         className="form-control btn btn-outline-dark btn-sm rounded-0"
-                                                        onClick={() => displayCustomer()}>
+                                                        onClick={() => search()}>
                                                     <i className="bi bi-search"/>
                                                 </button>
                                             </div>
@@ -185,11 +196,11 @@ export function CustomerList() {
                                                         <tr key={cus.id}>
                                                             <td>{page * 5 + index + 1}</td>
                                                             <td>{cus.customerCode}</td>
-                                                            <td>{limitCharacter(cus.name,20)}</td>
+                                                            <td>{limitCharacter(cus.name, 20)}</td>
                                                             <td>{formatDateTime(cus.birthday)}</td>
                                                             <td>{cus.gender ? 'Nữ' : 'Nam'}</td>
                                                             <td>{formatPhone(cus.phone)}</td>
-                                                            <td>{limitCharacter(cus.email,15)}</td>
+                                                            <td>{limitCharacter(cus.email, 15)}</td>
                                                             <td>{cus.point}</td>
                                                             <td>
                                                             <span

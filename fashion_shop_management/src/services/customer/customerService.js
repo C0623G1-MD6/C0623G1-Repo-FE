@@ -1,5 +1,6 @@
 import axios from "axios";
 import authHeader from "../AuthService";
+import {toast} from "react-toastify";
 
 export const getAllCustomer = async (nameCustomer, typeCustomer, page) => {
         return await axios.get(`http://localhost:8080/api/customer/list?nameCustomer=${nameCustomer}&typeCustomer=${typeCustomer}&page=${page}`, {headers: authHeader()});
@@ -47,4 +48,10 @@ export const removeCustomer = async (id) => {
     } catch (e) {
         return e;
     }
+}
+export function showMsgWarning(msg) {
+    toast.warning(msg, {
+        position: toast.POSITION.TOP_RIGHT,
+        autoClose: 2000,
+    });
 }
