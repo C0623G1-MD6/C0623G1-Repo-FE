@@ -3,6 +3,7 @@ import {Bar} from "react-chartjs-2";
 import {Chart, registerables} from "chart.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import {toast}  from "react-toastify";
 import * as SalesReportService from "../../services/salesreport/SalesReportService";
 
 
@@ -12,50 +13,68 @@ function formatDateString(date) {
   const day = date.getDate();
   const month = date.getMonth() + 1;
   const year = date.getFullYear() ;
-  return `${day}/ ${month}/${year}`;
+  return `${day} thg ${month}`;
 }
 
 function SalesReport() {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  const [salesReportProduct, setSalesReportProduct] = useState([]);
+  const [salesReport, setSalesReport] = useState([]);
+  const [spendSalesReport, setSpendSalesReport] = useState([]);
+  const [revenueSalesReport, setRevenueSalesReport] = useState([]);
 
 
-  const getSearchSalesReport = async () => {
-    setSalesReportProduct(await SalesReportService.getAllSreach(startDate, endDate));
+  const getSalesReport = async () => {
+    setSalesReport(await SalesReportService.getAllSreach(startDate, endDate));
+
+  };
+  const getSpend = async () => {
+    setSpendSalesReport(await SalesReportService.getSpend(startDate, endDate));
+
+  };
+  const getRevenue = async () => {
+    setRevenueSalesReport(await SalesReportService.getRevenue(startDate, endDate));
 
   };
 
-  const getSearchSalesReportProduct = async () => {
-    let isSearchTermFound = false;
-
-
-    if (isSearchTermFound) {
-      setSalesReportProduct(await SalesReportService.getAllSreach(startDate, endDate));
-    } else {
-      getSearchSalesReport();
-    }
-  };
 
   const handleSearch = () => {
-    getSearchSalesReportProduct();
+    getSalesReport();
+    getSpend();
+    getRevenue()
+    if (spendSalesReport.length === 0 && revenueSalesReport.length===0){
+      toast("Vui lòng chỉ thống kê 2 năm gần đây")
+    }
   };
 
   const handleStartDateChange = (date) => {
     if (date <= endDate) {
       setStartDate(date);
+    }else{
+      toast("Vui lòng nhập ngày bắt đầu trước ngày hiện tại");
     }
   };
 
   const handleEndDateChange = (date) => {
     if (date >= startDate && date <= new Date()) {
       setEndDate(date);
+    }else if((Math.ceil(Math.abs(endDate.getTime()-startDate.getTime()))/(1000*3600*24)) >730){
+      toast("Vui lòng nhập trong khoảng 2 năm gần đây");
+    }else {
+      toast("Vui lòng nhập kết thúc đúng");
     }
   };
 
-  const labels = salesReportProduct.map((salesReport) => formatDateString(new Date(salesReport.date)));
-  const dataRevenue = salesReportProduct.map((salesReport) => salesReport.revenue);
-  const dataSpend = salesReportProduct.map((salesReport) => salesReport.spend);
+  const handleChange = (date) => {
+    if (date >= startDate && date <= new Date()) {
+      toast("Vui lòng nhập ngày bắt đầu đúng");
+      setEndDate(date);
+    }
+  };
+
+  const labels = spendSalesReport.map((salesReport) => formatDateString(new Date(salesReport.date)));
+  const dataRevenue = revenueSalesReport.map((salesReport) => salesReport.revenue);
+  const dataSpend = spendSalesReport.map((salesReport) => salesReport.spend);
   const chartData = {
     labels: labels,
     datasets: [
@@ -69,7 +88,7 @@ function SalesReport() {
       },
       {
         type: "line",
-        label: "Doanh thu",
+        label: "Doanh Thu",
         borderColor: "rgba(32, 201, 151, 0.5)",
         data: dataRevenue,
         pointRadius: dataRevenue.map(value => value !== 0 ? 4 : 0),
@@ -116,7 +135,6 @@ function SalesReport() {
     plugins: {
       title: {
         display: true,
-        text: `Thống kê từ ngày ${startDate.toLocaleDateString()} đến ${endDate.toLocaleDateString()}`,
         font: {
           size: 12,
           family: 'tahoma',
@@ -141,7 +159,10 @@ function SalesReport() {
   };
 
   useEffect(() => {
-    getSearchSalesReport();
+    getSpend();
+  }, []);
+  useEffect(() => {
+    getRevenue();
   }, []);
 
   return (
@@ -157,6 +178,7 @@ function SalesReport() {
                   selected={startDate}
                   onChange={handleStartDateChange}
                   maxDate={endDate}
+                  minDate={'2023-01-01'}
               />
             </div>
             <div className="col-md-2">
