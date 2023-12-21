@@ -20,8 +20,8 @@ const SearchProducts = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [sizes, setSizes] = useState([]);
   const [productCode, setProductCode] = useState("");
 
@@ -74,13 +74,13 @@ const SearchProducts = () => {
     setProductCode(product.productCode);
     console.log(productModal.prdDescription);
   };
-  const limitCharacters = (text, limit) => {
-    if (text.length <= limit) {
-      return text;
-    } else {
-      return text.slice(0, limit) + "...";
-    }
-  };
+  // const limitCharacters = (text, limit) => {
+  //   if (text.length <= limit) {
+  //     return text;
+  //   } else {
+  //     return text.slice(0, limit) + "...";
+  //   }
+  // };
   return (
     <>
       <HomeHeader></HomeHeader>
@@ -129,9 +129,7 @@ const SearchProducts = () => {
                     <h5 className="card-title">{item.productName}</h5>
 
                     <hr />
-                    <p className="card-description">
-                      {limitCharacters(item.prdDescription, 200)}
-                    </p>
+                    <p className="card-description">{item.prdDescription}</p>
 
                     {item.percent > 0 && (
                       <div className="row price-product justify-content-between">
