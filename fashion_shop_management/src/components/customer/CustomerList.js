@@ -97,7 +97,13 @@ export function CustomerList() {
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
     };
-
+    const limitCharacter = (text, limit) => {
+        if (text.length <= limit) {
+            return text;
+        } else {
+            return text.slice(0, limit) + "...";
+        }
+    }
 
     return (
         customer && (
@@ -118,7 +124,7 @@ export function CustomerList() {
                                          }}>
                                         <div className="col-8" style={{alignItems: "center", gap: "42%", width: "70%"}}>
                                             <div>
-                                                <Link role="button" to="/customer/create"
+                                                <Link role="button" to="/customer/create" style={{zIndex: "0"}}
                                                       className="btn btn-outline-primary btn-sm rounded-0">Thêm
                                                     Mới</Link>
                                             </div>
@@ -141,12 +147,13 @@ export function CustomerList() {
                                                 <input type="text" className="form-control-sm rounded-0"
                                                        name="table-search"
                                                        id="table-search"
-                                                       onChange={(event) => setNameCustomer(event.target.value)}
+                                                       onChange={(event) => setNameCustomer("" + (event.target.value))}
                                                        placeholder="Nhập tên" pattern="[a-z0-9A-Z]+"
-                                                       title="Không Được Nhập Các Kí Tự Đặc Biệt"/>
+                                                />
                                             </div>
                                             <div className="search-button">
-                                                <button className="form-control btn btn-outline-dark btn-sm rounded-0"
+                                                <button style={{zIndex: "0"}}
+                                                        className="form-control btn btn-outline-dark btn-sm rounded-0"
                                                         onClick={() => displayCustomer()}>
                                                     <i className="bi bi-search"/>
                                                 </button>
@@ -163,7 +170,7 @@ export function CustomerList() {
                                             <th style={{width: "10%"}}>Ngày Sinh</th>
                                             <th style={{width: "8%"}}>Giới Tính</th>
                                             <th style={{width: "10%"}}>Điện Thoại</th>
-                                            <th style={{width: "16%"}}>Email</th>
+                                            <th style={{width: "15%"}}>Email</th>
                                             <th style={{width: "6%"}}>Điểm</th>
                                             <th style={{width: "9%"}}>Bậc</th>
                                             {/*<th style={{width: "17%"}}>Địa Chỉ</th>*/}
@@ -178,11 +185,11 @@ export function CustomerList() {
                                                         <tr key={cus.id}>
                                                             <td>{page * 5 + index + 1}</td>
                                                             <td>{cus.customerCode}</td>
-                                                            <td>{cus.name}</td>
+                                                            <td>{limitCharacter(cus.name,20)}</td>
                                                             <td>{formatDateTime(cus.birthday)}</td>
                                                             <td>{cus.gender ? 'Nữ' : 'Nam'}</td>
                                                             <td>{formatPhone(cus.phone)}</td>
-                                                            <td>{cus.email}</td>
+                                                            <td>{limitCharacter(cus.email,15)}</td>
                                                             <td>{cus.point}</td>
                                                             <td>
                                                             <span
