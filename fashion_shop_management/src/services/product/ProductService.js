@@ -2,9 +2,9 @@ import axios from "axios";
 import authHeader from "../AuthService";
 import {toast} from "react-toastify";
 
-export const getAllProducts = async (currentPage, productName, sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
+export const getAllProducts = async (currentPage, productName, productCode,  sizeName, minPrice, maxPrice, sortDirection, sortBy) => {
     try {
-        let response = await axios.get(`http://localhost:8080/api/product/list?page=${currentPage}&productName=${productName}&sizeName=${sizeName}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortDirection=${sortDirection}&sortBy=${sortBy}`,{ headers: authHeader() });
+        let response = await axios.get(`http://localhost:8080/api/product/list?page=${currentPage - 1}&productName=${productName}&productCode=${productCode}&sizeName=${sizeName}&minPrice=${minPrice}&maxPrice=${maxPrice}&sortDirection=${sortDirection}&sortBy=${sortBy}`,{ headers: authHeader() });
         return response.data;
     } catch (e) {
         return undefined;
